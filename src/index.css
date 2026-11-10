@@ -1,0 +1,142 @@
+/* Tipografia oficial (auto-hospedada via Fontsource):
+   Montserrat (títulos) • Roboto (textos) • Lato (legendas) */
+@import '@fontsource-variable/montserrat';
+@import '@fontsource/roboto/400.css';
+@import '@fontsource/roboto/500.css';
+@import '@fontsource/roboto/700.css';
+@import '@fontsource/lato/400.css';
+@import '@fontsource/lato/700.css';
+@import 'tailwindcss';
+
+@theme {
+  /* Tipografia da identidade visual */
+  --font-display: 'Montserrat Variable', 'Montserrat', ui-sans-serif, system-ui, sans-serif;
+  --font-body: 'Roboto', ui-sans-serif, system-ui, sans-serif;
+  --font-caption: 'Lato', ui-sans-serif, system-ui, sans-serif;
+
+  /* Paleta oficial Skill Craft — Electric Blue */
+  --color-deep-950: #080f24;
+  --color-deep-900: #0c1531;
+  --color-deep-800: #101b3d; /* Deep Slate */
+  --color-deep-700: #17244e;
+  --color-deep-600: #1f2f63;
+  --color-skill-700: #24418f;
+  --color-skill-600: #2a4ac0;
+  --color-skill-500: #3155d9; /* Skill Blue */
+  --color-skill-400: #4d6fe6;
+  --color-accent-400: #6b8cff; /* Accent Blue */
+  --color-accent-300: #93abff;
+  --color-charcoal-900: #20232c; /* Dark Charcoal */
+  --color-charcoal-700: #363a45;
+  --color-charcoal-500: #565b68;
+  --color-offwhite-50: #f7f8fc; /* Off-White */
+  --color-offwhite-100: #eef0f8;
+  --color-offwhite-200: #dfe3f0;
+  --color-offwhite-300: #c6cddf;
+
+  --shadow-card: 0 18px 40px -18px rgb(8 15 36 / 0.55);
+  --shadow-glow: 0 0 0 1px rgb(107 140 255 / 0.25), 0 12px 40px -12px rgb(49 85 217 / 0.45);
+
+  --animate-float-slow: float-slow 9s ease-in-out infinite;
+  --animate-float-slower: float-slow 13s ease-in-out infinite;
+  --animate-pulse-soft: pulse-soft 5s ease-in-out infinite;
+}
+
+@keyframes float-slow {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate3d(0, -14px, 0) rotate(2deg);
+  }
+}
+
+@keyframes pulse-soft {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-deep-800 font-body text-offwhite-50 antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    @apply bg-skill-500 text-offwhite-50;
+  }
+
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-accent-400;
+  }
+
+  section[id] {
+    scroll-margin-top: 6rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+}
+
+@layer components {
+  .container-site {
+    @apply mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-10;
+  }
+
+  .card-surface {
+    @apply rounded-2xl border border-offwhite-50/10 bg-offwhite-50/[0.04] shadow-card backdrop-blur-sm;
+  }
+
+  .card-surface-light {
+    @apply rounded-2xl border border-deep-800/10 bg-white shadow-card;
+  }
+
+  .kicker {
+    @apply font-caption text-xs font-bold tracking-[0.22em] uppercase;
+  }
+
+  .text-gradient-skill {
+    @apply bg-gradient-to-r from-accent-400 via-skill-400 to-skill-500 bg-clip-text text-transparent;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-skill-500 px-6 py-3 font-display text-sm font-bold text-offwhite-50 shadow-glow transition-all duration-300 hover:-translate-y-0.5 hover:bg-skill-400 active:translate-y-0 active:scale-[0.98] disabled:pointer-events-none disabled:opacity-60;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-offwhite-50/20 px-6 py-3 font-display text-sm font-bold text-offwhite-50 transition-all duration-300 hover:-translate-y-0.5 hover:border-accent-400/60 hover:bg-offwhite-50/5 active:translate-y-0 active:scale-[0.98] disabled:pointer-events-none disabled:opacity-60;
+  }
+
+  .btn-light {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-deep-800 px-6 py-3 font-display text-sm font-bold text-offwhite-50 transition-all duration-300 hover:-translate-y-0.5 hover:bg-deep-700 active:translate-y-0 active:scale-[0.98] disabled:pointer-events-none disabled:opacity-60;
+  }
+
+  .field-input {
+    @apply w-full rounded-xl border border-offwhite-50/15 bg-deep-900/70 px-4 py-3 font-body text-sm text-offwhite-50 transition-colors duration-200 placeholder:text-offwhite-300/40 focus:border-accent-400 focus:outline-none;
+  }
+
+  .field-input-error {
+    @apply border-red-400/70 focus:border-red-400;
+  }
+
+  .field-label {
+    @apply mb-1.5 block font-display text-xs font-bold tracking-wide text-offwhite-100 uppercase;
+  }
+
+  .field-error {
+    @apply mt-1.5 flex items-center gap-1.5 font-caption text-xs text-red-300;
+  }
+}
