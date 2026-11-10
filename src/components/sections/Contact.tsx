@@ -2,7 +2,6 @@ import { useEffect, useId, useRef, useState, type FormEvent } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import {
   AtSign,
-  CheckCircle2,
   ChevronDown,
   CircleAlert,
   Info,
@@ -26,7 +25,6 @@ import {
   type CampoFormulario,
 } from '../../lib/validation'
 import { Reveal } from '../ui/Reveal'
-import { SectionHeader } from '../ui/SectionHeader'
 
 type ContactProps = { preSelecao: { id: string; nonce: number } | null }
 
@@ -137,277 +135,309 @@ export function Contact({ preSelecao }: ContactProps) {
   ].filter((c): c is NonNullable<typeof c> => c !== null)
 
   return (
-    <section id="contato" className="relative overflow-hidden py-20 sm:py-28">
+    <section id="contato" className="relative overflow-hidden py-24 sm:py-32">
       <div aria-hidden="true" className="pointer-events-none absolute inset-0">
-        <div className="absolute bottom-[-14rem] left-1/2 h-[30rem] w-[52rem] -translate-x-1/2 rounded-full bg-skill-500/12 blur-[130px]" />
+        <div className="absolute bottom-[-16rem] left-1/2 h-[32rem] w-[54rem] -translate-x-1/2 rounded-full bg-skill-500/12 blur-[140px]" />
       </div>
 
-      <div className="container-site relative grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
-        <div>
-          <SectionHeader
-            alinhamento="esquerda"
-            kicker="Contato"
-            titulo={
-              <>
-                Solicite seu serviço <span className="text-gradient-skill">em minutos</span>
-              </>
-            }
-            lead="Escolha o serviço, descreva o pedido e diga como prefere ser contatado. A equipe retorna com orçamento, prazos e condições — etapa 3 do nosso fluxo."
-          />
+      <div className="container-site relative">
+        <Reveal>
+          <div className="card-surface grid overflow-hidden rounded-3xl! lg:grid-cols-[0.85fr_1.15fr]">
+            {/* painel institucional */}
+            <div className="relative overflow-hidden bg-gradient-to-br from-deep-700 via-deep-800 to-deep-950 p-8 sm:p-12">
+              <div aria-hidden="true" className="padrao-iso absolute inset-0 opacity-45" />
+              <div aria-hidden="true" className="absolute -top-28 -left-24 h-72 w-72 rounded-full bg-accent-400/15 blur-[90px]" />
+              <div className="relative">
+                <p className="kicker text-accent-400">
+                  <span aria-hidden="true" className="kicker-dot" />
+                  Contato
+                </p>
+                <h2 className="mt-5 font-display text-3xl font-extrabold tracking-tight text-balance text-offwhite-50 sm:text-4xl">
+                  Solicite seu serviço <span className="text-gradient-skill">em minutos</span>
+                </h2>
+                <p className="mt-4 font-body text-sm leading-relaxed text-offwhite-100/70 sm:text-base">
+                  Escolha o serviço, descreva o pedido e diga como prefere ser contatado. A equipe retorna com
+                  orçamento, prazos e condições — etapa 3 do nosso fluxo.
+                </p>
 
-          <Reveal delay={0.12} className="mt-8 space-y-4">
-            {[
-              { icone: Wallet, texto: 'Sem pagamento online: valores e combinados são fechados diretamente com a equipe.' },
-              { icone: ShieldCheck, texto: 'Seus dados são usados apenas para retornar o contato sobre este pedido.' },
-              {
-                icone: Info,
-                texto:
-                  'Ambiente sem backend? O formulário valida tudo e salva um rascunho local declarado — nenhum envio falso é simulado.',
-              },
-            ].map((item) => (
-              <p key={item.texto} className="flex items-start gap-3 font-body text-sm leading-relaxed text-offwhite-100/70">
-                <item.icone className="mt-0.5 h-4 w-4 shrink-0 text-accent-400" aria-hidden="true" />
-                {item.texto}
-              </p>
-            ))}
-          </Reveal>
+                <ul className="mt-8 space-y-4">
+                  {[
+                    { icone: Wallet, texto: 'Sem pagamento online: valores e combinados são fechados diretamente com a equipe.' },
+                    { icone: ShieldCheck, texto: 'Seus dados são usados apenas para retornar o contato sobre este pedido.' },
+                    {
+                      icone: Info,
+                      texto: 'Sem backend configurado? O formulário valida tudo e salva um rascunho local declarado — nenhum envio falso é simulado.',
+                    },
+                  ].map((item) => (
+                    <li key={item.texto} className="flex items-start gap-3 font-body text-sm leading-relaxed text-offwhite-100/70">
+                      <item.icone className="mt-0.5 h-4 w-4 shrink-0 text-accent-400" aria-hidden="true" />
+                      {item.texto}
+                    </li>
+                  ))}
+                </ul>
 
-          {canais.length > 0 && (
-            <Reveal delay={0.2} className="mt-8">
-              <h3 className="kicker text-accent-400">Canais diretos</h3>
-              <ul className="mt-3 space-y-2">
-                {canais.map((canal) => (
-                  <li key={canal.texto} className="flex items-center gap-2.5 font-body text-sm text-offwhite-100/75">
-                    <canal.icone className="h-4 w-4 text-accent-400" aria-hidden="true" />
-                    {canal.texto}
-                  </li>
-                ))}
-              </ul>
-            </Reveal>
-          )}
-        </div>
-
-        <Reveal delay={0.1}>
-          <div className="card-surface relative p-6 sm:p-9">
-            <AnimatePresence mode="wait">
-              {status === 'sucesso' && resultado ? (
-                <motion.div
-                  key="sucesso"
-                  role="status"
-                  initial={{ opacity: 0, y: 16 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.35 }}
-                  className="flex min-h-96 flex-col justify-center text-center"
-                >
-                  <span className="mx-auto inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-skill-500/15 text-accent-400">
-                    <CheckCircle2 className="h-7 w-7" aria-hidden="true" />
-                  </span>
-                  <h3 className="mt-5 font-display text-2xl font-extrabold text-offwhite-50">
-                    {resultado.status === 'enviado' ? 'Solicitação enviada!' : 'Solicitação registrada!'}
-                  </h3>
-                  <p className="mt-3 font-body text-sm leading-relaxed text-offwhite-100/75">
-                    Protocolo <strong className="font-display text-accent-400">{resultado.solicitacao.protocolo}</strong> ·{' '}
-                    {resultado.solicitacao.servicoTitulo}. A equipe retornará por{' '}
-                    {MEIOS_CONTATO.find((m) => m.id === resultado.solicitacao.meioContato)?.label.toLowerCase() ??
-                      resultado.solicitacao.meioContato}
-                    .
-                  </p>
-                  {resultado.aviso && (
-                    <p className="mx-auto mt-5 flex max-w-md items-start gap-2.5 rounded-xl border border-amber-300/25 bg-amber-300/10 px-4 py-3 text-left font-caption text-xs leading-relaxed text-amber-200">
-                      <CircleAlert className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
-                      {resultado.aviso}
-                    </p>
-                  )}
-                  <button type="button" onClick={reiniciar} className="btn-ghost mx-auto mt-7 !py-2.5">
-                    <RotateCcw className="h-4 w-4" aria-hidden="true" />
-                    Fazer nova solicitação
-                  </button>
-                </motion.div>
-              ) : (
-                <motion.form
-                  key="formulario"
-                  onSubmit={aoEnviar}
-                  noValidate
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0, y: -12 }}
-                  transition={{ duration: 0.3 }}
-                  className="space-y-5"
-                >
-                  <div>
-                    <label htmlFor={`${idBase}-nome`} className="field-label">
-                      Nome
-                    </label>
-                    <input
-                      ref={refNome}
-                      id={`${idBase}-nome`}
-                      className={`field-input ${erroDe('nome') ? 'field-input-error' : ''}`}
-                      placeholder="Seu nome completo"
-                      autoComplete="name"
-                      value={form.nome}
-                      onChange={(e) => aoMudar('nome', e.target.value)}
-                      onBlur={() => aoSair('nome')}
-                      aria-invalid={Boolean(erroDe('nome'))}
-                      aria-describedby={erroDe('nome') ? idErro('nome') : undefined}
-                    />
-                    {erroDe('nome') && (
-                      <p id={idErro('nome')} className="field-error" role="alert">
-                        <CircleAlert className="h-3.5 w-3.5" aria-hidden="true" />
-                        {erroDe('nome')}
-                      </p>
-                    )}
+                {canais.length > 0 && (
+                  <div className="mt-8">
+                    <h3 className="kicker text-accent-400/90">Canais diretos</h3>
+                    <ul className="mt-3 space-y-2">
+                      {canais.map((canal) => (
+                        <li key={canal.texto} className="flex items-center gap-2.5 font-body text-sm text-offwhite-100/75">
+                          <canal.icone className="h-4 w-4 text-accent-400" aria-hidden="true" />
+                          {canal.texto}
+                        </li>
+                      ))}
+                    </ul>
                   </div>
+                )}
+              </div>
+            </div>
 
-                  <div>
-                    <label htmlFor={`${idBase}-servico`} className="field-label">
-                      Serviço desejado
-                    </label>
-                    <div className="relative">
-                      <select
-                        id={`${idBase}-servico`}
-                        className={`field-input appearance-none pr-10 ${erroDe('servico') ? 'field-input-error' : ''} ${
-                          form.servico ? '' : 'text-offwhite-300/50'
-                        }`}
-                        value={form.servico}
-                        onChange={(e) => aoMudar('servico', e.target.value)}
-                        onBlur={() => aoSair('servico')}
-                        aria-invalid={Boolean(erroDe('servico'))}
-                        aria-describedby={erroDe('servico') ? idErro('servico') : undefined}
-                      >
-                        <option value="" disabled>
-                          Escolha um serviço
-                        </option>
-                        {SERVICOS.map((s) => (
-                          <option key={s.id} value={s.id} className="text-offwhite-50">
-                            {s.titulo} — {s.precoLabel}
-                          </option>
-                        ))}
-                      </select>
-                      <ChevronDown
-                        className="pointer-events-none absolute top-1/2 right-3.5 h-4 w-4 -translate-y-1/2 text-offwhite-100/50"
-                        aria-hidden="true"
+            {/* formulário */}
+            <div className="relative bg-deep-900/70 p-8 backdrop-blur-sm sm:p-12">
+              <AnimatePresence mode="wait">
+                {status === 'sucesso' && resultado ? (
+                  <motion.div
+                    key="sucesso"
+                    role="status"
+                    initial={{ opacity: 0, y: 18 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.4 }}
+                    className="flex min-h-[28rem] flex-col items-center justify-center text-center"
+                  >
+                    <svg viewBox="0 0 72 72" className="h-16 w-16" aria-hidden="true">
+                      <motion.circle
+                        cx="36"
+                        cy="36"
+                        r="32"
+                        fill="none"
+                        stroke="#6B8CFF"
+                        strokeOpacity="0.35"
+                        strokeWidth="2"
+                        initial={{ pathLength: 0 }}
+                        animate={{ pathLength: 1 }}
+                        transition={{ duration: 0.7, ease: 'easeInOut' }}
                       />
-                    </div>
-                    {erroDe('servico') && (
-                      <p id={idErro('servico')} className="field-error" role="alert">
-                        <CircleAlert className="h-3.5 w-3.5" aria-hidden="true" />
-                        {erroDe('servico')}
+                      <motion.path
+                        d="M22 37 L32 47 L50 27"
+                        fill="none"
+                        stroke="#93ABFF"
+                        strokeWidth="4"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        style={{ filter: 'drop-shadow(0 0 10px rgba(107,140,255,0.7))' }}
+                        initial={{ pathLength: 0 }}
+                        animate={{ pathLength: 1 }}
+                        transition={{ delay: 0.45, duration: 0.5, ease: 'easeOut' }}
+                      />
+                    </svg>
+                    <h3 className="mt-6 font-display text-2xl font-extrabold text-offwhite-50">
+                      {resultado.status === 'enviado' ? 'Solicitação enviada!' : 'Solicitação registrada!'}
+                    </h3>
+                    <p className="mt-3 max-w-md font-body text-sm leading-relaxed text-offwhite-100/75">
+                      Protocolo{' '}
+                      <strong className="font-display text-accent-400">{resultado.solicitacao.protocolo}</strong> ·{' '}
+                      {resultado.solicitacao.servicoTitulo}. A equipe retornará por{' '}
+                      {MEIOS_CONTATO.find((m) => m.id === resultado.solicitacao.meioContato)?.label.toLowerCase() ??
+                        resultado.solicitacao.meioContato}
+                      .
+                    </p>
+                    {resultado.aviso && (
+                      <p className="mt-5 flex max-w-md items-start gap-2.5 rounded-xl border border-amber-300/25 bg-amber-300/10 px-4 py-3 text-left font-caption text-xs leading-relaxed text-amber-200">
+                        <CircleAlert className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
+                        {resultado.aviso}
                       </p>
                     )}
-                  </div>
-
-                  <div>
-                    <div className="flex items-baseline justify-between">
-                      <label htmlFor={`${idBase}-descricao`} className="field-label">
-                        Descrição do pedido
-                      </label>
-                      <span className="font-caption text-[0.65rem] text-offwhite-100/45">{form.descricao.length}/600</span>
-                    </div>
-                    <textarea
-                      id={`${idBase}-descricao`}
-                      rows={4}
-                      maxLength={600}
-                      className={`field-input resize-none ${erroDe('descricao') ? 'field-input-error' : ''}`}
-                      placeholder="Curso, disciplina, prazo e o que você precisa entregar…"
-                      value={form.descricao}
-                      onChange={(e) => aoMudar('descricao', e.target.value)}
-                      onBlur={() => aoSair('descricao')}
-                      aria-invalid={Boolean(erroDe('descricao'))}
-                      aria-describedby={erroDe('descricao') ? idErro('descricao') : undefined}
-                    />
-                    {erroDe('descricao') && (
-                      <p id={idErro('descricao')} className="field-error" role="alert">
-                        <CircleAlert className="h-3.5 w-3.5" aria-hidden="true" />
-                        {erroDe('descricao')}
-                      </p>
-                    )}
-                  </div>
-
-                  <div className="grid gap-5 sm:grid-cols-2">
+                    <button type="button" onClick={reiniciar} className="btn-ghost mt-8 py-2.5!">
+                      <RotateCcw className="h-4 w-4" aria-hidden="true" />
+                      Fazer nova solicitação
+                    </button>
+                  </motion.div>
+                ) : (
+                  <motion.form
+                    key="formulario"
+                    onSubmit={aoEnviar}
+                    noValidate
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0, y: -14 }}
+                    transition={{ duration: 0.35 }}
+                    className="space-y-5"
+                  >
                     <div>
-                      <label htmlFor={`${idBase}-meio`} className="field-label">
-                        Meio de contato
+                      <label htmlFor={`${idBase}-nome`} className="field-label">
+                        Nome
+                      </label>
+                      <input
+                        ref={refNome}
+                        id={`${idBase}-nome`}
+                        className={`field-input ${erroDe('nome') ? 'field-input-error' : ''}`}
+                        placeholder="Seu nome completo"
+                        autoComplete="name"
+                        value={form.nome}
+                        onChange={(e) => aoMudar('nome', e.target.value)}
+                        onBlur={() => aoSair('nome')}
+                        aria-invalid={Boolean(erroDe('nome'))}
+                        aria-describedby={erroDe('nome') ? idErro('nome') : undefined}
+                      />
+                      {erroDe('nome') && (
+                        <p id={idErro('nome')} className="field-error" role="alert">
+                          <CircleAlert className="h-3.5 w-3.5" aria-hidden="true" />
+                          {erroDe('nome')}
+                        </p>
+                      )}
+                    </div>
+
+                    <div>
+                      <label htmlFor={`${idBase}-servico`} className="field-label">
+                        Serviço desejado
                       </label>
                       <div className="relative">
                         <select
-                          id={`${idBase}-meio`}
-                          className={`field-input appearance-none pr-10 ${erroDe('meio') ? 'field-input-error' : ''} ${
-                            form.meio ? '' : 'text-offwhite-300/50'
+                          id={`${idBase}-servico`}
+                          className={`field-input appearance-none pr-10 ${erroDe('servico') ? 'field-input-error' : ''} ${
+                            form.servico ? '' : 'text-offwhite-300/45'
                           }`}
-                          value={form.meio}
-                          onChange={(e) => aoMudar('meio', e.target.value)}
-                          onBlur={() => aoSair('meio')}
-                          aria-invalid={Boolean(erroDe('meio'))}
-                          aria-describedby={erroDe('meio') ? idErro('meio') : undefined}
+                          value={form.servico}
+                          onChange={(e) => aoMudar('servico', e.target.value)}
+                          onBlur={() => aoSair('servico')}
+                          aria-invalid={Boolean(erroDe('servico'))}
+                          aria-describedby={erroDe('servico') ? idErro('servico') : undefined}
                         >
                           <option value="" disabled>
-                            Como retornamos?
+                            Escolha um serviço
                           </option>
-                          {MEIOS_CONTATO.map((m) => (
-                            <option key={m.id} value={m.id} className="text-offwhite-50">
-                              {m.label}
+                          {SERVICOS.map((s) => (
+                            <option key={s.id} value={s.id} className="text-offwhite-50">
+                              {s.titulo} — {s.precoLabel}
                             </option>
                           ))}
                         </select>
                         <ChevronDown
-                          className="pointer-events-none absolute top-1/2 right-3.5 h-4 w-4 -translate-y-1/2 text-offwhite-100/50"
+                          className="pointer-events-none absolute top-1/2 right-3.5 h-4 w-4 -translate-y-1/2 text-offwhite-100/45"
                           aria-hidden="true"
                         />
                       </div>
-                      {erroDe('meio') && (
-                        <p id={idErro('meio')} className="field-error" role="alert">
+                      {erroDe('servico') && (
+                        <p id={idErro('servico')} className="field-error" role="alert">
                           <CircleAlert className="h-3.5 w-3.5" aria-hidden="true" />
-                          {erroDe('meio')}
+                          {erroDe('servico')}
                         </p>
                       )}
                     </div>
 
                     <div>
-                      <label htmlFor={`${idBase}-contato`} className="field-label">
-                        {form.meio === 'email' ? 'Seu e-mail' : form.meio === 'whatsapp' ? 'Seu WhatsApp' : 'Seu telefone'}
-                      </label>
-                      <input
-                        id={`${idBase}-contato`}
-                        type={form.meio === 'email' ? 'email' : 'tel'}
-                        inputMode={form.meio === 'email' ? 'email' : 'tel'}
-                        autoComplete={form.meio === 'email' ? 'email' : 'tel'}
-                        className={`field-input ${erroDe('contato') ? 'field-input-error' : ''}`}
-                        placeholder={
-                          form.meio === 'email' ? 'nome@dominio.com' : form.meio ? '11 98765-4321' : 'Escolha o meio ao lado'
-                        }
-                        disabled={!form.meio}
-                        value={form.contato}
-                        onChange={(e) => aoMudar('contato', e.target.value)}
-                        onBlur={() => aoSair('contato')}
-                        aria-invalid={Boolean(erroDe('contato'))}
-                        aria-describedby={erroDe('contato') ? idErro('contato') : undefined}
+                      <div className="flex items-baseline justify-between">
+                        <label htmlFor={`${idBase}-descricao`} className="field-label">
+                          Descrição do pedido
+                        </label>
+                        <span className="font-caption text-[0.65rem] text-offwhite-100/40">{form.descricao.length}/600</span>
+                      </div>
+                      <textarea
+                        id={`${idBase}-descricao`}
+                        rows={4}
+                        maxLength={600}
+                        className={`field-input resize-none ${erroDe('descricao') ? 'field-input-error' : ''}`}
+                        placeholder="Curso, disciplina, prazo e o que você precisa entregar…"
+                        value={form.descricao}
+                        onChange={(e) => aoMudar('descricao', e.target.value)}
+                        onBlur={() => aoSair('descricao')}
+                        aria-invalid={Boolean(erroDe('descricao'))}
+                        aria-describedby={erroDe('descricao') ? idErro('descricao') : undefined}
                       />
-                      {erroDe('contato') && (
-                        <p id={idErro('contato')} className="field-error" role="alert">
+                      {erroDe('descricao') && (
+                        <p id={idErro('descricao')} className="field-error" role="alert">
                           <CircleAlert className="h-3.5 w-3.5" aria-hidden="true" />
-                          {erroDe('contato')}
+                          {erroDe('descricao')}
                         </p>
                       )}
                     </div>
-                  </div>
 
-                  <button type="submit" className="btn-primary w-full" disabled={status === 'enviando'}>
-                    {status === 'enviando' ? (
-                      <>
-                        <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
-                        Registrando solicitação…
-                      </>
-                    ) : (
-                      <>
-                        <SendHorizonal className="h-4 w-4" aria-hidden="true" />
-                        Solicitar atendimento
-                      </>
-                    )}
-                  </button>
-                </motion.form>
-              )}
-            </AnimatePresence>
+                    <div className="grid gap-5 sm:grid-cols-2">
+                      <div>
+                        <label htmlFor={`${idBase}-meio`} className="field-label">
+                          Meio de contato
+                        </label>
+                        <div className="relative">
+                          <select
+                            id={`${idBase}-meio`}
+                            className={`field-input appearance-none pr-10 ${erroDe('meio') ? 'field-input-error' : ''} ${
+                              form.meio ? '' : 'text-offwhite-300/45'
+                            }`}
+                            value={form.meio}
+                            onChange={(e) => aoMudar('meio', e.target.value)}
+                            onBlur={() => aoSair('meio')}
+                            aria-invalid={Boolean(erroDe('meio'))}
+                            aria-describedby={erroDe('meio') ? idErro('meio') : undefined}
+                          >
+                            <option value="" disabled>
+                              Como retornamos?
+                            </option>
+                            {MEIOS_CONTATO.map((m) => (
+                              <option key={m.id} value={m.id} className="text-offwhite-50">
+                                {m.label}
+                              </option>
+                            ))}
+                          </select>
+                          <ChevronDown
+                            className="pointer-events-none absolute top-1/2 right-3.5 h-4 w-4 -translate-y-1/2 text-offwhite-100/45"
+                            aria-hidden="true"
+                          />
+                        </div>
+                        {erroDe('meio') && (
+                          <p id={idErro('meio')} className="field-error" role="alert">
+                            <CircleAlert className="h-3.5 w-3.5" aria-hidden="true" />
+                            {erroDe('meio')}
+                          </p>
+                        )}
+                      </div>
+
+                      <div>
+                        <label htmlFor={`${idBase}-contato`} className="field-label">
+                          {form.meio === 'email' ? 'Seu e-mail' : form.meio === 'whatsapp' ? 'Seu WhatsApp' : 'Seu telefone'}
+                        </label>
+                        <input
+                          id={`${idBase}-contato`}
+                          type={form.meio === 'email' ? 'email' : 'tel'}
+                          inputMode={form.meio === 'email' ? 'email' : 'tel'}
+                          autoComplete={form.meio === 'email' ? 'email' : 'tel'}
+                          className={`field-input ${erroDe('contato') ? 'field-input-error' : ''}`}
+                          placeholder={
+                            form.meio === 'email' ? 'nome@dominio.com' : form.meio ? '11 98765-4321' : 'Escolha o meio ao lado'
+                          }
+                          disabled={!form.meio}
+                          value={form.contato}
+                          onChange={(e) => aoMudar('contato', e.target.value)}
+                          onBlur={() => aoSair('contato')}
+                          aria-invalid={Boolean(erroDe('contato'))}
+                          aria-describedby={erroDe('contato') ? idErro('contato') : undefined}
+                        />
+                        {erroDe('contato') && (
+                          <p id={idErro('contato')} className="field-error" role="alert">
+                            <CircleAlert className="h-3.5 w-3.5" aria-hidden="true" />
+                            {erroDe('contato')}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+
+                    <button type="submit" className="btn-primary w-full" disabled={status === 'enviando'}>
+                      {status === 'enviando' ? (
+                        <>
+                          <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
+                          Registrando solicitação…
+                        </>
+                      ) : (
+                        <>
+                          <SendHorizonal className="h-4 w-4" aria-hidden="true" />
+                          Solicitar atendimento
+                        </>
+                      )}
+                    </button>
+                  </motion.form>
+                )}
+              </AnimatePresence>
+            </div>
           </div>
         </Reveal>
       </div>
