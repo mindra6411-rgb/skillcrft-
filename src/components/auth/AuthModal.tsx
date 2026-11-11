@@ -93,7 +93,7 @@ export function AuthModal({ aberto, modo, erro, fechar }: AuthModalProps) {
               </>
             )}
 
-            <button type="button" onClick={fechar} className="btn-ghost mt-6 w-full !py-2.5">
+            <button type="button" onClick={fechar} className="btn-ghost mt-6 w-full py-2.5!">
               Entendi
             </button>
           </motion.div>

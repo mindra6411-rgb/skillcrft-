@@ -102,7 +102,7 @@ export function StudentArea({ irParaHome }: { irParaHome: () => void }) {
           <button
             type="button"
             onClick={irParaHome}
-            className="btn-ghost mt-6 w-full !py-2.5"
+            className="btn-ghost mt-6 w-full py-2.5!"
           >
             <ArrowLeft className="h-4 w-4" aria-hidden="true" />
             Voltar ao site
@@ -157,7 +157,7 @@ export function StudentArea({ irParaHome }: { irParaHome: () => void }) {
                 void sair()
                 irParaHome()
               }}
-              className="btn-ghost !px-4 !py-2 !text-xs"
+              className="btn-ghost px-4! py-2! text-xs!"
             >
               <LogOut className="h-3.5 w-3.5" aria-hidden="true" />
               Sair
@@ -199,7 +199,7 @@ export function StudentArea({ irParaHome }: { irParaHome: () => void }) {
               <p className="mt-2 max-w-xs font-body text-sm text-offwhite-100/60">
                 Quando você solicitar um serviço pelo formulário, ele aparece aqui com protocolo e status.
               </p>
-              <button type="button" onClick={() => irPara('servicos')} className="btn-primary mt-6 !py-2.5 !text-xs">
+              <button type="button" onClick={() => irPara('servicos')} className="btn-primary mt-6 py-2.5! text-xs!">
                 Ver serviços
                 <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
               </button>
@@ -247,14 +247,14 @@ export function StudentArea({ irParaHome }: { irParaHome: () => void }) {
           <div className="card-surface p-6">
             <h2 className="font-display text-sm font-extrabold tracking-wide text-offwhite-50 uppercase">Atalhos</h2>
             <div className="mt-4 space-y-2.5">
-              <button type="button" onClick={() => irPara('contato')} className="btn-primary w-full !py-2.5 !text-xs">
+              <button type="button" onClick={() => irPara('contato')} className="btn-primary w-full py-2.5! text-xs!">
                 Solicitar serviço
                 <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
               </button>
-              <button type="button" onClick={() => irPara('servicos')} className="btn-ghost w-full !py-2.5 !text-xs">
+              <button type="button" onClick={() => irPara('servicos')} className="btn-ghost w-full py-2.5! text-xs!">
                 Ver serviços e preços
               </button>
-              <button type="button" onClick={() => irPara('como-funciona')} className="btn-ghost w-full !py-2.5 !text-xs">
+              <button type="button" onClick={() => irPara('como-funciona')} className="btn-ghost w-full py-2.5! text-xs!">
                 Rever etapas do atendimento
               </button>
             </div>
