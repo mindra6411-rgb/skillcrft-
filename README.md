@@ -47,7 +47,7 @@ Lucide React · Supabase Auth (`@supabase/supabase-js`) · Fontsource
 ├── public/brand/               # Logotipo oficial otimizado (webp/png/favicon)
 ├── docs/
 │   ├── CONFIGURACAO.md         # Supabase + Google OAuth + Vercel passo a passo
-│   └── brand/                  # Originais da identidade visual (referência)
+│   └── originais/              # Arquivos originais enviados pela equipe (íntegros)
 ├── supabase/migrations/
 │   └── 0001_solicitacoes.sql   # Tabela de solicitações + RLS
 └── src/

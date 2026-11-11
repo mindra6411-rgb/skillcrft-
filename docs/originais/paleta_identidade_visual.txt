@@ -1,0 +1,21 @@
+Guia Rápido de Identidade Visual — SKILL CRAFT (v1.0)
+Fontes:
+- E-mail enviado por Ytalo Gabriel (34721@raphaeldisanto.com.br) às 14:03
+- Resposta com Logotipo e Brand Guide criada por Laura Valim Specian (34711@raphaeldisanto.com.br) às 14:41
+
+1. LOGOTIPO OFICIAL (logo_skill_craft.png)
+- Símbolo: Hexágono isométrico geométrico entrelaçando as letras "S" e "C" em Azul-Escuro (#101B3D) e Azul Vibrante (#3155D9). Em fundos escuros (#101B3D), utiliza-se a versão monocromática branca.
+- Wordmark: "skill craft" em caixa-baixa negrito, com "skill" em Skill Blue (#3155D9) e "craft" em Dark Charcoal (#20232C) sobre fundo claro (ou branco sobre fundo escuro).
+- Margem de segurança: 1x a altura do logotipo ao redor.
+
+2. PALETA DE CORES OFICIAL (04. Electric Blue — Digital • Jovem • Inovadora)
+- Deep Slate (Azul-Escuro Principal): #101B3D
+- Skill Blue (Azul Vibrante Principal): #3155D9
+- Accent Blue (Azul Claro de Destaque): #6B8CFF
+- Dark Charcoal (Grafite Escuro / Textos): #20232C
+- Off-White (Branco Gelo / Fundos Claros): #F7F8FC
+
+3. TIPOGRAFIA OFICIAL (Brand Visual Identity Quick Guide v1.0)
+- Títulos e Cabeçalhos (Headlines, Titles): Montserrat
+- Texto Corrido (Body text): Roboto
+- Legendas e Detalhes (Caption): Lato
