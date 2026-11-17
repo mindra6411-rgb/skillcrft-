@@ -34,3 +34,7 @@ scripts/smoke/.build
 # Python
 __pycache__/
 *.pyc
+
+# Ambiente Python local (geração da apresentação)
+.venv/
+__pycache__/
