@@ -60,26 +60,41 @@ export function Differentials() {
               <path d="M200 200 L326 306" stroke="#6B8CFF" strokeOpacity="0.3" strokeWidth="1" strokeDasharray="4 7" />
             </svg>
 
-            {/* anel interno fixo: geometria da marca sem animação contínua */}
+            {/* anel de luz giratório: sugere o sistema das três áreas em operação.
+                Só rotação (transform), sem repaint: custo praticamente nulo. */}
             <span
               aria-hidden="true"
-              className="absolute inset-8 rounded-full border border-accent-400/20"
+              className="animate-spin-slow absolute inset-8 rounded-full"
+              style={{
+                background:
+                  'conic-gradient(from 0deg, transparent 0 34%, rgba(107,140,255,0.45) 48%, rgba(147,171,255,0.7) 52%, transparent 66% 100%)',
+                WebkitMask:
+                  'radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 1px))',
+                mask: 'radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 1px))',
+              }}
             />
-            <span aria-hidden="true" className="absolute inset-16 rounded-full bg-skill-500/10 blur-2xl" />
+            <span
+              aria-hidden="true"
+              className="animate-pulse-soft absolute inset-16 rounded-full bg-skill-500/10 blur-2xl"
+            />
 
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-              <img
-                src="/brand/symbol-color.webp"
-                alt="Símbolo Skill Craft"
-                className="h-28 w-28 sm:h-32 sm:w-32"
-                width={32}
-                height={22}
-                style={{ filter: 'drop-shadow(0 6px 18px rgba(8,15,36,0.45))' }}
-              />
-              <span className="mt-4 flex items-center justify-center gap-1.5 rounded-full border border-accent-400/30 bg-accent-400/10 px-3.5 py-1 font-caption text-[0.62rem] font-bold tracking-[0.16em] text-accent-300 uppercase backdrop-blur-sm">
-                <Handshake className="h-3 w-3" aria-hidden="true" />
-                Integração real
-              </span>
+              {/* o símbolo flutua devagar (transform puro), reforçando a ideia
+                  de sistema vivo no centro da órbita */}
+              <div className="animate-float-slow flex flex-col items-center">
+                <img
+                  src="/brand/symbol-color.webp"
+                  alt="Símbolo Skill Craft"
+                  className="h-28 w-auto object-contain sm:h-32"
+                  width={32}
+                  height={22}
+                  style={{ filter: 'drop-shadow(0 6px 18px rgba(8,15,36,0.45))' }}
+                />
+                <span className="mt-4 flex items-center justify-center gap-1.5 rounded-full border border-accent-400/30 bg-accent-400/10 px-3.5 py-1 font-caption text-[0.62rem] font-bold tracking-[0.16em] text-accent-300 uppercase backdrop-blur-sm">
+                  <Handshake className="h-3 w-3" aria-hidden="true" />
+                  Integração real
+                </span>
+              </div>
             </div>
 
             {NOS.map((no) => (

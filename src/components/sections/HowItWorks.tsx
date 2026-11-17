@@ -41,7 +41,7 @@ export function HowItWorks() {
               initial={{ scaleX: reduzido ? 1 : 0 }}
               whileInView={{ scaleX: 1 }}
               viewport={{ once: true, margin: '-120px' }}
-              transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
             />
           </div>
           {/* linha de conexão animada (mobile) */}
@@ -51,7 +51,7 @@ export function HowItWorks() {
               initial={{ scaleY: reduzido ? 1 : 0 }}
               whileInView={{ scaleY: 1 }}
               viewport={{ once: true, margin: '-80px' }}
-              transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
             />
           </div>
 
@@ -61,7 +61,7 @@ export function HowItWorks() {
               return (
                 <Reveal key={etapa.numero} delay={0.1 + i * 0.12}>
                   <li className="group relative flex items-start gap-6 md:flex-col md:items-center md:gap-0 md:text-center">
-                    <span className="relative z-10 inline-flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl border border-accent-400/35 bg-deep-900 text-accent-400 shadow-glow-soft transition-all duration-300 group-hover:-translate-y-0.5 group-hover:border-accent-400/70 group-hover:bg-gradient-to-br group-hover:from-skill-600 group-hover:to-accent-400 group-hover:text-offwhite-50">
+                    <span className="relative z-10 inline-flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl border border-accent-400/35 bg-deep-900 text-accent-400 shadow-glow-soft transition-all duration-500 group-hover:-translate-y-1.5 group-hover:border-accent-400/70 group-hover:bg-gradient-to-br group-hover:from-skill-600 group-hover:to-accent-400 group-hover:text-offwhite-50">
                       <Icone className="h-6 w-6" aria-hidden="true" />
                       <span className="absolute -top-2.5 -right-2.5 inline-flex h-6 w-6 items-center justify-center rounded-full bg-gradient-skill font-display text-[0.62rem] font-extrabold text-offwhite-50 shadow-glow-soft">
                         {etapa.numero}

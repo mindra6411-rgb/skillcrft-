@@ -37,8 +37,44 @@
 
   --shadow-card: 0 24px 60px -24px rgb(8 15 36 / 0.6);
   --shadow-card-light: 0 24px 60px -28px rgb(16 27 61 / 0.22);
-  --shadow-glow: 0 0 0 1px rgb(107 140 255 / 0.18), 0 14px 36px -18px rgb(49 85 217 / 0.45);
-  --shadow-glow-soft: 0 0 32px -12px rgb(107 140 255 / 0.28);
+  --shadow-glow: 0 0 0 1px rgb(107 140 255 / 0.22), 0 16px 48px -16px rgb(49 85 217 / 0.5);
+  --shadow-glow-soft: 0 0 42px -10px rgb(107 140 255 / 0.35);
+
+  /* Animações de ambiente da marca.
+     Haviam sido removidas na rodada de correção institucional e agora voltam
+     como CSS puro (transform/opacity, sem JS): custo baixo, sem repaint de
+     layout. Todas são neutralizadas por prefers-reduced-motion no @layer base. */
+  --animate-float-slow: float-slow 9s ease-in-out infinite;
+  --animate-pulse-soft: pulse-soft 5s ease-in-out infinite;
+  --animate-spin-slow: spin-slow 28s linear infinite;
+}
+
+@keyframes float-slow {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -10px, 0);
+  }
+}
+
+@keyframes pulse-soft {
+  0%,
+  100% {
+    opacity: 0.45;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* Anel cônico girando bem devagar: é o efeito "sistema integrado" da seção
+   Diferenciais. Mantido lento de propósito para não competir com a leitura. */
+@keyframes spin-slow {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @layer base {
@@ -161,7 +197,8 @@
   }
 
   .kicker-dot {
-    @apply h-1.5 w-1.5 rounded-full bg-accent-400;
+    @apply h-1.5 w-1.5 rounded-full bg-accent-400 shadow-glow-soft;
+    animation: var(--animate-pulse-soft);
   }
 
   .text-gradient-skill {

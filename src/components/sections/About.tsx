@@ -45,7 +45,7 @@ export function About() {
           </Reveal>
 
           <Reveal delay={0.2} className="mt-8">
-            <div className="group relative rounded-2xl bg-offwhite-50 p-8 shadow-card-light transition-transform duration-300 hover:-translate-y-0.5 sm:p-10">
+            <div className="group relative rounded-2xl bg-offwhite-50 p-8 shadow-card-light transition-transform duration-500 hover:-translate-y-1 sm:p-10">
               <Logo variante="lockup-color" className="mx-auto h-32 w-auto sm:h-36" />
               <p className="mt-5 text-center font-caption text-[0.68rem] tracking-[0.22em] text-charcoal-500 uppercase">
                 Identidade oficial · Guia de marca v1.0
@@ -61,16 +61,19 @@ export function About() {
         <div className="flex flex-col justify-center gap-10">
           {AREAS.map((area, i) => {
             const Icone = ICONES[area.icone]
+            // y em vez de x: a seção usa overflow-hidden e, no celular, um
+            // deslize horizontal de 26px passava dos 20px de padding do
+            // container e cortava o card. Entrada vertical não encosta na borda.
             return (
-              <Reveal key={area.id} delay={0.1 + i * 0.12} x={26} y={0}>
-                <article className="group relative border-l border-offwhite-50/10 pl-7 transition-colors duration-300 hover:border-accent-400/70 sm:pl-9">
+              <Reveal key={area.id} delay={0.1 + i * 0.12} y={18}>
+                <article className="group relative border-l border-offwhite-50/10 pl-7 transition-colors duration-500 hover:border-accent-400/70 sm:pl-9">
                   <span
                     aria-hidden="true"
-                    className="absolute top-0 -left-px h-0 w-px bg-gradient-to-b from-accent-400 to-skill-500 transition-all duration-300 group-hover:h-full"
+                    className="absolute top-0 -left-px h-0 w-px bg-gradient-to-b from-accent-400 to-skill-500 transition-all duration-500 group-hover:h-full"
                   />
                   <div className="flex items-start justify-between gap-5">
                     <div className="flex items-center gap-4">
-                      <span className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-skill-600 to-accent-400 text-offwhite-50 transition-transform duration-300 group-hover:scale-105">
+                      <span className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-skill-600 to-accent-400 text-offwhite-50 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-6">
                         <Icone className="h-5 w-5" aria-hidden="true" />
                       </span>
                       <div>

@@ -54,7 +54,7 @@ export function Services({ onSolicitar }: { onSolicitar: (servicoId: string) => 
             return (
               <Reveal key={servico.id} delay={0.06 + i * 0.07} className={SPANS[i]}>
                 <article
-                  className={`group relative flex h-full flex-col overflow-hidden rounded-2xl p-7 transition-all duration-300 hover:-translate-y-1 ${
+                  className={`group relative flex h-full flex-col overflow-hidden rounded-2xl p-7 transition-all duration-500 hover:-translate-y-2 ${
                     destaque
                       ? 'bg-deep-800 text-offwhite-50 shadow-card hover:shadow-glow'
                       : 'card-surface-light hover:shadow-glow-soft'
@@ -63,14 +63,14 @@ export function Services({ onSolicitar }: { onSolicitar: (servicoId: string) => 
                   {destaque && <div aria-hidden="true" className="padrao-iso absolute inset-0 opacity-60" />}
                   <span
                     aria-hidden="true"
-                    className={`absolute inset-x-0 top-0 h-[3px] origin-left scale-x-0 bg-gradient-to-r from-skill-500 to-accent-400 transition-transform duration-300 group-hover:scale-x-100 ${
+                    className={`absolute inset-x-0 top-0 h-[3px] origin-left scale-x-0 bg-gradient-to-r from-skill-500 to-accent-400 transition-transform duration-500 group-hover:scale-x-100 ${
                       destaque ? '' : 'from-skill-500/80 to-accent-400/80'
                     }`}
                   />
 
                   <div className="relative flex items-start justify-between gap-4">
                     <span
-                      className={`inline-flex h-12 w-12 items-center justify-center rounded-xl transition-transform duration-300 group-hover:scale-105 ${
+                      className={`inline-flex h-12 w-12 items-center justify-center rounded-xl transition-transform duration-500 group-hover:scale-110 group-hover:rotate-6 ${
                         destaque
                           ? 'bg-gradient-to-br from-skill-500 to-accent-400 text-offwhite-50 shadow-glow-soft'
                           : 'bg-gradient-to-br from-skill-500/12 to-accent-400/12 text-skill-600'

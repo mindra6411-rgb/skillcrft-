@@ -45,7 +45,7 @@ export function Team() {
             const Icone = ICONES[area.icone]
             return (
               <Reveal key={area.id} delay={0.06 + i * 0.08}>
-                <article className="card-surface-light group flex h-full flex-col p-7 transition-transform duration-300 hover:-translate-y-1">
+                <article className="card-surface-light group flex h-full flex-col p-7 transition-transform duration-500 hover:-translate-y-1.5">
                   <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-skill-500/12 to-accent-400/12 text-skill-600">
                     <Icone className="h-5 w-5" aria-hidden="true" />
                   </span>
