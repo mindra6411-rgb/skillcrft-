@@ -105,7 +105,7 @@ export function Hero({ iniciar }: { iniciar: boolean }) {
 
           <motion.p {...animar(0.3)} className="mt-6 max-w-xl font-body text-base leading-relaxed text-offwhite-100/80 sm:text-lg">
             Agência estudantil de apoio acadêmico, tecnológico e criativo. Unimos Administração, Tecnologia da
-            Informação e Marketing em entregas com qualidade profissional — do resumo técnico ao site do seu projeto.
+            Informação e Design em entregas com qualidade profissional — do resumo técnico ao site do seu projeto.
           </motion.p>
 
           <motion.div {...animar(0.42)} className="mt-9 flex flex-col gap-3.5 sm:flex-row sm:items-center">

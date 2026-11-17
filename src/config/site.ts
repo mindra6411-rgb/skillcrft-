@@ -23,7 +23,7 @@ export const SERVICOS: Servico[] = [
       'Slides organizados e visualmente atrativos, com hierarquia clara de informações para seminários e trabalhos.',
     preco: 15,
     precoLabel: 'R$ 15,00',
-    area: 'Marketing',
+    area: 'Design',
     icone: 'presentation',
   },
   {
@@ -63,7 +63,7 @@ export const SERVICOS: Servico[] = [
       'Cartazes, logotipos e materiais de divulgação com identidade visual consistente para sua ideia.',
     preco: 15,
     precoLabel: 'R$ 15,00',
-    area: 'Marketing',
+    area: 'Design',
     icone: 'palette',
   },
 ]
@@ -113,7 +113,7 @@ export type Area = {
   titulo: string
   resumo: string
   itens: string[]
-  icone: 'briefcase' | 'code' | 'megaphone'
+  icone: 'briefcase' | 'code' | 'palette'
 }
 
 export const AREAS: Area[] = [
@@ -142,16 +142,16 @@ export const AREAS: Area[] = [
     icone: 'code',
   },
   {
-    id: 'marketing',
-    titulo: 'Marketing',
+    id: 'design',
+    titulo: 'Design',
     resumo:
-      'Comunicação, identidade e divulgação: é como a Skill Craft se apresenta e como cada entrega chega clara ao público.',
+      'Cria a identidade visual da Skill Craft e os materiais de divulgação: é a área que dá forma, cor e consistência a cada entrega.',
     itens: [
-      'Identidade visual e materiais de divulgação',
-      'Apresentações, artes e logotipos',
-      'Comunicação com o público e divulgação',
+      'Criação de apresentações, artes e logotipos',
+      'Design gráfico e design digital',
+      'Aulas de Canva e orientação de portfólio',
     ],
-    icone: 'megaphone',
+    icone: 'palette',
   },
 ] as Area[]
 
@@ -202,70 +202,65 @@ export const MEIOS_CONTATO = [
 export type MeioContato = (typeof MEIOS_CONTATO)[number]['id']
 
 /* ------------------------------------------------------------------ *
- * Equipe — composição OFICIAL atual (confirmada pela equipe).
- * Substitui qualquer composição anterior. Nomes de ADM e Marketing não
- * são divulgados no material oficial e, por isso, não aparecem aqui:
- * nada de nome inventado. A composição anterior fica preservada apenas
- * como histórico em docs/originais/equipe_envolvidos.md.
+ * Equipe — três áreas de atuação, conforme o documento-base do
+ * Projeto Integrador (divisão do trabalho por área) e o modelo de
+ * negócio enviado pela equipe (docs/originais/).
+ *
+ * Decisão do responsável pelo projeto (17/11/2026): a seção NÃO exibe
+ * nomes de integrantes nem quantidade de pessoas — apenas as áreas e
+ * suas responsabilidades documentadas. A composição real da equipe
+ * está preservada no documento original
+ * (docs/originais/equipe_envolvidos.md) e poderá ser divulgada aqui
+ * quando a equipe confirmar.
  * ------------------------------------------------------------------ */
 export type EquipeArea = {
-  id: 'ti' | 'adm' | 'marketing'
+  id: 'administracao' | 'ti' | 'design'
   titulo: string
   sigla: string
-  integrantes: number
-  /** Nomes oficialmente informados. Vazio quando a equipe não os divulgou. */
-  nomes: string[]
-  papel: string
-  frentes: string[]
-  icone: 'code' | 'briefcase' | 'megaphone'
+  responsabilidade: string
+  entregas: string[]
+  icone: 'briefcase' | 'code' | 'palette'
 }
 
 export const EQUIPE: EquipeArea[] = [
   {
-    id: 'ti',
-    titulo: 'Tecnologia da Informação',
-    sigla: 'TI',
-    integrantes: 2,
-    nomes: ['Ítalo', 'Emilyn'],
-    papel: 'Constrói e mantém tudo o que é digital na Skill Craft.',
-    frentes: [
-      'Site institucional e área do aluno',
-      'Autenticação, banco de dados e segurança',
-      'Ferramentas digitais de estudo',
-    ],
-    icone: 'code',
-  },
-  {
-    id: 'adm',
+    id: 'administracao',
     titulo: 'Administração',
     sigla: 'ADM',
-    integrantes: 3,
-    nomes: [],
-    papel: 'Organiza serviços, processos e o acompanhamento de cada pedido.',
-    frentes: [
-      'Organização dos serviços e dos processos internos',
-      'Atendimento e acompanhamento das solicitações',
-      'Controle financeiro e orçamento',
+    responsabilidade:
+      'Define o modelo do negócio, o público-alvo, os serviços, os preços e o fluxo de atendimento.',
+    entregas: [
+      'Plano simplificado de negócio',
+      'Público-alvo e serviços definidos',
+      'Preços de referência e etapas do atendimento',
     ],
     icone: 'briefcase',
   },
   {
-    id: 'marketing',
-    titulo: 'Marketing',
-    sigla: 'Marketing',
-    integrantes: 1,
-    nomes: [],
-    papel: 'Cuida da identidade, da comunicação e de como os serviços chegam ao público.',
-    frentes: [
-      'Identidade visual e materiais de divulgação',
-      'Apresentação dos serviços e dos preços',
-      'Divulgação e relacionamento com o público',
+    id: 'ti',
+    titulo: 'Tecnologia da Informação',
+    sigla: 'TI',
+    responsabilidade: 'Cria a presença digital da agência e facilita o contato com os alunos.',
+    entregas: [
+      'Site institucional com serviços e preços',
+      'Formulário de solicitação de atendimento',
+      'Login com Google e área do aluno',
     ],
-    icone: 'megaphone',
+    icone: 'code',
+  },
+  {
+    id: 'design',
+    titulo: 'Design',
+    sigla: 'Design',
+    responsabilidade: 'Cria a identidade visual consistente e os materiais básicos de divulgação.',
+    entregas: [
+      'Logotipo e paleta de cores oficiais',
+      'Guia de identidade visual da marca',
+      'Peças de divulgação para redes sociais',
+    ],
+    icone: 'palette',
   },
 ]
-
-export const EQUIPE_TOTAL = EQUIPE.reduce((soma, area) => soma + area.integrantes, 0)
 
 /* ------------------------------------------------------------------ *
  * Central de ajuda — conteúdo oficial. Sem promessa de prazo fixo,

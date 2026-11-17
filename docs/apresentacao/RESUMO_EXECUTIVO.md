@@ -1,8 +1,8 @@
 # Resumo Executivo — Skill Craft
 
 **Iniciativa:** Skill Craft — agência estudantil de serviços digitais
-**Áreas:** Tecnologia da Informação · Administração · Marketing
-**Equipe:** 6 integrantes (TI: 2 · ADM: 3 · Marketing: 1)
+**Áreas:** Administração · Tecnologia da Informação · Design
+**Equipe:** estudantes das três áreas (composição registrada em `docs/originais/equipe_envolvidos.md`; nomes e quantidades não são divulgados no site)
 **Slogan oficial:** "Aprenda, desenvolva e prepare-se para o mercado."
 **Assinatura de marca:** "Conhecimento que conecta, tecnologia que transforma."
 
@@ -12,7 +12,7 @@ A Skill Craft é uma agência formada por estudantes que presta serviços
 digitais e administrativos para o público escolar e iniciante no mercado:
 apresentações, sites simples, revisão de trabalhos, resumos técnicos e artes
 e logotipos. A iniciativa une três competências — tecnologia, gestão e
-comunicação — em um único fluxo de atendimento, do primeiro contato ao
+design — em um único fluxo de atendimento, do primeiro contato ao
 pós-venda.
 
 ## O problema
@@ -47,12 +47,17 @@ de orçamento conforme o escopo. Não há planos, pacotes ou descontos.
 
 ## Estrutura da equipe
 
-- **TI (2 integrantes):** Ítalo e Emilyn — site, autenticação, banco de
-  dados, ferramentas digitais e infraestrutura.
-- **ADM (3 integrantes):** organização dos serviços, processos internos,
-  acompanhamento dos pedidos e controle financeiro.
-- **Marketing (1 integrante):** identidade visual, posicionamento,
-  comunicação e apresentação dos serviços.
+A agência é organizada em três áreas, com as responsabilidades definidas no
+próprio Projeto Integrador (a composição da equipe está registrada no
+documento original e não é divulgada no site):
+
+- **Administração:** define o modelo do negócio, o público-alvo, os
+  serviços, os preços e o fluxo de atendimento.
+- **Tecnologia da Informação:** cria a presença digital da agência — site,
+  autenticação, banco de dados e ferramentas digitais — e facilita o
+  contato com os alunos.
+- **Design:** cria a identidade visual consistente e os materiais básicos
+  de divulgação.
 
 ## Tecnologia
 
@@ -73,7 +78,7 @@ Off-White `#F7F8FC`. Tipografia: Montserrat (títulos), Roboto (texto) e Lato
 1. **Processo documentado** com protocolo e status visíveis para o cliente.
 2. **Transparência de preço** antes do desenvolvimento começar.
 3. **Três áreas integradas** — um só lugar resolve serviço técnico,
-   organização e comunicação.
+   organização e identidade visual.
 4. **Honestidade técnica** — o produto declara o próprio estado e nunca
    simula funcionamento inexistente.
 5. **Ferramentas gratuitas** que devolvem valor ao público estudante.

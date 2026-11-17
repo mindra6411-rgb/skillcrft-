@@ -278,7 +278,7 @@ verificar('rotas', 'hashDaRota cobre todas as rotas', modulo.hashDaRota('home') 
 
 console.log('\nValidadores do formulário')
 verificar('validação', 'nome vazio é recusado', modulo.validarNome('  ') !== null)
-verificar('validação', 'nome válido é aceito', modulo.validarNome('Emilyn Souza') === null)
+verificar('validação', 'nome válido é aceito', modulo.validarNome('Aluno Exemplo') === null)
 verificar('validação', 'descrição curta é recusada', modulo.validarDescricao('oi') !== null)
 verificar('validação', 'servico fora da lista é recusado', modulo.validarServico('hack') !== null)
 verificar('validação', 'servicos oficiais são aceitos', modulo.SERVICOS.every((s) => modulo.validarServico(s.id) === null))
@@ -298,12 +298,10 @@ verificar(
 )
 verificar(
   'conteúdo',
-  'equipe oficial: 2 TI (Ítalo, Emilyn) + 3 ADM + 1 Marketing = 6',
+  'equipe: três áreas documentadas, sem nomes e sem contagem de integrantes',
   modulo.EQUIPE.length === 3 &&
-    modulo.EQUIPE.reduce((s, a) => s + a.integrantes, 0) === 6 &&
-    modulo.EQUIPE[0].nomes.join(',') === 'Ítalo,Emilyn' &&
-    modulo.EQUIPE[1].nomes.length === 0 &&
-    modulo.EQUIPE[2].nomes.length === 0,
+    modulo.EQUIPE.every((a) => !('nomes' in a) && !('integrantes' in a)) &&
+    ['administracao', 'ti', 'design'].every((id) => modulo.EQUIPE.some((a) => a.id === id)),
 )
 verificar(
   'conteúdo',
@@ -322,8 +320,8 @@ verificar(
 )
 verificar(
   'home',
-  'áreas oficiais: Administração, TI e Marketing (sem "Design Gráfico")',
-  textoDe(tela).includes('Marketing') && !textoDe(tela).includes('Design Gráfico'),
+  'áreas oficiais: Administração, TI e Design (sem "Marketing")',
+  textoDe(tela).includes('Design') && !textoDe(tela).includes('Marketing'),
 )
 verificar(
   'home',
@@ -332,8 +330,12 @@ verificar(
 )
 verificar(
   'home',
-  'equipe: nomes só onde a equipe divulgou (Ítalo e Emilyn)',
-  textoDe(tela).includes('Ítalo') && textoDe(tela).includes('Emilyn') && textoDe(tela).includes('6'),
+  'equipe: sem nomes de integrantes e sem contagem de pessoas',
+  !textoDe(tela).includes('Ítalo') &&
+    !textoDe(tela).includes('Emilyn') &&
+    !textoDe(tela).includes('Ethan') &&
+    !textoDe(tela).includes('Emily') &&
+    !textoDe(tela).includes('integrantes'),
 )
 verificar('home', 'link "pular para o conteúdo" presente', Boolean(tela.querySelector('a[href="#conteudo"]')))
 verificar(

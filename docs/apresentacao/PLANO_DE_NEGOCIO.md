@@ -11,7 +11,7 @@ apenas para demonstrar raciocínio de gestão.
 ## 1. Sumário
 
 A Skill Craft é uma agência estudantil de serviços digitais organizada em três
-áreas — TI, ADM e Marketing — que atende o público escolar e iniciante com
+áreas — TI, ADM e Design — que atende o público escolar e iniciante com
 serviços de baixo custo, prazo curto e processo documentado. O ativo central é
 um site próprio que concentra apresentação dos serviços, solicitação com
 protocolo, acompanhamento pelo cliente e ferramentas gratuitas de estudo.
@@ -37,11 +37,11 @@ O cliente sabe **o que** está comprando, **quanto** custa de referência e
 
 | Serviço | Preço de referência | Área executora |
 |---|---|---|
-| Apresentações | R$ 15 | TI / Marketing |
+| Apresentações | R$ 15 | Design |
 | Sites simples | R$ 30 | TI |
-| Revisão de trabalhos | R$ 10 | ADM / TI |
-| Resumos técnicos | R$ 10 | ADM |
-| Artes e logotipos | R$ 15 | Marketing |
+| Revisão de trabalhos | R$ 10 | ADM |
+| Resumos técnicos | R$ 10 | Três áreas integradas |
+| Artes e logotipos | R$ 15 | Design |
 
 Regras comerciais oficiais: preço comunicado como **referência** e confirmado
 na etapa de orçamento; sem descontos, promoções, pacotes ou planos; sem
@@ -65,14 +65,16 @@ do aluno, com busca e filtro por status.
 
 ## 6. Estrutura organizacional
 
-| Área | Integrantes | Responsabilidades |
-|---|---|---|
-| TI | 2 (Ítalo, Emilyn) | Site, autenticação, banco de dados, ferramentas, infraestrutura |
-| ADM | 3 | Serviços, processos, pedidos, atendimento, controle financeiro |
-| Marketing | 1 | Identidade, posicionamento, comunicação, apresentação dos serviços |
+| Área | Responsabilidades |
+|---|---|
+| TI | Site, autenticação, banco de dados, ferramentas, infraestrutura |
+| ADM | Serviços, processos, pedidos, atendimento, controle financeiro |
+| Design | Identidade visual, artes, logotipos e materiais de divulgação |
 
-Total: 6 integrantes. A coordenação das etapas é da ADM; a execução técnica é
-da TI; a comunicação e os materiais visuais são do Marketing.
+A coordenação das etapas é da ADM; a execução técnica é da TI; a identidade
+visual e os materiais de divulgação são do Design. Nomes e quantidade de
+integrantes não são divulgados no site (decisão do responsável pelo projeto);
+a composição real está registrada em `docs/originais/equipe_envolvidos.md`.
 
 ## 7. Estrutura de custos
 
@@ -114,8 +116,9 @@ crescimento depende de volume de pedidos, não de investimento.
 ## 9. Estratégia de crescimento
 
 1. **Base:** indicação entre turmas e portfólio dos serviços entregues.
-2. **Presença:** divulgação organizada pelo Marketing nos canais da escola
-   *(publicação de perfis em redes sociais: em planejamento)*.
+2. **Presença:** divulgação nos canais da escola com materiais visuais
+   produzidos pelo Design *(publicação de perfis em redes sociais: em
+   planejamento)*.
 3. **Retenção:** ferramentas gratuitas de estudo e central de ajuda mantêm o
    público voltando ao site mesmo sem pedir serviço.
 4. **Evolução de oferta:** novas ideias de serviço só entram após avaliação
@@ -151,6 +154,6 @@ crescimento depende de volume de pedidos, não de investimento.
    `VITE_SUPABASE_*` na Vercel e fazendo merge em `main` (o deploy de produção é
    automático — passo 4.3).
 3. Iniciar o registro real de pedidos e indicadores.
-4. Definir os canais oficiais de divulgação com o Marketing.
+4. Definir, em conjunto com as três áreas, os canais oficiais de divulgação.
 5. Avaliar, em conjunto, as ideias futuras de serviço — sem alterar a tabela
    oficial.

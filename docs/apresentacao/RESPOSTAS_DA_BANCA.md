@@ -12,7 +12,7 @@ nunca apresentar como pronto o que não está pronto.
 ### 1. O que é a Skill Craft e qual problema ela resolve?
 
 A Skill Craft é uma agência estudantil de serviços digitais com três áreas de
-atuação: Tecnologia da Informação, Administração e Marketing. Ela resolve um
+atuação: Tecnologia da Informação, Administração e Design. Ela resolve um
 problema duplo: de um lado, alunos que precisam de apresentações, sites
 simples, revisões, resumos e artes — e não sabem a quem recorrer com
 confiança e preço acessível; do outro, estudantes que querem experiência
@@ -30,13 +30,14 @@ sem exigir estrutura empresarial.
 
 ### 3. Como vocês se organizam entre as três áreas?
 
-Seis integrantes, três áreas com papéis definidos: TI (2 integrantes)
-desenvolve e mantém o site, a autenticação, o banco e as ferramentas de
-estudo; ADM (3 integrantes) organiza serviços, processos, pedidos e o
-controle financeiro; Marketing (1 integrante) cuida da identidade, da
-comunicação e de como os serviços são apresentados. As etapas do atendimento
-— escolha, envio das informações, orçamento, desenvolvimento, entrega e
-pós-venda — conectam as áreas em um fluxo único.
+Três áreas com papéis definidos: a TI desenvolve e mantém o site, a
+autenticação, o banco e as ferramentas de estudo; a ADM organiza serviços,
+processos, pedidos e o controle financeiro; o Design cuida da identidade
+visual, dos materiais de divulgação e de como os serviços são apresentados.
+As etapas do atendimento — escolha, envio das informações, orçamento,
+desenvolvimento, entrega e pós-venda — conectam as áreas em um fluxo único.
+*(Quantidade e nomes dos integrantes: não divulgados no site por decisão do
+projeto — citar apenas o que a equipe confirmar no dia.)*
 
 ### 4. Qual foi a maior dificuldade do projeto como um todo?
 
@@ -173,15 +174,17 @@ promoções ou planos.
 
 ---
 
-## Perguntas de Marketing
+## Perguntas de Design
 
-### 17. Como divulgam a Skill Craft para os alunos?
+### 17. Como a identidade visual da Skill Craft foi criada e como ela é aplicada?
 
-O foco é onde o público está: divulgação dentro da própria escola, indicação
-entre turmas, conteúdo educativo produzido pelas três áreas e presença
-digital organizada pela equipe de Marketing. Cada serviço entregue bem vira
-portfólio e indicação. *Perfis em redes sociais: ainda não publicados — em
-planejamento; não apresentamos redes fictícias.*
+A identidade foi criada pela área de Design como entrega oficial do projeto:
+símbolo SC em hexágono isométrico, paleta Electric Blue (Deep Slate, Skill
+Blue e Accent Blue) e tipografias Montserrat, Roboto e Lato — tudo
+documentado no guia de identidade visual da marca. A aplicação é
+sistemática: o site, os ícones, os materiais de divulgação e as peças das
+redes seguem as mesmas regras do guia, garantindo consistência em tudo o que
+leva o nome Skill Craft.
 
 ### 18. Qual a diferença da Skill Craft para um "freelancer qualquer"?
 

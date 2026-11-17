@@ -4,18 +4,19 @@ Esta pasta reúne **todo o material de apresentação** da Skill Craft. Qualquer
 integrante da equipe encontra aqui, em poucos cliques, o que precisa falar,
 demonstrar e responder.
 
-> **Composição oficial da equipe** (confirmada em 11/2026): **TI — 2 integrantes
-> (Ítalo e Emilyn) · ADM — 3 integrantes · Marketing — 1 integrante** — 6 no total.
-> Documentos anteriores com outra divisão (por exemplo,
-> [`../originais/equipe_envolvidos.md`](../originais/equipe_envolvidos.md)) ficam
-> preservados **apenas como histórico** e não devem ser usados na apresentação.
+> **Áreas oficiais da agência** (conforme os documentos originais do projeto):
+> **Design · Administração · TI**. Por decisão do responsável pelo projeto, o
+> material e o site **não citam nomes de integrantes nem quantidade de pessoas**.
+> A composição real da equipe está registrada em
+> [`../originais/equipe_envolvidos.md`](../originais/equipe_envolvidos.md) e
+> somente informações confirmadas pela equipe devem ser usadas na apresentação.
 
 ## Documentos
 
 | # | Documento | Para quê |
 |---|---|---|
 | 1 | [ROTEIRO_COMPLETO.md](./ROTEIRO_COMPLETO.md) | Roteiro completo da apresentação oral, do início ao agradecimento |
-| 2 | [ROTEIRO_POR_AREA.md](./ROTEIRO_POR_AREA.md) | Falas separadas por área (TI, ADM e Marketing), com transições entre elas |
+| 2 | [ROTEIRO_POR_AREA.md](./ROTEIRO_POR_AREA.md) | Falas separadas por área (TI, ADM e Design), com transições entre elas |
 | 3 | [ROTEIRO_DEMONSTRACAO_SITE.md](./ROTEIRO_DEMONSTRACAO_SITE.md) | Passo a passo para demonstrar o site ao vivo, com planos B |
 | 4 | [PERGUNTAS_DA_BANCA.md](./PERGUNTAS_DA_BANCA.md) | 18 perguntas que professores e avaliadores costumam fazer |
 | 5 | [RESPOSTAS_DA_BANCA.md](./RESPOSTAS_DA_BANCA.md) | Respostas prontas, alinhadas com a realidade do projeto |
@@ -73,15 +74,15 @@ Tudo isto está implementado e testado — veja o relatório em [`../TESTES.md`]
 
 | Ponto | Documento original | Decisão adotada |
 |---|---|---|
-| Terceira área da agência | `../originais/modelo_de_negocio_skillscraft.md` cita Administração, TI e **Design** | Composição oficial atual confirmada pela equipe: TI, ADM e **Marketing**. O site e todo o material de apresentação usam Marketing; o documento original permanece íntegro como histórico. |
-| Integrantes | `../originais/equipe_envolvidos.md` lista 5 alunos (2 TI, 2 ADM, 1 Design) | Composição oficial atual: 6 integrantes (2 TI, 3 ADM, 1 Marketing). O arquivo antigo é histórico e não é usado. |
+| Áreas da agência | PDF do Projeto Integrador, prompts da equipe e modelo de negócio citam **Administração, TI e Design** | **Corrigido em 17/11/2026**: uma versão anterior deste material e do site citava uma área de "Marketing", que nunca existiu no projeto. As áreas oficiais são **Administração, TI e Design** em todo o material. |
+| Integrantes | `../originais/equipe_envolvidos.md` registra a equipe enviada pela própria equipe | **Corrigido em 17/11/2026**: uma versão anterior citava nomes e uma composição que não foram fornecidos. Por decisão do responsável, nomes e quantidades **não aparecem** no site nem neste material; usar apenas informações confirmadas. |
 | Preços e serviços | Tabela consolidada do modelo de negócio | **Inalterados** — cinco serviços com R$ 15 / R$ 30 / R$ 10 / R$ 10 / R$ 15, sempre como “preço de referência”. |
 | Estimativas antigas de mentoria (R$ 50–100) e pacotes (R$ 110–400) | Nota do rascunho de ADM no modelo de negócio | **Não usadas.** Não fazem parte da tabela oficial e não aparecem no site nem nos roteiros. |
 
 ## Regras de ouro
 
 - Fale somente do que **existe de verdade** no projeto (serviços, preços, etapas, funcionalidades).
-- Não cite nomes de integrantes de ADM e Marketing (não foram divulgados).
+- Não cite nomes de integrantes nem quantidade de pessoas da equipe, a menos que a própria equipe confirme no dia da apresentação.
 - Não invente clientes, resultados, depoimentos, faturamento ou redes sociais.
 - Se a banca perguntar algo não confirmado, diga que é um **ponto em planejamento** — as respostas-modelo estão em [RESPOSTAS_DA_BANCA.md](./RESPOSTAS_DA_BANCA.md).
 - O site, os documentos originais e o código ficam na raiz do repositório; esta pasta é o material de fala.

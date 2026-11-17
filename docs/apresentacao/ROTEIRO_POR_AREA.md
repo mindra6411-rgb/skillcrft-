@@ -4,13 +4,13 @@ Cada área encontra aqui as próprias falas, na ordem em que entram na
 apresentação. As **transições** (em itálico) conectam uma área à outra para a
 apresentação soar como uma explicação conjunta.
 
-Composição oficial: **TI — Ítalo e Emilyn (2) · ADM — 3 integrantes ·
-Marketing — 1 integrante**. Não cite nomes de ADM e Marketing; fale "a equipe
-de ADM" / "o integrante de Marketing".
+Áreas oficiais: **Administração · TI · Design** (conforme os documentos
+originais do projeto). Não cite nomes de integrantes nem quantidade de
+pessoas; fale "a equipe de ADM", "a equipe de TI" e "a equipe de Design".
 
 ---
 
-## Parte da TI (2 falantes — divida os blocos entre Ítalo e Emilyn)
+## Parte da TI (divida os blocos entre os integrantes da área)
 
 ### Bloco 1 — Desenvolvimento do site *(abre a demonstração técnica)*
 
@@ -81,7 +81,7 @@ a equipe de ADM."*
 
 ---
 
-## Parte da ADM (3 falantes — um bloco cada)
+## Parte da ADM (divida os blocos entre os integrantes da área)
 
 ### Bloco 1 — Organização da empresa e planejamento
 
@@ -121,41 +121,43 @@ a equipe de ADM."*
 > Isso evita retrabalho de ficar perguntando o básico depois. A ADM confere,
 > distribui para a área executora e acompanha até a conclusão."
 
-*Transição para Marketing: "Serviço organizado e bem feito precisa ser
-conhecido por quem precisa dele. É aí que entra o Marketing — com a palavra,
-o integrante de Marketing."*
+*Transição para Design: "Serviço organizado e bem feito precisa ser
+reconhecido por quem precisa dele. É aí que entra o Design — com a palavra,
+a equipe de Design."*
 
 ---
 
-## Parte do MARKETING (1 falante)
+## Parte do DESIGN
 
-### Bloco 1 — Divulgação e comunicação
+### Bloco 1 — Identidade visual da marca
 
-> "O Marketing da Skill Craft cuida de uma coisa essencial: fazer a iniciativa
-> chegar em quem precisa. A comunicação é direta e honesta — mostramos o que
-> a equipe realmente entrega, com exemplos de serviços e preços claros, sem
-> promessa exagerada."
+> "O Design da Skill Craft começa pela própria marca: o símbolo SC em
+> hexágono isométrico, a paleta Electric Blue com Deep Slate, Skill Blue e
+> Accent Blue, e as tipografias Montserrat, Roboto e Lato. Tudo isso está
+> registrado no guia de identidade visual da marca, que define como o
+> logotipo e as cores podem ser aplicados."
 
-### Bloco 2 — Identidade da marca e posicionamento
+### Bloco 2 — Artes, logotipos e materiais de divulgação
 
-> "A Skill Craft tem identidade própria: o símbolo SC em hexágono isométrico,
-> a paleta Electric Blue com Deep Slate, Skill Blue e Accent Blue, e as
-> tipografias Montserrat, Roboto e Lato. O posicionamento também é claro: não
-> somos 'a empresa que faz tudo' — somos a agência estudantil que resolve bem
-> o que está dentro das nossas áreas."
+> "É o Design que cria os materiais básicos de divulgação da agência: peças
+> para redes sociais e cartazes, além dos serviços de artes e logotipos que
+> estão na tabela oficial. A regra é a mesma da marca: consistência visual
+> em tudo o que sai da Skill Craft."
 
-### Bloco 3 — Apresentação dos serviços
+### Bloco 3 — Apresentação visual dos serviços
 
-> "No site e nos materiais, cada serviço é apresentado com três coisas: o que
-> é, para que serve e quanto custa de referência. Clareza vende mais que
-> efeito: o aluno entende em segundos e decide com confiança."
+> "No site, cada serviço é apresentado com três coisas: o que é, para que
+> serve e quanto custa de referência — com ícones e layout que seguem a
+> identidade visual. Clareza vale mais que efeito: o aluno entende em
+> segundos e decide com confiança."
 
-### Bloco 4 — Estratégias para alcançar o público
+### Bloco 4 — Divulgação e alcance do público
 
-> "As estratégias são de onde o público está: divulgação na própria escola,
-> indicações entre turmas, conteúdo educativo das três áreas e presença
-> digital organizada. Cada serviço entregue bem vira portfólio e indicação —
-> que é o canal de crescimento mais forte para uma iniciativa estudantil."
+> "A divulgação pensada para o projeto é orgânica e está onde o público
+> está: a própria escola, indicações entre turmas e presença digital — com
+> os materiais visuais criados pelo Design. Cada serviço entregue bem vira
+> portfólio e indicação, que é o canal de crescimento mais forte para uma
+> iniciativa estudantil."
 
 *Transição de fechamento: "E é assim que as três áreas se completam: TI
-constrói, ADM organiza, Marketing comunica — uma única Skill Craft."*
+constrói, ADM organiza, Design dá identidade — uma única Skill Craft."*

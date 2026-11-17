@@ -1,4 +1,4 @@
-import { Briefcase, Check, Code2, Megaphone, Quote } from 'lucide-react'
+import { Briefcase, Check, Code2, Palette, Quote } from 'lucide-react'
 import { AREAS, FRASES_APOIO, MISSAO, type Area } from '../../config/site'
 import { Logo } from '../brand/Logo'
 import { Reveal } from '../ui/Reveal'
@@ -7,7 +7,7 @@ import { SectionHeader } from '../ui/SectionHeader'
 const ICONES: Record<Area['icone'], typeof Briefcase> = {
   briefcase: Briefcase,
   code: Code2,
-  megaphone: Megaphone,
+  palette: Palette,
 }
 
 export function About() {
@@ -28,7 +28,7 @@ export function About() {
                 Três áreas técnicas, <span className="text-gradient-skill">uma única equipe</span>
               </>
             }
-            lead="A Skill Craft é uma agência estudantil de apoio acadêmico, tecnológico e criativo, criada por alunos de Administração, TI e Marketing para apoiar outros estudantes."
+            lead="A Skill Craft é uma agência estudantil de apoio acadêmico, tecnológico e criativo, criada por alunos de Administração, TI e Design para apoiar outros estudantes."
           />
 
           <Reveal delay={0.12} className="mt-10">

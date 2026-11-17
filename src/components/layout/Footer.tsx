@@ -40,7 +40,7 @@ export function Footer({ rota, irParaHome, navegar, onSolicitar }: FooterProps) 
           <Logo variante="lockup-white" className="h-16 w-auto" />
           <p className="mt-5 max-w-sm font-body text-sm leading-relaxed text-offwhite-100/60">
             Agência estudantil de apoio acadêmico, tecnológico e criativo. Unimos Administração, Tecnologia da
-            Informação e Marketing para ajudar estudantes a aprender, desenvolver e entregar mais.
+            Informação e Design para ajudar estudantes a aprender, desenvolver e entregar mais.
           </p>
           <p className="mt-5 inline-flex items-center gap-2 rounded-lg border border-offwhite-50/10 bg-offwhite-50/[0.03] px-3 py-1.5 font-caption text-xs text-offwhite-100/55">
             <GraduationCap className="h-3.5 w-3.5 text-accent-400" aria-hidden="true" />

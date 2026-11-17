@@ -10,7 +10,7 @@ O texto abaixo é uma guia de fala — use com as suas palavras.
 
 > "Bom dia/boa noite a todos. Nós somos a equipe da **Skill Craft**, uma
 > iniciativa estudantil que une Administração, Tecnologia da Informação e
-> Marketing para oferecer serviços de apoio acadêmico, tecnológico e criativo. Hoje vamos mostrar o que a Skill Craft é, como ela funciona e o
+> Design para oferecer serviços de apoio acadêmico, tecnológico e criativo. Hoje vamos mostrar o que a Skill Craft é, como ela funciona e o
 > que nós construímos até aqui."
 
 ## 2. O problema que motivou a iniciativa
@@ -49,21 +49,20 @@ O texto abaixo é uma guia de fala — use com as suas palavras.
 
 ## 6. A divisão da equipe
 
-> "A Skill Craft é formada por seis integrantes, organizados em três áreas.
-> Na Tecnologia da Informação, dois integrantes — Ítalo e Emilyn — cuidam do
-> site, das ferramentas digitais, das integrações e do funcionamento técnico.
-> Na Administração, três integrantes cuidam da organização, do planejamento,
-> da gestão dos serviços, do controle financeiro e do acompanhamento dos
-> pedidos. E no Marketing, um integrante cuida da divulgação, da comunicação
-> e da identidade da marca. Cada área tem responsabilidades claras, e é essa
+> "A Skill Craft é organizada em três áreas, cada uma com responsabilidade
+> própria. A Administração define o modelo do negócio, o público-alvo, os
+> serviços, os preços e o fluxo de atendimento. A Tecnologia da Informação
+> cria a presença digital da agência — o site, as ferramentas e o contato
+> com os alunos. E o Design cria a identidade visual e os materiais de
+> divulgação. As decisões importantes são tomadas em conjunto, e é essa
 > divisão que faz o projeto funcionar como uma iniciativa organizada."
 
 ## 7. As áreas de atuação
 
 > "As áreas não trabalham separadas: elas se complementam. A Administração
 > garante que cada pedido tenha escopo, prazo e organização. A TI garante que
-> as soluções funcionem, do site às ferramentas de estudo. O Marketing garante
-> que tudo comunique bem e tenha identidade visual. É essa
+> as soluções funcionem, do site às ferramentas de estudo. O Design garante
+> que tudo tenha identidade visual consistente, do logotipo às artes. É essa
 > integração o nosso maior diferencial: um pedido entra uma vez só, e as
 > áreas resolvem juntas."
 
@@ -82,7 +81,7 @@ O texto abaixo é uma guia de fala — use com as suas palavras.
 
 > "Depois que o pedido entra pelo formulário, ele vira um registro com
 > protocolo. A Administração confere, a área responsável executa (TI, ADM ou
-> Marketing), e o aluno acompanha o status pela área do aluno: aguardando análise, em
+> Design), e o aluno acompanha o status pela área do aluno: aguardando análise, em
 > análise, em andamento, concluído ou cancelado. Nada fica solto: cada pedido
 > tem responsável, histórico e retorno pelo meio de contato que o aluno
 > escolheu."
