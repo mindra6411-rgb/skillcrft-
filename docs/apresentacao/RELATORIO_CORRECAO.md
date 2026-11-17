@@ -103,28 +103,36 @@ Console: nenhum erro ou aviso inesperado durante as verificações.
 
 ## 10. A publicação foi atualizada?
 
-**Não foi possível confirmar por acesso direto neste ambiente.** O sandbox tem saída de rede restrita a
-registros de pacotes (`npm`/`pip`) e ao GitHub, portanto **não consegui abrir** `skill-craft-lime.vercel.app`
-nem `skill-craft-site.vercel.app` para conferir o HTML publicado. Não vou declarar uma verificação que não fiz.
+**Sim — confirmada agora pela API da Vercel e pela leitura da página publicada.**
 
-O que é fato:
+| Verificação | Resultado real |
+|---|---|
+| Deployment de produção | `dpl_EnjS3X6uBTny9ZfT6NCEA5kkt3yG` · `READY` / `PROMOTED` |
+| Commit publicado | `7f83630` — o merge do PR #9, no branch `main` |
+| Build na Vercel | `tsc -b && vite build` · 2129 módulos, **sem erro** |
+| HTML publicado | Administração, Tecnologia da Informação e Design · **0** ocorrências de Ethan/Emily/Marketing |
+| Preços publicados | R$ 15 · R$ 30 · R$ 10 · R$ 10 · R$ 15 (tabela oficial) |
+| Seção Equipe publicada | três áreas, **sem nomes, sem cargos nominais, sem contagem** |
 
-- O código do branch é exatamente o que o build de produção compilou com sucesso.
-- O deploy da Vercel é automático a partir do branch principal; o PR #7 registrou o deployment de produção
-  promovido com alias atribuído (documentado em `docs/TESTES.md`).
-- O commit desta entrega é enviado ao branch da sessão; ao ser mesclado em `main`, a Vercel publica sozinha.
-
-**Pendência:** abrir o site publicado e confirmar visualmente as três áreas (leva 30 segundos).
+> **Correção de endereço:** o domínio de produção do projeto é **`skill-craft-site.vercel.app`**.
+> O endereço `skill-craft-lime.vercel.app` citado em um pedido anterior **não pertence a este
+> projeto**. Nenhum alias foi criado ou alterado para ele.
 
 ## 11. Quais problemas ainda existem
 
-1. **Confirmação visual do site publicado** — bloqueada pela rede deste ambiente (item 10).
-2. **Credenciais externas** — projeto Supabase ativo com provedor Google e as variáveis `VITE_SUPABASE_*`
-   na Vercel. Sem elas, login, banco e painel aparecem como **pendência declarada** no site.
+1. **Login, banco e painel estão inativos na publicação.** O conector do Supabase retornou
+   **nenhum projeto** na conta (`{"items": []}`) e a Vercel tem **apenas** `VITE_SITE_URL` nas variáveis
+   de ambiente. Não é um defeito do código: é configuração externa pendente. O site declara isso como
+   pendência — não simula funcionamento.
+2. **Inspeção em aparelho real** — layout, contraste, foco visível e desempenho de animação exigem
+   navegador. A leitura da página comprova conteúdo, não estética.
 3. **Nomes da equipe não divulgados** — decisão do responsável pelo projeto. O documento original está
    preservado; a seção está pronta para receber os dados quando houver autorização.
 4. **Menções aos termos proibidos em testes e neste relatório** — são intencionais: funcionam como
    *trava de regressão*. O teste falha se “Ethan”, “Emily” ou “Marketing” voltarem a aparecer no site.
+5. **Termo “ITI” do pedido** — não existe em nenhum documento do projeto (os documentos originais usam
+   **TI**, para Tecnologia da Informação). O site mantém **TI**, conforme a nomenclatura do responsável
+   pelo projeto. Se “ITI” for a nomenclatura oficial, é uma decisão de uma linha a ser confirmada.
 
 ---
 

@@ -169,7 +169,45 @@ pendentes de inspeção em aparelho real (seção 4).
 
 ---
 
-## 6. Como reproduzir
+## 6. Confirmação da versão publicada (17/11/2026, via conectores Vercel/Supabase)
+
+Esta conferência foi feita pelo **conector da Vercel** e pela **leitura da página
+publicada** — não por suposição a partir do repositório.
+
+| Verificação | Resultado real |
+| --- | --- |
+| Projeto na Vercel | `skill-craft-site` · framework `vite` · build `npm run build` · saída `dist` |
+| Deployment de produção | `dpl_EnjS3X6uBTny9ZfT6NCEA5kkt3yG` · `READY` / `PROMOTED` |
+| Commit publicado | `7f83630` — exatamente o merge do PR #9 (branch `main`) |
+| Build na Vercel | `> tsc -b && vite build` · **2129 módulos transformados, sem erro** |
+| Aliases de produção | `skill-craft-site.vercel.app`, `skill-craft-site-mindra6411-8699.vercel.app`, `skill-craft-site-git-main-mindra6411-8699.vercel.app` |
+| HTML publicado — áreas | **Administração, Tecnologia da Informação e Design** (3 de 3, sem “Marketing”) |
+| HTML publicado — nomes | **0 ocorrências** de “Ethan”, “Emily”, “Emilyn” e “Marketing” |
+| HTML publicado — equipe | três cards por área; **nenhum nome, cargo nominal ou contagem de integrantes** |
+| HTML publicado — preços | R$ 15 · R$ 30 · R$ 10 · R$ 10 · R$ 15 (idênticos à tabela oficial) |
+| HTML publicado — rodapé | “© 2026 Skill Craft · Conhecimento que conecta…” + Colégio Raphael Di Santo |
+| HTML publicado × código | títulos conferidos um a um (ex.: “Três áreas técnicas, uma única equipe”) batem com `src/` |
+
+> **Domínio:** o endereço de produção do projeto é **`skill-craft-site.vercel.app`**.
+> O endereço `skill-craft-lime.vercel.app`, citado em um pedido anterior, **não
+> pertence a este projeto** — não foi criado nem alterado nenhum alias para ele.
+
+### Estado do Supabase
+
+O conector do Supabase retornou **nenhum projeto** na conta (`{"items": []}`) e a
+Vercel tem **apenas** `VITE_SITE_URL` nas variáveis de ambiente do projeto. Ou
+seja: login com Google, banco e painel administrativo **não estão ativos na
+publicação** — eles aparecem no site como pendência declarada, exatamente como o
+produto promete fazer. Nada disso foi simulado.
+
+### O que continua pendente de inspeção humana
+
+Layout em aparelho real, contraste, foco visível e desempenho de animação
+(precisa de navegador). A leitura da página comprova **conteúdo**, não estética.
+
+---
+
+## 7. Como reproduzir
 
 ```bash
 npm install
