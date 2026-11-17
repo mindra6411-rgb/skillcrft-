@@ -5,7 +5,7 @@
 > Projeto Integrador 2026 · Administração · Tecnologia da Informação · Design.
 
 Site institucional completo da **Skill Craft**, com solicitação de serviços,
-login real com Google, área do aluno com acompanhamento, ferramentas gratuitas de
+cadastro e login com e-mail e senha, área do aluno com acompanhamento, ferramentas gratuitas de
 estudo, central de ajuda e página 404 própria.
 
 **Site no ar:** <https://skill-craft-site.vercel.app> (Vercel · build de produção
@@ -65,7 +65,7 @@ estudo e explica o próprio funcionamento na central de ajuda.
   (opcional), **informações complementares** (opcional), meio de contato e contato
   de retorno — com `aria-invalid`, mensagens específicas e foco no primeiro erro.
 - Pré-seleção do serviço ao clicar em “Solicitar” em qualquer card; nome vindo da
-  conta Google quando há sessão; último contato lembrado **neste navegador**.
+  conta quando há sessão; último contato lembrado **neste navegador**.
 - Protocolo `SC-ANO-XXXX`, estados de carregamento, sucesso e erro.
 - Sem backend configurado (ou se a gravação falhar), o pedido vira **rascunho
   local declarado** — nenhum envio é simulado como real.
@@ -76,7 +76,9 @@ estudo e explica o próprio funcionamento na central de ajuda.
 
 **Autenticação e administração**
 
-- Login com **Google (Supabase Auth)** — OAuth real, sessão persistida, retorno
+- **Autenticação própria** com **e-mail e senha (Supabase Auth)** — cadastro,
+  login, confirmação de e-mail, recuperação e alteração de senha, logout e
+  sessão persistida com refresh automático. **Sem login social.**
   redirecionado para `#/app` com limpeza dos tokens da URL, e logout.
 - Sem credenciais no ambiente, o botão **explica a pendência** em vez de fingir login.
 - **Painel administrativo** (`#/admin`) com autorização validada **no banco**
@@ -185,7 +187,8 @@ Decisões que valem menção:
 ├── docs/
 │   ├── apresentacao/              # 9 documentos da apresentação (roteiros, banca, plano)
 │   ├── originais/                 # arquivos originais da equipe, íntegros (histórico)
-│   ├── CONFIGURACAO.md            # Supabase, Google OAuth, migrações, admin, Vercel
+│   ├── CONFIGURACAO.md            # Supabase, e-mail/senha, migrações, perfis, Vercel
+│   ├── SEGURANCA.md               # Modelo de segurança, RLS, testes e pendências
 │   └── TESTES.md                  # o que foi testado, com quais comandos, e o que está pendente
 ├── scripts/
 │   ├── generate_hero_video.py     # gera o vídeo do hero a partir da identidade
@@ -198,7 +201,7 @@ Decisões que valem menção:
 └── src/
     ├── App.tsx                    # shell, rotas e composição das páginas
     ├── config/site.ts             # conteúdo oficial (serviços, preços, equipe, ajuda)
-    ├── context/AuthContext.tsx    # sessão Supabase, login Google, logout
+    ├── context/AuthContext.tsx    # sessão Supabase, papel vindo do banco, logout
     ├── hooks/                     # useHashRoute, useScrollSpy, useLocalState
     ├── lib/                       # rotas, status, supabase, solicitations, validation
     └── components/
@@ -207,7 +210,7 @@ Decisões que valem menção:
         ├── sections/              # Hero, About, Services, HowItWorks, Differentials, Team, Resources, Contact
         ├── pages/                 # Ferramentas, Ajuda, Admin, NotFound (404)
         ├── tools/                 # CalculadoraMedias, PlanejadorEstudos, ChecklistTrabalho, ToolCard
-        ├── auth/                  # AuthButton, AuthModal, StudentArea, GoogleIcon
+        ├── auth/                  # AuthButton, AuthModal, StudentArea
         ├── brand/                 # Logo (variantes oficiais)
         └── ui/                    # Reveal, SectionHeader, CountUp, PageShell
 ```
@@ -226,13 +229,14 @@ npm run test:smoke   # 76 verificações de rota, 404, formulário, ferramentas,
 Variáveis de ambiente em [`.env.example`](.env.example): copie para `.env` e
 preencha o que quiser ativar (login, contatos do rodapé e URL pública para SEO).
 
-## 9. Configuração de ambiente (Supabase + Google)
+## 9. Configuração de ambiente (Supabase + e-mail/senha)
 
 Passo a passo completo em [`docs/CONFIGURACAO.md`](docs/CONFIGURACAO.md):
 
 1. Criar o projeto Supabase e copiar `VITE_SUPABASE_URL` / `VITE_SUPABASE_ANON_KEY`.
-2. Criar o cliente OAuth no Google Cloud (origens e redirect URI).
-3. Ativar o provedor Google no Supabase e configurar Site URL / Redirect URLs.
+2. Ativar o provedor **Email** no Supabase e configurar Site URL / Redirect URLs
+   (não há mais provedor externo nem cliente OAuth).
+3. Aplicar as migrações 0001–0007 (RLS, perfis, rate limit, lista de professores).
 4. Aplicar as três migrações de `supabase/migrations/`.
 5. Registrar o perfil administrativo (opcional) e abrir `#/admin`.
 6. Definir `VITE_SITE_URL` para gerar canonical, `og:url` e `sitemap.xml`.
@@ -263,8 +267,9 @@ Relatório completo em [`docs/TESTES.md`](docs/TESTES.md).
   produção a partir de `main`, `VITE_SITE_URL` definida, `robots.txt` e
   `sitemap.xml` servidos no ar (verificações em
   [`docs/TESTES.md`](docs/TESTES.md), seção 5).
-- ⏳ **Pendentes de credenciais externas:** login Google de ponta a ponta, callback
-  do OAuth, leitura/escrita no banco, RLS na prática e painel administrativo
+- ⏳ **Pendentes de credenciais externas:** cadastro/login de ponta a ponta,
+  confirmação de e-mail, leitura/escrita no banco, RLS na prática e painel
+  administrativo
   autorizado — os projetos Supabase usados no desenvolvimento foram **removidos a
   pedido do cliente** na fase anterior e ainda não há variáveis `VITE_SUPABASE_*`
   na Vercel. O código trata essa ausência declarando o estado real na interface,

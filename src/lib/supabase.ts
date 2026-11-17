@@ -1,7 +1,7 @@
 import { createClient, type SupabaseClient } from '@supabase/supabase-js'
 
 /**
- * Integração Supabase Auth (login com Google).
+ * Integração Supabase Auth (cadastro e login com e-mail e senha).
  *
  * As credenciais vêm SOMENTE de variáveis de ambiente (VITE_SUPABASE_URL e
  * VITE_SUPABASE_ANON_KEY — chave pública "anon"). Nenhum valor é inventado ou
@@ -21,6 +21,9 @@ export const supabase: SupabaseClient | null = isSupabaseConfigured
         persistSession: true,
         autoRefreshToken: true,
         detectSessionInUrl: true,
+        // Fluxo PKCE: o retorno por e-mail (confirmação/recuperação) troca um
+        // código de uso único por sessão, em vez de trafegar tokens implícitos.
+        flowType: 'pkce',
       },
     })
   : null

@@ -104,9 +104,9 @@ export function Contact({ preSelecao }: ContactProps) {
     setStatus('ocioso')
   }, [preSelecao])
 
-  // Com sessão ativa, o nome vem da conta Google (não precisa redigitar).
+  // Com sessão ativa, o nome vem da conta (não precisa redigitar).
   useEffect(() => {
-    const nomeConta = usuario?.user_metadata?.full_name
+    const nomeConta = usuario?.user_metadata?.nome
     if (typeof nomeConta !== 'string' || !nomeConta) return
     setForm((f) => (f.nome ? f : { ...f, nome: nomeConta }))
   }, [usuario])

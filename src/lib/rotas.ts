@@ -9,15 +9,16 @@
  * - `#/ferramentas`             → ferramentas gratuitas de estudo
  * - `#/ajuda`                   → central de ajuda
  * - `#/admin`                   → painel administrativo (permissão validada no banco)
+ * - `#/redefinir-senha`         → destino do link de recuperação de senha
  * - qualquer outro `#/xxx`      → 404 (página própria; nunca redireciona em
  *                                 silêncio para a home escondendo o erro)
  *
  * Âncoras nativas (`#servicos`, `#contato`, `#conteudo`…) NÃO começam com `#/`
  * e são tratadas como rolagem para a seção da página institucional.
  */
-export type Rota = 'home' | 'app' | 'ferramentas' | 'ajuda' | 'admin' | '404'
+export type Rota = 'home' | 'app' | 'ferramentas' | 'ajuda' | 'admin' | 'redefinir-senha' | '404'
 
-export const ROTAS_CONHECIDAS = ['app', 'ferramentas', 'ajuda', 'admin'] as const
+export const ROTAS_CONHECIDAS = ['app', 'ferramentas', 'ajuda', 'admin', 'redefinir-senha'] as const
 
 export type RotaConhecida = (typeof ROTAS_CONHECIDAS)[number]
 
@@ -51,8 +52,9 @@ export function hashDaRota(destino: Rota): string | null {
 }
 
 /**
- * Retorno do OAuth: o provedor devolve tokens no fragmento
- * (`#access_token=…` / `#code=…`). Isso nunca pode ser lido como rota.
+ * Retorno por e-mail (confirmação de conta / recuperação de senha): o Supabase
+ * devolve tokens no fragmento (`#access_token=…` / `#code=…`). Isso nunca pode
+ * ser lido como rota.
  */
 export function ehHashDeAutenticacao(hash: string): boolean {
   return !hash.startsWith('#/') && /(?:access_token|refresh_token|code|error)=/.test(hash)
