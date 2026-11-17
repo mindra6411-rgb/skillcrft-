@@ -139,6 +139,28 @@ console.warn = (...args) => {
 const { App, createElement, act, createRoot } = await import(BUNDLE)
 const modulo = await import(BUNDLE)
 
+// Módulos de validação/segurança exercitados pela bateria da seção 5.
+const {
+  validarEmailAuth,
+  validarSenhaNova,
+  validarSenhaLogin,
+  validarNomeCompleto,
+  validarConfirmacaoSenha,
+  sanitizarTexto,
+  normalizarEmail,
+  EMAIL_MAX,
+  SENHA_MIN,
+  PAPEIS,
+  PERFIS,
+  PERFIL_VISITANTE,
+  comoPapel,
+  ehPapel,
+  codificarErroAuth,
+  mensagemDeErro,
+  ehHashDeAutenticacao,
+  lerRota,
+} = modulo
+
 /* ------------------------------------------------------------------ *
  * 3. Utilidades de verificação
  * ------------------------------------------------------------------ */
@@ -479,7 +501,11 @@ verificar('ajuda', 'FAQ: clique expande a resposta (aria-expanded)', painelDepoi
 
 console.log('\nÁrea do aluno sem sessão (#/app)')
 tela = await montarRota('#/app')
-verificar('área do aluno', 'explica que precisa de login (não finge sessão)', textoDe(tela).includes('Entre com sua conta Google'))
+verificar(
+  'área do aluno',
+  'explica que precisa de login (não finge sessão)',
+  textoDe(tela).includes('Entre com seu e-mail e senha'),
+)
 verificar('área do aluno', 'oferece ferramentas e ajuda mesmo sem login', textoDe(tela).includes('Ferramentas') && textoDe(tela).includes('Ajuda'))
 verificar('área do aluno', 'não expõe histórico de outra pessoa', !textoDe(tela).includes('Minhas solicitações'))
 
@@ -511,8 +537,258 @@ await clicar(pular)
 await aguardar(120, 6)
 verificar('abertura', 'botão "Pular" encerra a abertura imediatamente', !textoDe(tela).includes('Pular introdução'))
 
+
 /* ------------------------------------------------------------------ *
- * 5. Relatório
+ * 5. Segurança da autenticação — testes obrigatórios
+ *
+ * Cobre os 12 itens pedidos: cadastro, login, senha incorreta,
+ * recuperação, logout, visitante em página privada, aluno tentando
+ * admin, manipulação de URL, alteração de permissão, requisições
+ * diretas, injeção (SQLi/XSS) e acesso a dados de terceiros.
+ *
+ * IMPORTANTE (limite honesto): este ambiente NÃO tem um Supabase
+ * ativo. Os testes abaixo verificam o que é verificável sem servidor:
+ * validadores, saneamento, códigos de erro, regras de papel, o
+ * documento de RLS e o comportamento da interface sem sessão. Os
+ * testes que exigem banco de verdade estão listados em
+ * docs/SEGURANCA.md com o SQL exato — e não são declarados como
+ * aprovados aqui.
+ * ------------------------------------------------------------------ */
+
+console.log('\n[1-5] Validação de cadastro, login e senhas')
+
+const emailsValidos = ['aluno@raphaeldisanto.com.br', 'a.b+c@dominio.com', 'x@y.co']
+const emailsInvalidos = [
+  '',
+  'sem-arroba',
+  'a@b',
+  'a@@b.com',
+  'a b@c.com',
+  'a@b..com',
+  '<script>@x.com',
+  `${'a'.repeat(EMAIL_MAX)}@x.com`,
+  'a@b.com\nalguem',
+]
+verificar(
+  'auth-entrada',
+  'aceita e-mails em formato válido',
+  emailsValidos.every((e) => validarEmailAuth(e) === null),
+  emailsValidos.join(' · '),
+)
+verificar(
+  'auth-entrada',
+  'rejeita e-mails malformados ou com injeção',
+  emailsInvalidos.every((e) => validarEmailAuth(e) !== null),
+  `${emailsInvalidos.length} casos`,
+)
+verificar(
+  'auth-entrada',
+  'normaliza e-mail (trim + minúsculas)',
+  normalizarEmail('  Aluno@Dominio.COM ') === 'aluno@dominio.com' &&
+    validarEmailAuth('a@b.com ') === null,
+  'espaço nas pontas é removido, não rejeitado',
+)
+verificar('auth-entrada', 'remove caracteres invisíveis/controle', sanitizarTexto('  a\u200Bb\u0000c  ') === 'abc')
+
+// Senhas
+verificar('auth-entrada', 'rejeita senha curta', validarSenhaNova('abc1') !== null)
+verificar('auth-entrada', 'rejeita senha sem número', validarSenhaNova('somenteletras') !== null)
+verificar('auth-entrada', 'rejeita senha sem letra', validarSenhaNova('1234567890') !== null)
+verificar('auth-entrada', 'rejeita senha óbvia', validarSenhaNova('senha123') !== null)
+verificar('auth-entrada', 'aceita senha forte', validarSenhaNova('SkillCraft2026') === null)
+verificar(
+  'auth-entrada',
+  `exige mínimo de ${SENHA_MIN} caracteres`,
+  validarSenhaNova('Minha1') !== null && validarSenhaNova('MinhaSenha2026') === null,
+)
+verificar(
+  'auth-entrada',
+  'confirmação divergente é rejeitada',
+  validarConfirmacaoSenha('MinhaSenha2026', 'MinhaSenha2027') !== null,
+)
+verificar('auth-entrada', 'login não valida regra de força (evita vazar a regra)', validarSenhaLogin('a') === null)
+verificar('auth-entrada', 'login rejeita senha vazia', validarSenhaLogin('') !== null)
+
+// Nome
+verificar('auth-entrada', 'exige nome e sobrenome', validarNomeCompleto('Ana') !== null)
+verificar('auth-entrada', 'aceita nome completo com acento', validarNomeCompleto('Júlia Cordeiro Cherilli') === null)
+verificar('auth-entrada', 'rejeita tags/scripts no nome', validarNomeCompleto('<script>alert(1)</script>') !== null)
+verificar('auth-entrada', 'rejeita nome com dígitos', validarNomeCompleto('Aluno123 Teste') !== null)
+
+console.log('\n[6-9] Erros seguros, papéis e manipulação de permissão')
+
+verificar(
+  'auth-erros',
+  'senha errada e e-mail inexistente dão a MESMA mensagem',
+  mensagemDeErro('credenciais') === mensagemDeErro(codificarErroAuth({ code: 'invalid_credentials' })),
+)
+verificar(
+  'auth-erros',
+  'erro do provedor não vaza texto original',
+  (() => {
+    const vazamento = 'relation "public.perfis" does not exist'
+    const traduzido = mensagemDeErro(codificarErroAuth({ message: vazamento, status: 500 }))
+    return !traduzido.includes('relation') && !traduzido.includes('public.perfis')
+  })(),
+)
+verificar(
+  'auth-erros',
+  'mapeia códigos conhecidos do Supabase',
+  codificarErroAuth({ code: 'email_not_confirmed' }) === 'email_nao_confirmado' &&
+    codificarErroAuth({ code: 'weak_password' }) === 'senha_fraca' &&
+    codificarErroAuth({ code: 'user_already_exists' }) === 'email_em_uso' &&
+    codificarErroAuth({ status: 429 }) === 'muitas_tentativas',
+)
+verificar(
+  'auth-erros',
+  'toda mensagem é curta e em português (sem stack/SQL)',
+  ['credenciais', 'muitas_tentativas', 'nao_configurado', 'rede'].every((c) => {
+    const m = mensagemDeErro(c)
+    return m.length < 160 && !/SQL|postgres|relation|policy|undefined/i.test(m)
+  }),
+)
+
+// Papéis: a interface nunca concede admin por dado local
+verificar('auth-papeis', 'existem exatamente 3 papéis graváveis', PAPEIS.length === 3)
+verificar('auth-papeis', 'visitante não tem painel administrativo', PERFIL_VISITANTE.painelAdministrativo === false)
+verificar('auth-papeis', 'aluno não tem painel administrativo', PERFIS.aluno.painelAdministrativo === false)
+verificar('auth-papeis', 'professor não tem painel administrativo', PERFIS.professor.painelAdministrativo === false)
+verificar('auth-papeis', 'somente administrador gerencia perfis', PERFIS.administrador.gerenciaPerfis === true)
+verificar(
+  'auth-papeis',
+  'papel inválido/forjado cai em aluno (privilégio mínimo)',
+  comoPapel('superadmin') === 'aluno' && comoPapel(undefined) === 'aluno' && comoPapel('administrador') === 'administrador',
+)
+verificar('auth-papeis', 'validação de papel é estrita', ehPapel('administrador') && !ehPapel('Administrador') && !ehPapel('root'))
+
+// URL: hash com token nunca vira rota
+verificar(
+  'rotas',
+  'token de recuperação/confirmação na URL não vira rota',
+  ehHashDeAutenticacao('#access_token=abc&refresh_token=def&type=recovery') &&
+    ehHashDeAutenticacao('#code=xyz&type=signup'),
+)
+verificar('rotas', 'rota de redefinição de senha existe', lerRota('#/redefinir-senha') === 'redefinir-senha')
+verificar(
+  'rotas',
+  'rota administrativa não é alcançável por variação de URL',
+  lerRota('#/ADMIN') === 'admin' &&
+    lerRota('#/admin/../app') === 'admin' &&
+    lerRota('#/admin%20') === '404' &&
+    lerRota('#/admin?papel=administrador') === 'admin',
+  'normaliza caixa/query; caminho estranho vira 404',
+)
+
+console.log('\n[10-12] Rotas protegidas, interface e RLS declarada')
+
+tela = await montarRota('#/app')
+verificar(
+  'seguranca',
+  'visitante em #/app: sem dados, sem histórico',
+  textoDe(tela).includes('Área do aluno') && !textoDe(tela).includes('Minhas solicitações'),
+)
+verificar('seguranca', 'visitante em #/app: nenhum e-mail de terceiro exibido', !/@raphaeldisanto\.com\.br/.test(textoDe(tela)))
+
+tela = await montarRota('#/admin')
+verificar('seguranca', 'visitante em #/admin: acesso negado declarado', textoDe(tela).includes('Painel indisponível'))
+verificar('seguranca', 'visitante em #/admin: nenhuma solicitação listada', !textoDe(tela).includes('Solicitações recebidas'))
+
+tela = await montarRota('#/redefinir-senha')
+verificar(
+  'seguranca',
+  'link de redefinição inválido não finge sucesso',
+  textoDe(tela).includes('não está mais válido') || textoDe(tela).includes('não está configurada'),
+)
+
+// A interface não oferece login social
+tela = await montarRota('')
+verificar('seguranca', 'não existe mais "Entrar com Google"', !textoDe(tela).includes('Entrar com Google'))
+verificar('seguranca', 'botão de conta oferece "Entrar"', textoDe(tela).includes('Entrar'))
+
+// Nenhum sink de XSS / login social no NOSSO código.
+//
+// Por que checar a fonte e não o bundle: `react-dom` contém
+// `dangerouslySetInnerHTML` por definição, e `@supabase/auth-js` contém
+// `signInWithOAuth` e a palavra `service_role` (na API de admin do SDK).
+// Procurar essas strings no bundle acusaria a biblioteca, não o projeto.
+// O que importa é que o NOSSO código não as use — e que o bundle final
+// publicado não traga segredo nenhum.
+const { readdirSync, readFileSync } = await import('node:fs')
+const { readFile } = await import('node:fs/promises')
+
+async function lerFontes(pasta) {
+  const saida = []
+  for (const entrada of readdirSync(pasta, { withFileTypes: true })) {
+    const caminho = join(pasta, entrada.name)
+    if (entrada.isDirectory()) saida.push(...(await lerFontes(caminho)))
+    else if (/\.(ts|tsx)$/.test(entrada.name)) saida.push({ caminho, texto: await readFile(caminho, 'utf8') })
+  }
+  return saida
+}
+const fontes = await lerFontes(join(RAIZ, 'src'))
+const codigoApp = readFileSync(BUNDLE, 'utf8')
+
+verificar(
+  'seguranca',
+  'nosso código não usa dangerouslySetInnerHTML',
+  fontes.every((f) => !f.texto.includes('dangerouslySetInnerHTML')),
+  `${fontes.length} arquivos verificados`,
+)
+verificar(
+  'seguranca',
+  'nosso código não usa eval/new Function',
+  fontes.every((f) => !/\beval\(|new Function\(/.test(f.texto)),
+)
+verificar(
+  'seguranca',
+  'nosso código não usa login social',
+  fontes.every((f) => !f.texto.includes('signInWithOAuth') && !f.texto.includes("provider: 'google'")),
+)
+verificar(
+  'seguranca',
+  'nenhuma chave privilegiada no bundle publicado',
+  // Só a anon key é pública. service_role e JWTs de serviço não podem existir.
+  !/SUPABASE_SERVICE_ROLE/i.test(codigoApp) &&
+    !/eyJ[A-Za-z0-9_-]{20,}\.[A-Za-z0-9_-]{20,}\.[A-Za-z0-9_-]{20,}/.test(codigoApp),
+  'sem service_role e sem JWT embutido',
+)
+verificar(
+  'seguranca',
+  'nenhuma variável de ambiente sensível embutida no bundle',
+  !/VITE_SUPABASE_(SERVICE|SECRET)/i.test(codigoApp) && !/postgres:\/\//i.test(codigoApp),
+)
+
+// Políticas RLS declaradas nas migrações (documento, não servidor)
+const lerMigracoes = async () => {
+  const pasta = join(RAIZ, 'supabase', 'migrations')
+  const arquivos = readdirSync(pasta).filter((f) => f.endsWith('.sql')).sort()
+  const conteudo = await Promise.all(arquivos.map((f) => readFile(`${pasta}/${f}`, 'utf8')))
+  return { arquivos, sql: conteudo.join('\n') }
+}
+const { arquivos: migracoes, sql } = await lerMigracoes()
+verificar('rls', 'migrações presentes e versionadas', migracoes.length >= 6, migracoes.join(', '))
+verificar(
+  'rls',
+  'toda tabela criada ativa RLS',
+  (() => {
+    const tabelas = [...sql.matchAll(/create table if not exists public\.(\w+)/gi)].map((m) => m[1])
+    const comRls = [...sql.matchAll(/alter table public\.(\w+)\s+enable row level security/gi)].map((m) => m[1])
+    return tabelas.length > 0 && tabelas.every((t) => comRls.includes(t))
+  })(),
+)
+verificar('rls', 'sem política de DELETE exposta', !/for delete/i.test(sql))
+verificar(
+  'rls',
+  'perfis: usuário não escreve o próprio papel',
+  /skillcraft_protege_papel/.test(sql) && /usuario_id <> auth\.uid\(\)/.test(sql),
+)
+verificar('rls', 'rate limit de login existe no banco', /skillcraft_pode_tentar_login/.test(sql))
+verificar('rls', 'tabela de perfis não é legível por terceiros', /for select\s+to authenticated\s+using \(usuario_id = auth\.uid\(\)\)/.test(sql))
+verificar('rls', 'inserção pública exige status inicial', /status = 'aguardando_analise'/.test(sql))
+verificar('rls', 'service_role não aparece nas migrações', !/service_role/i.test(sql))
+
+/* ------------------------------------------------------------------ *
+ * 6. Relatório
  * ------------------------------------------------------------------ */
 function CSS_escape(valor) {
   return valor.replace(/[:.]/g, '\\$&')

@@ -7,6 +7,7 @@ import {
   ChevronDown,
   ClipboardList,
   Inbox,
+  KeyRound,
   LifeBuoy,
   ListChecks,
   Loader2,
@@ -24,9 +25,11 @@ import { listarRascunhosLocais, listarSolicitacoesDoAluno, type Solicitacao } fr
 import { CLASSES_TOM, META_STATUS, STATUS_SOLICITACAO } from '../../lib/status'
 import { formatarData, formatarDataHora } from '../../lib/validation'
 import { useAuth } from '../../context/AuthContext'
+import { PERFIS } from '../../lib/papeis'
+import { nomeDoUsuario } from '../../lib/auth'
 import { Logo } from '../brand/Logo'
 import { AuthButton } from './AuthButton'
-import { GoogleIcon } from './GoogleIcon'
+import { AuthModal } from './AuthModal'
 
 const ICONES_MEIO: Record<string, typeof Mail> = {
   email: Mail,
@@ -48,7 +51,8 @@ type StudentAreaProps = {
 }
 
 export function StudentArea({ irParaHome, navegar }: StudentAreaProps) {
-  const { usuario, carregando, configurado, sair } = useAuth()
+  const { usuario, carregando, configurado, sair, papel, carregandoPapel } = useAuth()
+  const [modalSenha, setModalSenha] = useState(false)
   const [remotas, setRemotas] = useState<Solicitacao[] | null>(null)
   const [erroRemoto, setErroRemoto] = useState<string | null>(null)
   const [busca, setBusca] = useState('')
@@ -125,7 +129,7 @@ export function StudentArea({ irParaHome, navegar }: StudentAreaProps) {
           <Logo variante="lockup-white" className="mx-auto h-20 w-auto" />
           <h1 className="mt-6 font-display text-2xl font-extrabold text-offwhite-50">Área do aluno</h1>
           <p className="mt-3 font-body text-sm leading-relaxed text-offwhite-100/70">
-            Entre com sua conta Google para acompanhar suas solicitações, com busca, filtro por status e detalhes de
+            Entre com seu e-mail e senha para acompanhar suas solicitações, com busca, filtro por status e detalhes de
             cada pedido.
           </p>
           <div className="mt-6">
@@ -153,8 +157,15 @@ export function StudentArea({ irParaHome, navegar }: StudentAreaProps) {
     )
   }
 
-  const nome = (usuario.user_metadata?.full_name as string | undefined) || usuario.email || 'Aluno'
-  const avatar = usuario.user_metadata?.avatar_url as string | undefined
+  const nome = nomeDoUsuario(usuario) || usuario.email || 'Aluno'
+  const perfil = PERFIS[papel]
+  const iniciais = nome
+    .split(' ')
+    .filter(Boolean)
+    .map((p) => p[0])
+    .slice(0, 2)
+    .join('')
+    .toUpperCase()
 
   const irPara = (id: string) => {
     irParaHome()
@@ -171,18 +182,9 @@ export function StudentArea({ irParaHome, navegar }: StudentAreaProps) {
       >
         <div className="relative flex flex-wrap items-center justify-between gap-6">
           <div className="flex items-center gap-4">
-            {avatar ? (
-              <img
-                src={avatar}
-                alt=""
-                className="h-14 w-14 rounded-2xl object-cover"
-                referrerPolicy="no-referrer"
-              />
-            ) : (
-              <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-skill-500 font-display text-lg font-extrabold text-offwhite-50">
-                {nome.slice(0, 1).toUpperCase()}
-              </span>
-            )}
+            <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-skill-500 font-display text-lg font-extrabold text-offwhite-50">
+              {iniciais || nome.slice(0, 1).toUpperCase()}
+            </span>
             <div className="min-w-0">
               <p className="font-caption text-xs tracking-[0.16em] text-accent-400 uppercase">Área do aluno</p>
               <h1 className="mt-1 font-display text-2xl font-extrabold text-offwhite-50">
@@ -193,9 +195,17 @@ export function StudentArea({ irParaHome, navegar }: StudentAreaProps) {
           </div>
           <div className="flex flex-wrap items-center gap-2.5">
             <span className="inline-flex items-center gap-2 rounded-lg border border-offwhite-50/12 px-3 py-1.5 font-caption text-xs text-offwhite-100/65">
-              <GoogleIcon className="h-3.5 w-3.5" />
-              Conta Google conectada
+              <span className={`h-1.5 w-1.5 rounded-full ${carregandoPapel ? 'bg-amber-300' : 'bg-emerald-400'}`} />
+              {carregandoPapel ? 'Confirmando perfil…' : `Perfil: ${perfil.rotulo}`}
             </span>
+            <button
+              type="button"
+              onClick={() => setModalSenha(true)}
+              className="btn-ghost px-4! py-2! text-xs!"
+            >
+              <KeyRound className="h-3.5 w-3.5" aria-hidden="true" />
+              Alterar senha
+            </button>
             <button
               type="button"
               onClick={() => {
@@ -487,10 +497,14 @@ export function StudentArea({ irParaHome, navegar }: StudentAreaProps) {
             <h2 className="font-display text-sm font-extrabold tracking-wide text-offwhite-50 uppercase">Sessão</h2>
             <dl className="mt-4 space-y-3 font-body text-sm">
               <div className="flex justify-between gap-4">
-                <dt className="text-offwhite-100/55">Provedor</dt>
+                <dt className="text-offwhite-100/55">Autenticação</dt>
                 <dd className="inline-flex items-center gap-1.5 text-offwhite-50">
-                  <GoogleIcon className="h-3.5 w-3.5" /> Google
+                  <Mail className="h-3.5 w-3.5" aria-hidden="true" /> E-mail e senha
                 </dd>
+              </div>
+              <div className="flex justify-between gap-4">
+                <dt className="text-offwhite-100/55">Perfil de acesso</dt>
+                <dd className="text-offwhite-50">{perfil.rotulo}</dd>
               </div>
               <div className="flex justify-between gap-4">
                 <dt className="text-offwhite-100/55">Conta</dt>
@@ -510,6 +524,13 @@ export function StudentArea({ irParaHome, navegar }: StudentAreaProps) {
           </div>
         </motion.aside>
       </div>
+
+      <AuthModal
+        aberto={modalSenha}
+        modo="trocar-senha"
+        fechar={() => setModalSenha(false)}
+        irParaModo={() => setModalSenha(false)}
+      />
     </div>
   )
 }

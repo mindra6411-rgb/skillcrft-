@@ -21,6 +21,19 @@ import {
   formatarData,
 } from '../../src/lib/validation'
 import { META_STATUS, STATUS_SOLICITACAO, rotuloStatus } from '../../src/lib/status'
+import {
+  validarEmailAuth,
+  validarSenhaNova,
+  validarSenhaLogin,
+  validarNomeCompleto,
+  validarConfirmacaoSenha,
+  sanitizarTexto,
+  normalizarEmail,
+  EMAIL_MAX,
+  SENHA_MIN,
+} from '../../src/lib/validation'
+import { PAPEIS, PERFIS, PERFIL_VISITANTE, comoPapel, ehPapel } from '../../src/lib/papeis'
+import { codificarErroAuth, mensagemDeErro } from '../../src/lib/erros'
 import { AJUDA_FAQ, EQUIPE, NAV_LINKS, NAV_PAGINAS, SERVICOS } from '../../src/config/site'
 
 export {
@@ -49,4 +62,20 @@ export {
   NAV_LINKS,
   NAV_PAGINAS,
   SERVICOS,
+  validarEmailAuth,
+  validarSenhaNova,
+  validarSenhaLogin,
+  validarNomeCompleto,
+  validarConfirmacaoSenha,
+  sanitizarTexto,
+  normalizarEmail,
+  EMAIL_MAX,
+  SENHA_MIN,
+  PAPEIS,
+  PERFIS,
+  PERFIL_VISITANTE,
+  comoPapel,
+  ehPapel,
+  codificarErroAuth,
+  mensagemDeErro,
 }

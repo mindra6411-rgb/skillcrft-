@@ -244,7 +244,7 @@ export const EQUIPE: EquipeArea[] = [
     entregas: [
       'Site institucional com serviços e preços',
       'Formulário de solicitação de atendimento',
-      'Login com Google e área do aluno',
+      'Cadastro, login e área do aluno',
     ],
     icone: 'code',
   },
@@ -289,8 +289,8 @@ export const AJUDA_COMO_PEDIR: AjudaPasso[] = [
 
 export const AJUDA_COMO_ACOMPANHAR: AjudaPasso[] = [
   {
-    titulo: 'Entre com a conta Google',
-    texto: 'O login usa a autenticação do Google (Supabase Auth) e dá acesso à área do aluno.',
+    titulo: 'Crie sua conta',
+    texto: 'O cadastro usa e-mail e senha (Supabase Auth) e dá acesso à área do aluno. A senha nunca é armazenada pelo site.',
   },
   {
     titulo: 'Abra a área do aluno',
@@ -312,7 +312,7 @@ export const AJUDA_FAQ: PerguntaFaq[] = [
   {
     pergunta: 'Preciso criar conta para pedir um serviço?',
     resposta:
-      'Não. O formulário de solicitação funciona sem login. A conta Google serve para acompanhar o histórico e o status dos seus pedidos na área do aluno.',
+      'Não. O formulário de solicitação funciona sem login. A conta (e-mail e senha) serve para acompanhar o histórico e o status dos seus pedidos na área do aluno.',
   },
   {
     pergunta: 'O que significam os status de uma solicitação?',
@@ -337,7 +337,7 @@ export const AJUDA_FAQ: PerguntaFaq[] = [
   {
     pergunta: 'Quais dados o site coleta?',
     resposta:
-      'Apenas o necessário para executar e retornar o pedido: nome, serviço, descrição, prazo desejado e um contato de retorno. Quando você entra com Google, o provedor fornece nome, e-mail e foto de perfil para identificar a sua conta.',
+      'Apenas o necessário para executar e retornar o pedido: nome, serviço, descrição, prazo desejado e um contato de retorno. Quando você cria uma conta, guardamos nome e e-mail — a senha é processada pelo Supabase Auth e nunca é armazenada pelo site.',
   },
   {
     pergunta: 'Outro aluno consegue ver meus pedidos?',

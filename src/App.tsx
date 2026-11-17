@@ -23,6 +23,9 @@ const StudentArea = lazy(() => import('./components/auth/StudentArea').then((m) 
 const Ferramentas = lazy(() => import('./components/pages/Ferramentas').then((m) => ({ default: m.Ferramentas })))
 const Ajuda = lazy(() => import('./components/pages/Ajuda').then((m) => ({ default: m.Ajuda })))
 const Admin = lazy(() => import('./components/pages/Admin').then((m) => ({ default: m.Admin })))
+const RedefinirSenha = lazy(() =>
+  import('./components/pages/RedefinirSenha').then((m) => ({ default: m.RedefinirSenha })),
+)
 
 function CarregandoPagina() {
   return (
@@ -67,6 +70,8 @@ function Shell() {
         return <Ajuda irParaHome={irParaHome} navegar={navegar} />
       case 'admin':
         return <Admin irParaHome={irParaHome} />
+      case 'redefinir-senha':
+        return <RedefinirSenha irParaHome={irParaHome} />
       case '404':
         return (
           <NotFound enderecoTentado={enderecoTentado} irParaHome={irParaHome} navegar={navegar} />

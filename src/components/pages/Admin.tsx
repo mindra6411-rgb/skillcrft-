@@ -19,6 +19,7 @@ import {
   listarTodasSolicitacoes,
   type Solicitacao,
 } from '../../lib/solicitations'
+import { PERFIS } from '../../lib/papeis'
 import { META_STATUS, STATUS_SOLICITACAO, type StatusSolicitacao } from '../../lib/status'
 import { formatarData, formatarDataHora } from '../../lib/validation'
 
@@ -64,9 +65,8 @@ function EstadoPainel({
  * Sem banco configurado o painel não finge funcionar: explica a pendência.
  */
 export function Admin({ irParaHome }: { irParaHome: () => void }) {
-  const { usuario, carregando, configurado } = useAuth()
+  const { usuario, carregando, configurado, papel, recarregarPapel } = useAuth()
   const [acesso, setAcesso] = useState<EstadoAcesso>('verificando')
-  const [erroAcesso, setErroAcesso] = useState<string | null>(null)
   const [itens, setItens] = useState<Solicitacao[]>([])
   const [carregandoLista, setCarregandoLista] = useState(false)
   const [erroLista, setErroLista] = useState<string | null>(null)
@@ -74,24 +74,29 @@ export function Admin({ irParaHome }: { irParaHome: () => void }) {
   const [salvando, setSalvando] = useState<string | null>(null)
   const [aviso, setAviso] = useState<string | null>(null)
 
+  /**
+   * A permissão é reconsultada NO BANCO a cada entrada no painel — não basta a
+   * sessão existir, nem o papel em memória. Quem for rebaixado perde o acesso
+   * no próximo carregamento (e as políticas de RLS negam os dados de qualquer
+   * forma, mesmo que alguém contorne esta tela).
+   */
   const verificar = useCallback(async () => {
     if (!configurado || !usuario) return
     setAcesso('verificando')
-    const { administrador, erro } = await consultarPerfilAdministrativo()
+    const [confirmado, { administrador, erro }] = await Promise.all([recarregarPapel(), consultarPerfilAdministrativo()])
     if (erro) {
-      setErroAcesso(erro)
+      // Nenhum detalhe interno vai para a tela (ver lib/erros.ts).
       setAcesso('erro')
       return
     }
-    setErroAcesso(null)
-    setAcesso(administrador ? 'autorizado' : 'negado')
-  }, [configurado, usuario])
+    setAcesso(administrador && confirmado === 'administrador' ? 'autorizado' : 'negado')
+  }, [configurado, usuario, recarregarPapel])
 
   const carregarLista = useCallback(async () => {
     setCarregandoLista(true)
     const { dados, erro } = await listarTodasSolicitacoes()
     setItens(dados)
-    setErroLista(erro)
+    setErroLista(erro ? 'Não foi possível carregar as solicitações com a permissão atual.' : null)
     setCarregandoLista(false)
   }, [])
 
@@ -126,7 +131,9 @@ export function Admin({ irParaHome }: { irParaHome: () => void }) {
     setSalvando(null)
     if (!ok) {
       setItens((atual) => atual.map((i) => (i.id === item.id ? { ...i, status: anterior } : i)))
-      setAviso(`Não foi possível atualizar ${item.protocolo}: ${erro ?? 'erro desconhecido'}.`)
+      setAviso(
+        `Não foi possível atualizar ${item.protocolo}${erro ? '' : ''}. Verifique sua permissão e tente novamente.`,
+      )
       return
     }
     setAviso(`${item.protocolo} atualizado para “${META_STATUS[status].rotulo}”.`)
@@ -173,7 +180,7 @@ export function Admin({ irParaHome }: { irParaHome: () => void }) {
         icone={ShieldAlert}
         irParaHome={irParaHome}
         titulo="Entre para continuar"
-        texto="O painel é restrito. Entre com uma conta Google que esteja registrada como administradora no banco de dados."
+        texto="O painel é restrito. Entre com sua conta de administrador — o perfil é conferido no banco de dados a cada acesso."
         acao={<AuthButton />}
       />
     )
@@ -198,10 +205,10 @@ export function Admin({ irParaHome }: { irParaHome: () => void }) {
         titulo="Acesso não autorizado"
         texto={
           <>
-            Sua conta Google está conectada, mas o banco de dados não a reconhece como administradora — e por isso
-            nenhum pedido foi exibido. Para liberar o acesso, é preciso incluir o seu{' '}
-            <code className="text-accent-300">user id</code> na tabela{' '}
-            <code className="text-accent-300">administradores</code>.
+            Sua sessão está ativa, mas o banco de dados não reconhece esta conta como administradora — e por isso
+            nenhum pedido foi exibido. O perfil atual é <strong className="text-offwhite-50">{PERFIS[papel].rotulo}</strong>.
+            Para liberar o acesso, um administrador precisa promover a conta no banco (ver{' '}
+            <code className="text-accent-300">docs/SEGURANCA.md</code>).
           </>
         }
         acao={
@@ -221,9 +228,9 @@ export function Admin({ irParaHome }: { irParaHome: () => void }) {
         titulo="Não foi possível verificar a permissão"
         texto={
           <>
-            O banco retornou um erro ao consultar a função <code className="text-accent-300">skillcraft_eh_admin()</code>
-            : {erroAcesso}. Aplique a migração <code className="text-accent-300">0003_administradores.sql</code> e tente
-            novamente.
+            Não foi possível confirmar sua permissão agora. Aplique as migrações de{' '}
+            <code className="text-accent-300">supabase/migrations/</code> e tente novamente. Detalhes técnicos não são
+            exibidos por segurança.
           </>
         }
         acao={

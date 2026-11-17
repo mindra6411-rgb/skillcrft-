@@ -1,6 +1,6 @@
 # Configuração — Skill Craft
 
-Guia completo para rodar o site, ativar o **login com Google (Supabase Auth)** e
+Guia completo para rodar o site, ativar o **cadastro/login com e-mail e senha (Supabase Auth)** e
 publicar na **Vercel**. Nenhuma credencial vem embutida no código: tudo é lido de
 variáveis de ambiente (`.env` local / painel da Vercel).
 
@@ -37,11 +37,15 @@ Como o roteamento é por hash, F5, URL direta e botão voltar funcionam em qualq
 hospedagem estática, sem regra de rewrite.
 
 Sem `.env` preenchido o site funciona 100% institucional; o botão
-“Entrar com Google” abre um painel explicando a pendência (nunca um login falso).
+“Entrar” abre o painel de e-mail e senha; se o Supabase não estiver configurado, o painel explica a pendência (nunca um login falso).
 
 ---
 
-## 2. Supabase Auth + Google OAuth
+## 2. Supabase Auth — cadastro e login com e-mail e senha
+
+> **Mudança importante:** o login com Google (OAuth) foi **removido**. Não há
+> mais provedor externo, nem cliente OAuth no Google Cloud, nem `GoogleIcon`.
+> A autenticação é 100% e-mail + senha via Supabase Auth (PostgreSQL).
 
 ### 2.1 Projeto Supabase
 
@@ -50,69 +54,77 @@ Sem `.env` preenchido o site funciona 100% institucional; o botão
    - `Project URL` → `VITE_SUPABASE_URL`
    - `anon public key` → `VITE_SUPABASE_ANON_KEY` (chave pública; a segurança real vem do RLS).
 
-### 2.2 Cliente OAuth no Google Cloud
+> **Nunca** coloque a chave `service_role` no front-end nem em variável `VITE_*`:
+> tudo que começa com `VITE_` é embutido no JavaScript publicado.
 
-1. [console.cloud.google.com](https://console.cloud.google.com) → crie/selecione um projeto.
-2. **APIs e serviços → Tela de consentimento OAuth**: tipo *External*, preencha nome e
-   e-mails de suporte; publique (modo teste basta para demonstração).
-3. **Credenciais → Criar credenciais → ID do cliente OAuth → Aplicativo da Web**:
-   - **Origens JavaScript autorizadas**:
-     - `http://localhost:5173`
-     - `https://<SEU-PROJETO>.vercel.app`
-     - `https://<REF-DO-PROJETO>.supabase.co`
-   - **URIs de redirecionamento autorizados**:
-     - `https://<REF-DO-PROJETO>.supabase.co/auth/v1/callback`
-4. Copie **ID do cliente** e **Secret**.
+### 2.2 Configurar e-mail e senha no Supabase
 
-### 2.3 Ativar o provedor Google no Supabase
+Em **Authentication → Providers → Email**: mantenha **habilitado** e deixe
+**Confirm email** ligado (o site trata o estado “confirme seu e-mail”).
 
-**Authentication → Providers → Google** → habilitar e colar ID do cliente e secret.
+Em **Authentication → URL Configuration**:
 
-Em **Authentication → URL Configuration** defina:
+- **Site URL**: `https://skill-craft-site.vercel.app` (dev: `http://localhost:5173`)
+- **Redirect URLs (allowlist)**: `https://skill-craft-site.vercel.app/**` e
+  `http://localhost:5173/**`
 
-- **Site URL**: `https://skill-craft-site.vercel.app` em produção
-  (em desenvolvimento: `http://localhost:5173`).
-- **Redirect URLs (allowlist)**: adicione `https://skill-craft-site.vercel.app` e
-  `http://localhost:5173`. Se usar previews da Vercel, acrescente o padrão
-  `https://skill-craft-site-*-mindra6411-8699.vercel.app` — lembrando que esses
-  endereços ficam atrás do login da Vercel (passo 4.2).
+O site usa o **fluxo PKCE** e devolve o usuário para as rotas `#/app`
+(confirmação) e `#/redefinir-senha` (recuperação).
 
-### 2.4 Banco de dados (solicitações do formulário)
+> **E-mails de confirmação/recuperação**: no plano gratuito o Supabase tem limite
+> de envio por hora. Para produção real, configure um SMTP próprio em
+> **Project Settings → Auth → SMTP**.
 
-Execute **em ordem** os arquivos de [`supabase/migrations/`](../supabase/migrations) no
-**SQL Editor** do Supabase (ou via CLI, `supabase db push`):
+### 2.3 Aplicar as migrações (em ordem)
+
+Execute no **SQL Editor** (ou `supabase db push`):
 
 | Migração | O que faz | Natureza |
 | --- | --- | --- |
-| `0001_solicitacoes.sql` | Cria a tabela `solicitacoes` com RLS: inserção pública e leitura apenas do próprio aluno logado | criação |
-| `0002_status_prazo_informacoes.sql` | Acrescenta `status` (5 situações oficiais), `prazo` e `informacoes`; endurece a inserção pública (só status inicial e só o próprio `usuario_id`) | **aditiva**, não perde dados |
-| `0003_administradores.sql` | Cria a tabela `administradores`, a function `skillcraft_eh_admin()` e as políticas que permitem leitura geral e atualização de status **somente** a administradores | **aditiva** |
+| `0001_solicitacoes.sql` | Tabela `solicitacoes` com RLS: inserção pública e leitura só do próprio aluno | criação |
+| `0002_status_prazo_informacoes.sql` | `status` (5 situações), `prazo`, `informacoes`; endurece a inserção pública | **aditiva** |
+| `0003_administradores.sql` | Tabela `administradores`, `skillcraft_eh_admin()` e políticas de leitura/atualização administrativa | **aditiva** |
+| `0004_perfis_papeis.sql` | Tabela `perfis` (aluno/professor/administrador), `skillcraft_papel()`, trigger que **impede autopromoção** e criação automática de perfil no cadastro | **aditiva** |
+| `0005_rate_limit_login.sql` | `tentativas_login` + `skillcraft_pode_tentar_login()` (5 falhas / 15 min por e-mail) | **aditiva** |
+| `0006_perfil_usuario_publico.sql` | View `usuarios_publico` (nome/e-mail só para o próprio usuário ou admin) e `professores_autorizados` | **aditiva** |
+| `0007_promocao_professor.sql` | `skillcraft_promove_professor()`: aluno → professor **somente** para e-mail da lista autorizada | **aditiva** |
 
-Todas são seguras para reaplicar (`IF NOT EXISTS`, `CREATE OR REPLACE`,
-`DROP POLICY IF EXISTS`) e nenhuma desativa RLS.
+Todas são seguras para reaplicar e nenhuma desativa RLS.
 
-Sem as tabelas, o formulário grava **rascunhos locais** e avisa isso com clareza.
+### 2.4 Perfis de acesso
 
-### 2.5 Perfil administrativo (painel `#/admin`)
+| Perfil | Como é obtido | O que pode fazer |
+| --- | --- | --- |
+| **Visitante** | sem sessão | navegar, usar ferramentas, enviar solicitação |
+| **Aluno** | padrão no cadastro (trigger) | ver **apenas** o próprio histórico |
+| **Professor** | e-mail em `professores_autorizados` + “Sou professor” no cadastro | área do aluno com o próprio histórico |
+| **Administrador** | promoção manual no SQL Editor | painel, leitura geral, atualização de status |
 
-O painel só existe se a autorização for decidida **no banco** — não por esconder
-botões no front-end. Depois de aplicar a migração 0003:
+**Promover o primeiro administrador** (SQL Editor, como dono):
+```sql
+select id, email from auth.users order by created_at desc;      -- 1. descubra o id
+update public.perfis set papel = 'administrador'
+where usuario_id = 'COLE-O-UUID-AQUI';                          -- 2. promova
+```
 
-1. Entre no site com a conta Google que será administradora.
-2. No **SQL Editor**, localize o id: `select id, email from auth.users order by created_at desc;`
-3. Registre o perfil:
+**Cadastrar um professor autorizado** (antes do cadastro dele):
+```sql
+insert into public.professores_autorizados (email, observacao)
+values ('professor@raphaeldisanto.com.br', 'Orientador do PI')
+on conflict (email) do nothing;
+```
 
-   ```sql
-   insert into public.administradores (usuario_id, observacao)
-   values ('COLE-O-UUID-AQUI', 'Administrador — equipe Skill Craft');
-   ```
+Para revogar o admin: `update public.perfis set papel = 'aluno' where usuario_id = 'UUID';`
 
-4. Abra `#/admin`: a permissão passa a ser confirmada pelo banco e o painel lista
-   as solicitações com atualização de status.
+### 2.5 O que o banco garante (não a interface)
 
-Para revogar: `delete from public.administradores where usuario_id = 'UUID';`
+- usuário **não** altera o próprio papel: existe política *e* trigger bloqueando;
+- ninguém lista perfis, tentativas de login ou a lista de professores;
+- `solicitacoes`: aluno lê só as suas; admin lê todas; exclusão não é exposta;
+- toda função `skillcraft_*` é `SECURITY DEFINER` com `search_path` fixo e
+  `EXECUTE` concedido apenas a quem precisa.
 
-Quem não está na tabela vê apenas “Acesso não autorizado” — nenhum dado é exibido.
+O detalhamento e o SQL de verificação estão em [`SEGURANCA.md`](./SEGURANCA.md).
 
 ### 2.6 Variáveis de ambiente
 
@@ -199,7 +211,7 @@ demais endereços, ajuste *Deployment Protection* nas configurações do projeto
 
 ### 4.3 Ativar login e banco no site publicado
 
-1. Execute os passos **2.1 a 2.5** (projeto Supabase, Google OAuth, migrations,
+1. Execute os passos **2.1 a 2.5** (projeto Supabase, e-mail/senha, migrations,
    perfil administrativo).
 2. No passo **2.3**, use como Site URL `https://skill-craft-site.vercel.app` e
    coloque esse mesmo endereço na allowlist de redirect.
@@ -238,10 +250,10 @@ vercel env add VITE_SUPABASE_URL production
 | Sintoma                                        | Causa provável / correção                                              |
 | ---------------------------------------------- | ---------------------------------------------------------------------- |
 | Botão de login abre “configuração pendente”    | `.env` sem `VITE_SUPABASE_URL`/`ANON_KEY` (ou ausentes na Vercel).      |
-| Erro `provider not enabled`                    | Ativar Google em Authentication → Providers (passo 2.3).               |
-| Erro `redirect URI not allowed`                 | URLs faltando na allowlist do Supabase ou do Google (passos 2.2/2.3).  |
+| Erro `provider not enabled`                    | Ativar o provedor **Email** em Authentication → Providers (passo 2.2). |
+| Erro `redirect URI not allowed`                 | URLs faltando na allowlist do Supabase (passo 2.2).                    |
 | Solicitação vira “rascunho local”              | Tabela `solicitacoes` não criada: rode as migrações 0001 e 0002.       |
-| Sessão não volta após o Google                 | Site URL/Redirects do Supabase diferentes da URL onde o site roda.     |
+| Sessão não volta após confirmar e-mail         | Site URL/Redirects do Supabase diferentes da URL onde o site roda.     |
 | Status não aparece / erro ao gravar `status`   | Migração 0002 não aplicada.                                            |
 | `#/admin` diz “Painel indisponível”            | Sem `VITE_SUPABASE_URL`/`ANON_KEY` no ambiente.                        |
 | `#/admin` diz “Acesso não autorizado”          | Migração 0003 aplicada, mas o seu usuário não está em `administradores` (passo 2.5). |
