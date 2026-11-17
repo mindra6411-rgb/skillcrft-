@@ -32,7 +32,7 @@ trabalha junto com as respostas em
 15. Como vocês controlam pedidos, status e finanças?
 16. Como definiram os preços de referência?
 
-## Perguntas de Marketing
+## Perguntas de Design
 
-17. Como vocês divulgam a Skill Craft para os alunos?
+17. Como a identidade visual da Skill Craft foi criada e como ela é aplicada?
 18. Qual é a diferença da Skill Craft para um "freelancer qualquer"?

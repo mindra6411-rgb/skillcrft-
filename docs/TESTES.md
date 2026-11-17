@@ -90,8 +90,8 @@ Resultado: **76/76 verificações ok · console sem erros ou avisos**.
 | --- | --- | --- |
 | `rotas` | 9/9 | `#/app`, `#/ferramentas`, `#/ajuda`, `#/admin`, `#/` e vazio → home, rota desconhecida → **404** (nunca cai em silêncio na home), âncoras de seção → home, hash de retorno do OAuth (`#access_token=…`) não vira rota |
 | `validação` | 11/11 | nome, descrição, serviço fora da lista, prazo no passado, prazo opcional, informações > 300, e-mail inválido, telefone sem DDD, formato do protocolo `SC-ANO-XXXX` |
-| `conteúdo` | 4/4 | 5 serviços com preços 15/30/10/10/15, equipe oficial (2 TI Ítalo+Emilyn, 3 ADM, 1 Marketing = 6), 5 status, 10 perguntas de FAQ |
-| `home` | 7/7 | slogan oficial, 8 seções presentes, áreas ADM/TI/**Marketing** (sem “Design Gráfico”), preços visíveis, nomes só onde foram divulgados, skip-link, botões com nome acessível |
+| `conteúdo` | 4/4 | 5 serviços com preços 15/30/10/10/15, equipe com 3 áreas documentadas (sem nomes e sem contagem de integrantes), 5 status, 10 perguntas de FAQ |
+| `home` | 7/7 | slogan oficial, 8 seções presentes, áreas ADM/TI/**Design** (sem “Marketing”), preços visíveis, sem nomes de integrantes e sem contagem de pessoas, skip-link, botões com nome acessível |
 | `formulário` | 7/7 | envio vazio bloqueado com mensagens e `aria-invalid`, campos de prazo e informações existem, preenchimento válido gera protocolo + rascunho local, mensagem explícita de que nada foi enviado pela internet |
 | `navegação` | 3/3 | faixa de recursos abre `#/ferramentas`, página renderiza, atalho abre `#/ajuda` |
 | `ferramentas` | 10/10 | três ferramentas presentes, aviso de que nada sai do dispositivo, média ponderada `(8×1 + 6×2)/3 = 6,67`, nota fora de 0–10 mostra erro, cronograma inclui a matéria e monta a grade seg–sex, checklist: lista sugerida, nova tarefa, progresso e marcação |

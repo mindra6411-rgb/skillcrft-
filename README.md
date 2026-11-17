@@ -2,7 +2,7 @@
 
 > **Aprenda, desenvolva e prepare-se para o mercado.**
 > Agência estudantil de apoio acadêmico, tecnológico e criativo —
-> Projeto Integrador 2026 · Administração · Tecnologia da Informação · Marketing.
+> Projeto Integrador 2026 · Administração · Tecnologia da Informação · Design.
 
 Site institucional completo da **Skill Craft**, com solicitação de serviços,
 login real com Google, área do aluno com acompanhamento, ferramentas gratuitas de
@@ -23,7 +23,7 @@ do branch `main`).
 | --- | --- |
 | 📑 [**Índice da apresentação**](docs/apresentacao/README.md) | Ponto de partida: o que tem em cada documento |
 | 🗣️ [**Roteiro completo (13 partes)**](docs/apresentacao/ROTEIRO_COMPLETO.md) | Fala corrida da abertura ao encerramento |
-| 🧩 [Roteiro por área (TI · ADM · Marketing)](docs/apresentacao/ROTEIRO_POR_AREA.md) | A fala de cada área, com as transições |
+| 🧩 [Roteiro por área (TI · ADM · Design)](docs/apresentacao/ROTEIRO_POR_AREA.md) | A fala de cada área, com as transições |
 | 🖥️ [Roteiro de demonstração do site](docs/apresentacao/ROTEIRO_DEMONSTRACAO_SITE.md) | Passo a passo da demo ao vivo + planos B |
 | ❓ [Perguntas da banca](docs/apresentacao/PERGUNTAS_DA_BANCA.md) | 18 perguntas prováveis, por área |
 | ✅ [Respostas da banca](docs/apresentacao/RESPOSTAS_DA_BANCA.md) | Respostas alinhadas ao que o projeto **realmente** faz |
@@ -37,10 +37,10 @@ do branch `main`).
 
 ## 1. O que é a Skill Craft
 
-Agência estudantil formada por 6 integrantes, organizada em três áreas —
-**Tecnologia da Informação**, **Administração** e **Marketing** — que presta
-serviços digitais e acadêmicos para estudantes: apresentações, sites simples,
-revisão de trabalhos, resumos técnicos e artes/logotipos.
+Agência estudantil organizada em três áreas — **Administração**,
+**Tecnologia da Informação (TI)** e **Design** — que presta serviços digitais
+e acadêmicos para estudantes: apresentações, sites simples, revisão de
+trabalhos, resumos técnicos e artes/logotipos.
 
 O site é o produto central: apresenta a agência, recebe solicitações com
 protocolo, permite acompanhamento pelo aluno, oferece ferramentas gratuitas de
@@ -105,34 +105,34 @@ estudo e explica o próprio funcionamento na central de ajuda.
   `VITE_SITE_URL` existe.
 - Teste de fumaça automatizado com **76 verificações** (`npm run test:smoke`).
 
-## 3. Equipe e áreas (composição oficial)
+## 3. Equipe e áreas
 
-| Área | Integrantes | Responsabilidades |
-| --- | --- | --- |
-| **TI** | **2** — Ítalo e Emilyn | Site, autenticação, banco de dados, ferramentas digitais, infraestrutura |
-| **ADM** | **3** | Organização dos serviços e processos, atendimento, acompanhamento dos pedidos, controle financeiro |
-| **Marketing** | **1** | Identidade visual, comunicação, apresentação dos serviços e divulgação |
+As áreas oficiais da agência, conforme os documentos originais do projeto
+(PDF do Projeto Integrador, prompts da equipe e modelo de negócio), são:
 
-Total: **6 integrantes**. Os nomes de ADM e Marketing não foram divulgados no
-material oficial e, por isso, não aparecem no site nem nos roteiros — nada foi
-inventado. A composição anterior consta apenas como histórico em
-[`docs/originais/equipe_envolvidos.md`](docs/originais/equipe_envolvidos.md).
+| Área | Responsabilidade principal |
+| --- | --- |
+| **Administração** | Definir o modelo do negócio, o público-alvo, os serviços, os preços e o fluxo de atendimento |
+| **Tecnologia da Informação (TI)** | Criar a presença digital da agência e facilitar o contato com os alunos |
+| **Design** | Criar a identidade visual consistente e os materiais básicos de divulgação |
 
-> **Divergência registrada:** o modelo de negócio original
-> ([`docs/originais/modelo_de_negocio_skillscraft.md`](docs/originais/modelo_de_negocio_skillscraft.md))
-> descreve as áreas como Administração, TI e **Design**. A composição oficial
-> atual, confirmada pela equipe, é TI, ADM e **Marketing** — e foi ela a adotada
-> no site e em todo o material de apresentação.
+Por decisão do responsável pelo projeto, o site **não exibe nomes de
+integrantes nem quantidade de pessoas** — a seção Equipe apresenta apenas as
+áreas e suas responsabilidades documentadas. A composição real da equipe está
+registrada no documento original da equipe,
+[`docs/originais/equipe_envolvidos.md`](docs/originais/equipe_envolvidos.md),
+preservado na íntegra como fonte documental, e poderá ser divulgada no site
+quando a equipe confirmar.
 
 ## 4. Serviços e preços oficiais
 
 | Serviço | Preço de referência | Área |
 | --- | --- | --- |
-| Criação de apresentações | **R$ 15,00** | Marketing |
+| Criação de apresentações | **R$ 15,00** | Design |
 | Criação de sites simples | **R$ 30,00** | Tecnologia da Informação |
 | Revisão de trabalhos | **R$ 10,00** | Administração |
 | Resumos técnicos | **R$ 10,00** | Três áreas integradas |
-| Criação de artes e logotipos | **R$ 15,00** | Marketing |
+| Criação de artes e logotipos | **R$ 15,00** | Design |
 
 Valores da tabela oficial consolidada pelo Projeto Integrador, comunicados sempre
 como **preço de referência** e confirmados na etapa de orçamento. Não há planos,
@@ -306,5 +306,5 @@ cada merge em `main` publica produção; outros branches geram preview (passo 4.
 ## 👥 Créditos
 
 Projeto Integrador 2026 · Colégio Raphael Di Santo — equipe Skill Craft
-(TI · ADM · Marketing). Documentação original da equipe em
+(TI · ADM · Design). Documentação original da equipe em
 [`docs/originais/`](docs/originais/LEIA-ME.md).

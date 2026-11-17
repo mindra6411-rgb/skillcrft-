@@ -1,4 +1,4 @@
-import { Briefcase, Code2, Handshake, Megaphone, ShieldCheck, Workflow } from 'lucide-react'
+import { Briefcase, Code2, Handshake, Palette, ShieldCheck, Workflow } from 'lucide-react'
 import { FRASES_APOIO } from '../../config/site'
 import { Reveal } from '../ui/Reveal'
 import { SectionHeader } from '../ui/SectionHeader'
@@ -20,16 +20,16 @@ const PILARES = [
     texto: 'TI aplica ferramentas digitais, lógica e boas práticas em tudo o que é construído, do resumo ao site.',
   },
   {
-    icone: Megaphone,
-    titulo: 'Comunicação que valoriza',
-    texto: 'Marketing cuida da clareza, da identidade visual e da divulgação para o seu trabalho causar a impressão certa.',
+    icone: Palette,
+    titulo: 'Design que valoriza',
+    texto: 'Design cria a identidade visual e os materiais de divulgação, para o seu trabalho causar a impressão certa.',
   },
 ]
 
 const NOS = [
   { icone: Briefcase, label: 'Administração', classe: 'top-0 left-1/2 -translate-x-1/2' },
   { icone: Code2, label: 'TI', classe: 'bottom-[6%] left-[2%]' },
-  { icone: Megaphone, label: 'Marketing', classe: 'bottom-[6%] right-[2%]' },
+  { icone: Palette, label: 'Design', classe: 'bottom-[6%] right-[2%]' },
 ]
 
 export function Differentials() {
@@ -47,7 +47,7 @@ export function Differentials() {
               O que nenhuma área sozinha <span className="text-gradient-skill">conseguiria entregar</span>
             </>
           }
-          lead="A Skill Craft existe na interseção de Administração, Tecnologia da Informação e Marketing. É essa integração que transforma um pedido simples em um resultado completo."
+          lead="A Skill Craft existe na interseção de Administração, Tecnologia da Informação e Design. É essa integração que transforma um pedido simples em um resultado completo."
         />
 
         {/* órbita da integração */}
