@@ -100,13 +100,12 @@ export function Hero({ iniciar }: { iniciar: boolean }) {
             className="mt-7 font-display text-[clamp(2.5rem,6.4vw,4.8rem)] leading-[1.04] font-extrabold tracking-tight text-balance text-offwhite-50"
           >
             {SLOGAN_PRINCIPAL.replace('para o mercado.', '')}
-            <span className="text-gradient-skill drop-shadow-[0_0_28px_rgba(107,140,255,0.35)]">para o mercado.</span>
+            <span className="text-gradient-skill">para o mercado.</span>
           </motion.h1>
 
           <motion.p {...animar(0.3)} className="mt-6 max-w-xl font-body text-base leading-relaxed text-offwhite-100/80 sm:text-lg">
             Agência estudantil de apoio acadêmico, tecnológico e criativo. Unimos Administração, Tecnologia da
-            Informação e Design Gráfico em entregas com qualidade profissional — do resumo técnico ao site do seu
-            projeto.
+            Informação e Marketing em entregas com qualidade profissional — do resumo técnico ao site do seu projeto.
           </motion.p>
 
           <motion.div {...animar(0.42)} className="mt-9 flex flex-col gap-3.5 sm:flex-row sm:items-center">

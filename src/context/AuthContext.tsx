@@ -1,6 +1,7 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react'
 import type { Session, User } from '@supabase/supabase-js'
 import { isSupabaseConfigured, supabase } from '../lib/supabase'
+import { ehHashDeAutenticacao } from '../lib/rotas'
 
 type ResultadoLogin = { ok: boolean; pendente?: boolean; erro?: string }
 
@@ -37,7 +38,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setSession(novaSessao)
       setCarregando(false)
       // Retorno do OAuth: limpa os tokens da URL e leva o aluno à área dele.
-      if (novaSessao && /(?:access_token|code)=/.test(window.location.hash)) {
+      if (novaSessao && ehHashDeAutenticacao(window.location.hash)) {
         window.history.replaceState(null, '', window.location.pathname + window.location.search + '#/app')
         window.dispatchEvent(
           typeof HashChangeEvent !== 'undefined' ? new HashChangeEvent('hashchange') : new Event('hashchange'),

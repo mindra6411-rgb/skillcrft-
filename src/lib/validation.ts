@@ -1,6 +1,8 @@
 import { MEIOS_CONTATO, SERVICOS, type MeioContato } from '../config/site'
 
-export type CampoFormulario = 'nome' | 'servico' | 'descricao' | 'meio' | 'contato'
+export type CampoFormulario = 'nome' | 'servico' | 'descricao' | 'prazo' | 'informacoes' | 'meio' | 'contato'
+
+export const CAMPOS_OBRIGATORIOS: CampoFormulario[] = ['nome', 'servico', 'descricao', 'meio', 'contato']
 
 export function validarNome(valor: string): string | null {
   const v = valor.trim()
@@ -21,6 +23,26 @@ export function validarDescricao(valor: string): string | null {
   if (!v) return 'Descreva o pedido.'
   if (v.length < 10) return 'Descreva com pelo menos 10 caracteres para a equipe entender o pedido.'
   if (v.length > 600) return 'Máximo de 600 caracteres.'
+  return null
+}
+
+/** Prazo desejado é opcional; quando informado, precisa ser uma data futura válida. */
+export function validarPrazo(valor: string): string | null {
+  const v = valor.trim()
+  if (!v) return null
+  const data = new Date(`${v}T00:00:00`)
+  if (Number.isNaN(data.getTime())) return 'Informe uma data válida.'
+  const hoje = new Date()
+  hoje.setHours(0, 0, 0, 0)
+  if (data.getTime() < hoje.getTime()) return 'O prazo desejado não pode ser uma data passada.'
+  return null
+}
+
+/** Informações complementares: opcionais, com limite para não virar um segundo pedido. */
+export function validarInformacoes(valor: string): string | null {
+  const v = valor.trim()
+  if (!v) return null
+  if (v.length > 300) return 'Máximo de 300 caracteres.'
   return null
 }
 
@@ -47,6 +69,18 @@ export function gerarProtocolo(): string {
   const ano = new Date().getFullYear()
   const aleatorio = Math.random().toString(36).slice(2, 6).toUpperCase()
   return `SC-${ano}-${aleatorio}`
+}
+
+/** Data desejada no formato brasileiro (dia/mês/ano), sem horário. */
+export function formatarData(iso: string | null): string | null {
+  if (!iso) return null
+  try {
+    return new Intl.DateTimeFormat('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' }).format(
+      new Date(`${iso}T00:00:00`),
+    )
+  } catch {
+    return iso
+  }
 }
 
 export function formatarDataHora(iso: string): string {
