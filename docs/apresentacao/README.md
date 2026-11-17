@@ -24,6 +24,25 @@ demonstrar e responder.
 | 7 | [PLANO_DE_NEGOCIO.md](./PLANO_DE_NEGOCIO.md) | Planejamento empresarial coerente com a proposta (simulações marcadas como hipotéticas) |
 | 8 | [GUIA_DE_APRESENTACAO.md](./GUIA_DE_APRESENTACAO.md) | Ordem das falas, tempos sugeridos, transições e dicas de ensaio |
 
+## Slides da correção institucional
+
+| Documento | Para quê |
+| --- | --- |
+| 🖼️ [**Apresentação em PPTX (12 slides)**](./apresentacao_correcao_skill_craft.pptx) | Deck 16:9 pronto para projetar no PowerPoint, Google Slides ou Keynote |
+| 🌐 [**Apresentação em HTML**](./apresentacao_correcao_skill_craft.html) | O mesmo deck no navegador, sem instalar nada — setas ← →, `Ctrl+P` exporta em PDF |
+| 📋 [**Relatório de correção**](./RELATORIO_CORRECAO.md) | Auditoria das informações falsas, o que foi removido, evidências de build e pendências |
+
+Novo deck gerado com:
+
+```bash
+pip install python-pptx
+python3 scripts/gerar_apresentacao.py
+```
+
+> O conteúdo dos slides vem dos documentos originais desta pasta e do que está
+> **verificado no repositório**. Nenhum nome, cargo, quantidade, cliente,
+> depoimento ou estatística é inventado para preencher layout.
+
 Documentos técnicos de apoio (fora desta pasta):
 
 | Documento | Para quê |

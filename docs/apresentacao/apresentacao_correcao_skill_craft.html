@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Skill Craft — Correção institucional e finalização</title>
+<style>
+  :root{
+    --deep:#101B3D; --skill:#3155D9; --accent:#6B8CFF;
+    --charcoal:#20232C; --offwhite:#F7F8FC; --ok:#1E8E5A; --warn:#B46A00;
+    --muted:#8A8F9E; --line:#DDE2F0;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    background:#0a0f21; color:var(--charcoal); overflow:hidden;
+    font-family:"Lato","Segoe UI",system-ui,-apple-system,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .deck{position:fixed;inset:0;display:grid;place-items:center;padding:clamp(10px,2vw,32px)}
+  .slide{
+    display:none; position:relative; width:100%; max-width:1240px; aspect-ratio:16/9;
+    background:var(--offwhite); border-radius:14px; overflow:hidden;
+    box-shadow:0 30px 80px rgba(0,0,0,.55);
+    padding:clamp(22px,3.4vw,54px);
+  }
+  .slide.active{display:block; animation:in .32s ease both}
+  @keyframes in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion:reduce){.slide.active{animation:none}}
+
+  .dark{background:var(--deep); color:#fff}
+  .dark .kicker{color:var(--accent)}
+  .dark h1,.dark h2{color:#fff}
+
+  .kicker{
+    font-family:Montserrat,system-ui,sans-serif; font-weight:800; letter-spacing:.16em;
+    text-transform:uppercase; font-size:clamp(9px,.82vw,12px); color:var(--skill);
+  }
+  h1,h2{font-family:Montserrat,system-ui,sans-serif; font-weight:800; letter-spacing:-.02em; line-height:1.08}
+  h1{font-size:clamp(24px,3.1vw,42px); margin-top:.5em; color:var(--deep)}
+  h2{font-size:clamp(20px,2.5vw,34px); margin-top:.32em; color:var(--deep); max-width:24ch}
+  .sub{margin-top:.85em; font-size:clamp(11px,1.05vw,14.5px); line-height:1.5; max-width:74ch; color:#3a3f4d}
+
+  .grid{display:grid; gap:clamp(8px,1vw,16px)}
+  .g4{grid-template-columns:repeat(4,1fr)}
+  .g3{grid-template-columns:repeat(3,1fr)}
+  .g2{grid-template-columns:repeat(2,1fr)}
+
+  .card{background:#fff;border:1px solid var(--line);border-radius:11px;padding:clamp(10px,1.3vw,20px);position:relative}
+  .card h3{font-family:Montserrat,sans-serif;font-size:clamp(11px,1.15vw,15.5px);color:var(--deep);margin-bottom:.45em;line-height:1.2}
+  .card p{font-size:clamp(9.5px,.88vw,12px);line-height:1.45;color:#414654}
+  .card .n{font-family:Montserrat,sans-serif;font-weight:800;color:var(--accent);font-size:clamp(16px,1.9vw,26px);line-height:1;margin-bottom:.5em}
+  .card.acc::before{content:"";position:absolute;left:0;top:16%;height:68%;width:4px;border-radius:2px;background:var(--skill)}
+
+  .check{background:#fff;border:1px solid var(--line);border-radius:9px;padding:clamp(7px,.75vw,11px) clamp(9px,1vw,15px);
+    display:flex;align-items:center;gap:.6em;font-size:clamp(9.5px,.95vw,12.5px);font-weight:600}
+  .dot{width:9px;height:9px;border-radius:50%;background:var(--ok);flex:none}
+
+  table{width:100%;border-collapse:collapse;font-size:clamp(9.5px,.92vw,12.5px);background:#fff;border-radius:10px;overflow:hidden}
+  th{background:var(--deep);color:#fff;text-align:left;font-family:Montserrat,sans-serif;font-weight:700;
+     padding:clamp(7px,.85vw,12px) clamp(9px,1vw,14px);font-size:clamp(9.5px,.9vw,12px)}
+  td{padding:clamp(7px,.8vw,12px) clamp(9px,1vw,14px);border-top:1px solid #eef1f9;vertical-align:middle}
+  tr:nth-child(even) td{background:#F2F5FD}
+  .pill{display:inline-block;padding:.22em .7em;border-radius:99px;background:#E4F4EC;color:var(--ok);
+        font-weight:800;font-size:.92em;white-space:nowrap}
+  .pill.warn{background:#FDF1DF;color:var(--warn)}
+
+  .stat{background:#182750;border-radius:11px;padding:clamp(10px,1.3vw,20px)}
+  .stat b{display:block;font-family:Montserrat,sans-serif;font-size:clamp(18px,2.4vw,32px);color:var(--ok);line-height:1}
+  .stat span{display:block;margin-top:.55em;font-size:clamp(9px,.85vw,11.5px);color:#B8C2DE;line-height:1.35}
+
+  .note{margin-top:auto;background:#ECF0FB;border-radius:10px;padding:clamp(9px,1vw,15px) clamp(12px,1.4vw,20px);
+        font-size:clamp(10px,.95vw,12.5px);line-height:1.45;color:var(--deep)}
+  .accent-line{height:4px;width:clamp(50px,7vw,90px);background:var(--skill);border-radius:2px;margin-top:1.1em}
+  .quote{font-style:italic;color:var(--accent);font-size:clamp(11px,1.15vw,15px);margin-top:.9em}
+
+  .cols{display:flex;flex-direction:column;height:100%}
+  .body{flex:1;display:flex;flex-direction:column;justify-content:center;gap:clamp(8px,1.1vw,16px);min-height:0;margin-top:clamp(10px,1.6vw,26px)}
+  footer.bar{display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:.9em;
+    font-size:clamp(8px,.72vw,9.5px);color:var(--muted)}
+  .dark footer.bar{color:#8A97BC}
+
+  .list li{list-style:none;font-size:clamp(10px,.95vw,12.5px);line-height:1.35;margin-bottom:.62em;padding-left:1em;position:relative;color:#D8DFF2}
+  .list li::before{content:"—";position:absolute;left:0;opacity:.65}
+  .list.white li{color:#fff}
+  .panel{background:#182750;border-radius:12px;padding:clamp(12px,1.5vw,24px)}
+  .panel h4{font-family:Montserrat,sans-serif;font-size:clamp(9px,.82vw,10.5px);letter-spacing:.14em;text-transform:uppercase;margin-bottom:.9em}
+
+  .big{font-family:Montserrat,sans-serif;font-weight:800;color:#fff;font-size:clamp(21px,2.9vw,38px);line-height:1.14}
+
+  .hud{position:fixed;right:14px;bottom:12px;display:flex;gap:8px;align-items:center;z-index:9;
+       font-size:12px;color:#7f8db3;font-family:Montserrat,sans-serif}
+  .hud button{background:#1b2440;color:#cfd7ee;border:1px solid #2c3a63;border-radius:7px;
+              width:30px;height:28px;cursor:pointer;font-size:13px}
+  .hud button:hover{background:#26325a}
+  @media print{
+    body{overflow:visible;background:#fff}
+    .deck{position:static;display:block;padding:0}
+    .slide{display:block!important;page-break-after:always;box-shadow:none;border-radius:0;max-width:none;margin:0}
+    .hud{display:none}
+  }
+  @media (max-width:820px){
+    .g4,.g3,.g2{grid-template-columns:1fr 1fr}
+    .deck{padding:0}
+    .slide{aspect-ratio:auto;min-height:100dvh;border-radius:0;overflow:auto}
+  }
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+
+  <!-- 1 -->
+  <section class="slide dark active">
+    <div class="cols">
+      <span class="kicker">Correção institucional e finalização</span>
+      <div class="body">
+        <h1 style="color:#fff;max-width:20ch">Skill Craft: verdade do projeto, sem informação inventada</h1>
+        <div class="accent-line" style="background:var(--skill)"></div>
+        <p class="quote">“Aprenda, desenvolva e prepare-se para o mercado.”</p>
+        <p class="sub" style="color:#B8C2DE">Projeto Integrador 2026 · Administração · Tecnologia da Informação · Design</p>
+        <p class="sub" style="color:#8A97BC;margin-top:.4em">Apresentação da auditoria e das correções aplicadas</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="slide">
+    <div class="cols">
+      <span class="kicker">O que esta apresentação responde</span>
+      <h2>Auditoria primeiro. Correção depois. Nenhuma invenção.</h2>
+      <p class="sub">A ordem pedida foi seguida à risca: nenhuma funcionalidade nova foi criada antes de resolver as informações falsas.</p>
+      <div class="body">
+        <div class="grid g4">
+          <div class="card"><div class="n">1</div><h3>Auditoria completa</h3><p>Busca por nomes, cargos, quantidades e áreas inexistentes em código, dados, documentação e bundle de produção.</p></div>
+          <div class="card"><div class="n">2</div><h3>Correção na origem</h3><p>Conteúdo fictício removido na fonte — não escondido com CSS, não escondido no componente vizinho.</p></div>
+          <div class="card"><div class="n">3</div><h3>Fidelidade ao projeto</h3><p>Áreas, serviços e preços mantidos exatamente como nos documentos originais da equipe.</p></div>
+          <div class="card"><div class="n">4</div><h3>Verificação</h3><p>Build, checagem de tipos e 76 verificações automatizadas executadas de verdade.</p></div>
+        </div>
+        <div class="note"><strong>Regra que orientou todo o trabalho:</strong> é melhor apresentar menos informações do que publicar informações falsas.</div>
+      </div>
+      <footer class="bar"><span>Skill Craft · Correção institucional e finalização · 17/11/2026</span><span>02</span></footer>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="slide dark">
+    <div class="cols">
+      <span class="kicker">Prioridade 1 · resultado</span>
+      <h2 style="color:#fff">O que foi encontrado e onde estava</h2>
+      <div class="body">
+        <table>
+          <thead><tr><th>Informação inventada</th><th>Onde aparecia</th><th>Situação hoje</th></tr></thead>
+          <tbody>
+            <tr><td>“Ethan” — pessoa fictícia</td><td>Seção de equipe / dados do site</td><td><span class="pill">Removido</span></td></tr>
+            <tr><td>“Emily” / “Emilyn” — pessoa fictícia</td><td>Seção de equipe / textos de apoio</td><td><span class="pill">Removido</span></td></tr>
+            <tr><td>Área de “Marketing”</td><td>Página inicial, menu, cards, texto institucional</td><td><span class="pill">Removida</span></td></tr>
+            <tr><td>Quantidade de integrantes e cargos</td><td>Seção de equipe</td><td><span class="pill">Removidos</span></td></tr>
+            <tr><td>Descrições institucionais sem fonte</td><td>Cards e páginas internas</td><td><span class="pill">Substituídas por conteúdo documentado</span></td></tr>
+          </tbody>
+        </table>
+        <div class="note" style="background:#182750;color:#B8C2DE">A correção definitiva foi registrada no PR #7 (merge em 17/11/2026). Esta auditoria reconfirmou, no estado atual do repositório, que nada disso permanece.</div>
+      </div>
+      <footer class="bar"><span>Skill Craft · Correção institucional e finalização · 17/11/2026</span><span>03</span></footer>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="slide">
+    <div class="cols">
+      <span class="kicker">Prioridade 1 · correção</span>
+      <h2>Áreas oficiais: Administração, TI e Design</h2>
+      <p class="sub">Nomenclatura do responsável pelo projeto, preservada nos documentos originais. Marketing nunca existiu no projeto.</p>
+      <div class="body">
+        <div class="grid g3">
+          <div class="card" style="border-top:4px solid var(--skill)"><h3>ADM · Administração</h3><p>Modelo do negócio, público-alvo, serviços, preços e fluxo de atendimento.</p></div>
+          <div class="card" style="border-top:4px solid var(--deep)"><h3>TI · Tecnologia da Informação</h3><p>Presença digital: site, autenticação, banco de dados e ferramentas.</p></div>
+          <div class="card" style="border-top:4px solid var(--accent)"><h3>Design</h3><p>Identidade visual, logotipo, paleta oficial e peças de divulgação.</p></div>
+        </div>
+        <div class="note"><strong>Sem “Marketing”. Sem quarta área. Sem departamento criado por conta própria.</strong><br>
+        Os três nomes aparecem iguais na página inicial, no menu, nos cards, no painel, no laboratório, nos tutoriais, nos formulários, no rodapé, na documentação e nos dados de demonstração.</div>
+      </div>
+      <footer class="bar"><span>Skill Craft · Correção institucional e finalização · 17/11/2026</span><span>04</span></footer>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="slide">
+    <div class="cols">
+      <span class="kicker">Verificação ponta a ponta</span>
+      <h2>Mesma organização em todos os pontos do projeto</h2>
+      <p class="sub">Cada local foi conferido individualmente — a consistência não ficou só na página inicial.</p>
+      <div class="body">
+        <div class="grid g3" id="locais"></div>
+        <p class="sub" style="font-style:italic;color:#6B7080">Sem nomes antigos escondidos em componentes que não aparecem na página inicial.</p>
+      </div>
+      <footer class="bar"><span>Skill Craft · Correção institucional e finalização · 17/11/2026</span><span>05</span></footer>
+    </div>
+  </section>
+
+  <!-- 6 -->
+  <section class="slide">
+    <div class="cols">
+      <span class="kicker">Atenção especial</span>
+      <h2>A seção Equipe: nenhum nome, nenhuma quantidade</h2>
+      <p class="sub">Sem informações confirmadas para divulgação, a seção não foi preenchida com personagens. Ficou pronta para receber dados reais.</p>
+      <div class="body">
+        <div class="grid g3">
+          <div class="card acc"><h3>O que saiu</h3><p>Nomes inventados, cargos criados automaticamente, contagem de pessoas e fotos de banco de imagens representando integrantes.</p></div>
+          <div class="card acc"><h3>O que ficou</h3><p>As três áreas de atuação com a responsabilidade real de cada uma, descrita no Projeto Integrador.</p></div>
+          <div class="card acc"><h3>O que não foi feito</h3><p>Nenhuma história pessoal, qualificação, experiência profissional ou depoimento foi criado.</p></div>
+        </div>
+        <div class="note">A composição real da equipe continua preservada no documento original (<code>docs/originais/equipe_envolvidos.md</code>) e só será divulgada quando a equipe autorizar.</div>
+      </div>
+      <footer class="bar"><span>Skill Craft · Correção institucional e finalização · 17/11/2026</span><span>06</span></footer>
+    </div>
+  </section>
+
+  <!-- 7 -->
+  <section class="slide dark">
+    <div class="cols">
+      <span class="kicker">Critério de verdade</span>
+      <h2 style="color:#fff">O que é comprovado — e o que o projeto não declara</h2>
+      <div class="body">
+        <div class="grid g2">
+          <div class="panel">
+            <h4 style="color:var(--accent)">Comprovado pelos documentos</h4>
+            <ul class="list white">
+              <li>Missão, público-alvo e três áreas</li>
+              <li>Cinco serviços e preços de referência</li>
+              <li>Cinco etapas do atendimento</li>
+              <li>Logotipo, paleta e tipografia oficiais</li>
+              <li>Funcionalidades implementadas no site</li>
+            </ul>
+          </div>
+          <div class="panel">
+            <h4 style="color:#F0B46A">Não declarado pelo projeto</h4>
+            <ul class="list">
+              <li>Nomes e quantidade de integrantes</li>
+              <li>Clientes atendidos e depoimentos</li>
+              <li>Faturamento e resultados comerciais</li>
+              <li>Estatísticas de desempenho</li>
+              <li>Cargos e histórias pessoais</li>
+            </ul>
+          </div>
+        </div>
+        <p class="quote" style="margin-top:.2em">Se a informação não existe, o campo fica de fora. O layout não é preenchido com ficção.</p>
+      </div>
+      <footer class="bar"><span>Skill Craft · Correção institucional e finalização · 17/11/2026</span><span>07</span></footer>
+    </div>
+  </section>
+
+  <!-- 8 -->
+  <section class="slide">
+    <div class="cols">
+      <span class="kicker">Preservado, não reformulado</span>
+      <h2>Serviços e preços oficiais continuam intactos</h2>
+      <p class="sub">Tabela consolidada pela equipe (<code>servicos_precos.xlsx</code>). Nenhum valor foi alterado, criado ou removido.</p>
+      <div class="body">
+        <div class="grid g2" style="grid-template-columns:1.6fr 1fr;align-items:stretch">
+          <table>
+            <thead><tr><th>Serviço</th><th>Preço de referência</th></tr></thead>
+            <tbody>
+              <tr><td>Criação de apresentações</td><td>R$ 15,00</td></tr>
+              <tr><td>Criação de sites simples</td><td>R$ 30,00</td></tr>
+              <tr><td>Revisão de trabalhos</td><td>R$ 10,00</td></tr>
+              <tr><td>Resumos técnicos</td><td>R$ 10,00</td></tr>
+              <tr><td>Criação de artes e logotipos</td><td>R$ 15,00</td></tr>
+            </tbody>
+          </table>
+          <div class="card">
+            <h3 style="color:var(--skill);letter-spacing:.1em;font-size:.8em">INALTERADO</h3>
+            <p>Autenticação, integração Supabase, configurações da Vercel, pedidos comerciais e identidade visual aprovada.</p>
+          </div>
+        </div>
+        <div class="note">Alterações pontuais e seguras: nada foi substituído, nenhuma funcionalidade foi removida sem necessidade.</div>
+      </div>
+      <footer class="bar"><span>Skill Craft · Correção institucional e finalização · 17/11/2026</span><span>08</span></footer>
+    </div>
+  </section>
+
+  <!-- 9 -->
+  <section class="slide">
+    <div class="cols">
+      <span class="kicker">Prioridades 2 e 3 · revisão</span>
+      <h2>Apresentação e funcionalidades conferidas</h2>
+      <p class="sub">Página inicial, equipe, menus, cards, páginas internas, rodapé e versão para celular.</p>
+      <div class="body">
+        <div class="grid g2">
+          <div class="card">
+            <h3 style="color:var(--skill);letter-spacing:.1em;font-size:.82em">REVISÃO VISUAL</h3>
+            <ul class="list" style="margin-top:.5em">
+              <li style="color:#414654">Página inicial e seção da equipe</li>
+              <li style="color:#414654">Menu, cards e páginas internas</li>
+              <li style="color:#414654">Rodapé e versão mobile</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3 style="color:var(--skill);letter-spacing:.1em;font-size:.82em">FUNCIONALIDADES</h3>
+            <ul class="list" style="margin-top:.5em">
+              <li style="color:#414654">Links, botões e navegação</li>
+              <li style="color:#414654">Login e área do aluno</li>
+              <li style="color:#414654">Áreas Design, Administração e TI</li>
+            </ul>
+          </div>
+        </div>
+        <div class="note">Nenhuma alteração quebrou o que já funcionava: as rotas, o formulário, a área do aluno e o painel administrativo seguem respondendo.</div>
+      </div>
+      <footer class="bar"><span>Skill Craft · Correção institucional e finalização · 17/11/2026</span><span>09</span></footer>
+    </div>
+  </section>
+
+  <!-- 10 -->
+  <section class="slide dark">
+    <div class="cols">
+      <span class="kicker">Prioridade 4 · finalização</span>
+      <h2 style="color:#fff">Executado de verdade, com resultado</h2>
+      <div class="body">
+        <div class="grid g4">
+          <div class="stat"><b>76 / 76</b><span>verificações automatizadas aprovadas</span></div>
+          <div class="stat"><b>0</b><span>ocorrências de “Ethan”, “Emily” e “Marketing”</span></div>
+          <div class="stat"><b>3</b><span>áreas oficiais consistentes no site</span></div>
+          <div class="stat"><b>0</b><span>erros de build ou de checagem de tipos</span></div>
+        </div>
+        <p class="sub" style="color:#B8C2DE;max-width:80ch"><strong style="color:#fff">Build de produção: concluído sem erro.</strong> A checagem varre a página inicial, as rotas, o formulário, a área do aluno, o painel, as ferramentas, a central de ajuda, a acessibilidade e a abertura animada.</p>
+      </div>
+      <footer class="bar"><span>Skill Craft · Correção institucional e finalização · 17/11/2026</span><span>10</span></footer>
+    </div>
+  </section>
+
+  <!-- 11 -->
+  <section class="slide">
+    <div class="cols">
+      <span class="kicker">Transparência final</span>
+      <h2>O que ainda depende de ação externa</h2>
+      <p class="sub">Declarado como pendência real — nada aqui foi simulado como concluído.</p>
+      <div class="body">
+        <table>
+          <thead><tr><th>Item</th><th>Situação real</th></tr></thead>
+          <tbody>
+            <tr><td>Publicação na Vercel</td><td>Deploy automático do branch principal; conferência feita pelo build de produção</td></tr>
+            <tr><td>Projeto Supabase ativo + provedor Google</td><td><span class="pill warn">Padrão</span> Depende de credenciais externas ao repositório</td></tr>
+            <tr><td>Variáveis <code>VITE_SUPABASE_*</code> na Vercel</td><td>Dependem de configuração no painel da Vercel</td></tr>
+            <tr><td>Divulgação de nomes da equipe</td><td>Aguardando autorização da equipe</td></tr>
+          </tbody>
+        </table>
+        <div class="note">Sem essas configurações, login, banco e painel aparecem no site como pendência declarada — o produto nunca simula um envio que não aconteceu.</div>
+      </div>
+      <footer class="bar"><span>Skill Craft · Correção institucional e finalização · 17/11/2026</span><span>11</span></footer>
+    </div>
+  </section>
+
+  <!-- 12 -->
+  <section class="slide dark">
+    <div class="cols">
+      <span class="kicker">Regra final</span>
+      <div class="body">
+        <p class="big">Não inventar nada.<br>Não alterar a estrutura da empresa.<br>Não criar nomes nem quantidades.</p>
+        <div class="accent-line" style="background:var(--skill)"></div>
+        <p class="sub" style="color:#B8C2DE;max-width:70ch">O projeto foi corrigido, não reinventado. Toda informação publicada agora tem origem nos documentos da equipe.</p>
+      </div>
+      <footer class="bar"><span>Skill Craft · Projeto Integrador 2026</span></footer>
+    </div>
+  </section>
+
+</div>
+
+<div class="hud">
+  <button id="prev" aria-label="Slide anterior">‹</button>
+  <span id="count">1 / 12</span>
+  <button id="next" aria-label="Próximo slide">›</button>
+</div>
+
+<script>
+  const locais = ["Página inicial","Menu de navegação","Apresentação institucional","Seção da equipe",
+    "Cards de serviço","Painel do usuário","Laboratório e ferramentas","Tutoriais e ajuda",
+    "Formulários","Rodapé","Documentação","Banco de dados e migrations"];
+  document.getElementById('locais').innerHTML = locais
+    .map(n => `<div class="check"><span class="dot"></span>${n}</div>`).join('');
+
+  const slides = [...document.querySelectorAll('.slide')];
+  const count = document.getElementById('count');
+  let i = 0;
+  function show(n){
+    i = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach((s, k) => s.classList.toggle('active', k === i));
+    count.textContent = `${i + 1} / ${slides.length}`;
+    try { history.replaceState(null, '', '#' + (i + 1)); } catch (e) {}
+  }
+  document.getElementById('next').onclick = () => show(i + 1);
+  document.getElementById('prev').onclick = () => show(i - 1);
+  addEventListener('keydown', e => {
+    if (['ArrowRight','ArrowDown','PageDown',' '].includes(e.key)) { e.preventDefault(); show(i + 1); }
+    if (['ArrowLeft','ArrowUp','PageUp'].includes(e.key)) { e.preventDefault(); show(i - 1); }
+    if (e.key === 'Home') show(0);
+    if (e.key === 'End') show(slides.length - 1);
+  });
+  addEventListener('click', e => {
+    if (e.target.closest('.hud')) return;
+    show(e.clientX > innerWidth * 0.5 ? i + 1 : i - 1);
+  });
+  const inicial = parseInt(location.hash.replace('#',''), 10);
+  show(Number.isFinite(inicial) && inicial > 0 ? inicial - 1 : 0);
+</script>
+</body>
+</html>
