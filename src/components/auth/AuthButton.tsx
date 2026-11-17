@@ -125,7 +125,7 @@ export function AuthButton({ compacto = false }: { compacto?: boolean }) {
         type="button"
         onClick={aoClicarLogin}
         disabled={entrando}
-        className={`inline-flex items-center justify-center gap-2 rounded-xl border border-offwhite-50/15 bg-offwhite-50/[0.04] font-display text-xs font-bold text-offwhite-50 transition-all duration-300 hover:-translate-y-0.5 hover:border-accent-400/50 hover:bg-offwhite-50/10 active:translate-y-0 disabled:pointer-events-none disabled:opacity-60 ${
+        className={`inline-flex items-center justify-center gap-2 rounded-xl border border-offwhite-50/15 bg-offwhite-50/[0.04] font-display text-xs font-bold text-offwhite-50 transition-colors duration-200 hover:border-accent-400/50 hover:bg-offwhite-50/10 active:translate-y-0 disabled:pointer-events-none disabled:opacity-60 ${
           compacto ? 'px-3.5 py-2.5' : 'w-full px-5 py-3'
         }`}
       >

@@ -1,4 +1,4 @@
-import { Briefcase, Code2, Handshake, PenTool, ShieldCheck, Workflow } from 'lucide-react'
+import { Briefcase, Code2, Handshake, Megaphone, ShieldCheck, Workflow } from 'lucide-react'
 import { FRASES_APOIO } from '../../config/site'
 import { Reveal } from '../ui/Reveal'
 import { SectionHeader } from '../ui/SectionHeader'
@@ -20,16 +20,16 @@ const PILARES = [
     texto: 'TI aplica ferramentas digitais, lógica e boas práticas em tudo o que é construído, do resumo ao site.',
   },
   {
-    icone: PenTool,
+    icone: Megaphone,
     titulo: 'Comunicação que valoriza',
-    texto: 'Design garante estética, clareza e identidade visual para o seu trabalho causar a impressão certa.',
+    texto: 'Marketing cuida da clareza, da identidade visual e da divulgação para o seu trabalho causar a impressão certa.',
   },
 ]
 
 const NOS = [
   { icone: Briefcase, label: 'Administração', classe: 'top-0 left-1/2 -translate-x-1/2' },
   { icone: Code2, label: 'TI', classe: 'bottom-[6%] left-[2%]' },
-  { icone: PenTool, label: 'Design', classe: 'bottom-[6%] right-[2%]' },
+  { icone: Megaphone, label: 'Marketing', classe: 'bottom-[6%] right-[2%]' },
 ]
 
 export function Differentials() {
@@ -47,7 +47,7 @@ export function Differentials() {
               O que nenhuma área sozinha <span className="text-gradient-skill">conseguiria entregar</span>
             </>
           }
-          lead="A Skill Craft existe na interseção de Administração, Tecnologia da Informação e Design Gráfico. É essa integração que transforma um pedido simples em um resultado completo."
+          lead="A Skill Craft existe na interseção de Administração, Tecnologia da Informação e Marketing. É essa integração que transforma um pedido simples em um resultado completo."
         />
 
         {/* órbita da integração */}
@@ -60,18 +60,12 @@ export function Differentials() {
               <path d="M200 200 L326 306" stroke="#6B8CFF" strokeOpacity="0.3" strokeWidth="1" strokeDasharray="4 7" />
             </svg>
 
-            {/* anel de luz giratório */}
+            {/* anel interno fixo: geometria da marca sem animação contínua */}
             <span
               aria-hidden="true"
-              className="animate-spin-slow absolute inset-8 rounded-full"
-              style={{
-                background:
-                  'conic-gradient(from 0deg, transparent 0 34%, rgba(107,140,255,0.55) 48%, rgba(147,171,255,0.85) 52%, transparent 66% 100%)',
-                WebkitMask: 'radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 1px))',
-                mask: 'radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 1px))',
-              }}
+              className="absolute inset-8 rounded-full border border-accent-400/20"
             />
-            <span aria-hidden="true" className="absolute inset-16 rounded-full bg-skill-500/12 blur-2xl animate-pulse-soft" />
+            <span aria-hidden="true" className="absolute inset-16 rounded-full bg-skill-500/10 blur-2xl" />
 
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
               <img
@@ -80,7 +74,7 @@ export function Differentials() {
                 className="h-28 w-28 sm:h-32 sm:w-32"
                 width={32}
                 height={22}
-                style={{ filter: 'drop-shadow(0 0 26px rgba(49,85,217,0.55))' }}
+                style={{ filter: 'drop-shadow(0 6px 18px rgba(8,15,36,0.45))' }}
               />
               <span className="mt-4 flex items-center justify-center gap-1.5 rounded-full border border-accent-400/30 bg-accent-400/10 px-3.5 py-1 font-caption text-[0.62rem] font-bold tracking-[0.16em] text-accent-300 uppercase backdrop-blur-sm">
                 <Handshake className="h-3 w-3" aria-hidden="true" />
@@ -105,7 +99,7 @@ export function Differentials() {
             <Reveal key={pilar.titulo} delay={0.08 + i * 0.09}>
               <div className="group border-b border-offwhite-50/8 pb-8">
                 <div className="flex items-center gap-3.5">
-                  <span className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-accent-400/10 text-accent-400 transition-all duration-500 group-hover:bg-gradient-to-br group-hover:from-skill-600 group-hover:to-accent-400 group-hover:text-offwhite-50">
+                  <span className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-accent-400/10 text-accent-400 transition-colors duration-300 group-hover:bg-accent-400/18 group-hover:text-accent-300">
                     <pilar.icone className="h-4 w-4" aria-hidden="true" />
                   </span>
                   <h3 className="font-display text-base font-bold text-offwhite-50">{pilar.titulo}</h3>

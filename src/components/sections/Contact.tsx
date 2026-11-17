@@ -1,7 +1,8 @@
-import { useEffect, useId, useRef, useState, type FormEvent } from 'react'
+import { useEffect, useId, useMemo, useRef, useState, type FormEvent } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import {
   AtSign,
+  CalendarDays,
   ChevronDown,
   CircleAlert,
   Info,
@@ -17,10 +18,13 @@ import { CONTATO, MEIOS_CONTATO, SERVICOS, type MeioContato } from '../../config
 import { useAuth } from '../../context/AuthContext'
 import { enviarSolicitacao, type ResultadoEnvio } from '../../lib/solicitations'
 import {
+  CAMPOS_OBRIGATORIOS,
   validarContato,
   validarDescricao,
+  validarInformacoes,
   validarMeio,
   validarNome,
+  validarPrazo,
   validarServico,
   type CampoFormulario,
 } from '../../lib/validation'
@@ -32,15 +36,61 @@ type Formulario = {
   nome: string
   servico: string
   descricao: string
+  prazo: string
+  informacoes: string
   meio: MeioContato | ''
   contato: string
 }
 
-const FORM_INICIAL: Formulario = { nome: '', servico: '', descricao: '', meio: '', contato: '' }
+const FORM_INICIAL: Formulario = {
+  nome: '',
+  servico: '',
+  descricao: '',
+  prazo: '',
+  informacoes: '',
+  meio: '',
+  contato: '',
+}
+
+/** Último contato usado neste navegador — agiliza uma nova solicitação (opcional). */
+const CHAVE_ULTIMO_CONTATO = 'skillcraft:formulario:ultimo-contato'
+
+type UltimoContato = { meio: MeioContato; contato: string; nome: string }
+
+function lerUltimoContato(): UltimoContato | null {
+  try {
+    const bruto = localStorage.getItem(CHAVE_ULTIMO_CONTATO)
+    if (!bruto) return null
+    const dados = JSON.parse(bruto) as Partial<UltimoContato>
+    if (typeof dados.meio !== 'string' || typeof dados.contato !== 'string') return null
+    return { meio: dados.meio as MeioContato, contato: dados.contato, nome: dados.nome ?? '' }
+  } catch {
+    return null
+  }
+}
+
+function salvarUltimoContato(dados: UltimoContato): void {
+  try {
+    localStorage.setItem(CHAVE_ULTIMO_CONTATO, JSON.stringify(dados))
+  } catch {
+    /* sem armazenamento disponível — o formulário segue funcionando */
+  }
+}
+
+function hojeIso(): string {
+  const agora = new Date()
+  const mes = String(agora.getMonth() + 1).padStart(2, '0')
+  const dia = String(agora.getDate()).padStart(2, '0')
+  return `${agora.getFullYear()}-${mes}-${dia}`
+}
 
 export function Contact({ preSelecao }: ContactProps) {
   const { usuario } = useAuth()
-  const [form, setForm] = useState<Formulario>(FORM_INICIAL)
+  const ultimoContato = useMemo(() => lerUltimoContato(), [])
+  const [form, setForm] = useState<Formulario>(() => ({
+    ...FORM_INICIAL,
+    ...(ultimoContato ?? {}),
+  }))
   const [erros, setErros] = useState<Partial<Record<CampoFormulario, string>>>({})
   const [tocados, setTocados] = useState<Partial<Record<CampoFormulario, boolean>>>({})
   const [status, setStatus] = useState<'ocioso' | 'enviando' | 'sucesso'>('ocioso')
@@ -54,6 +104,13 @@ export function Contact({ preSelecao }: ContactProps) {
     setStatus('ocioso')
   }, [preSelecao])
 
+  // Com sessão ativa, o nome vem da conta Google (não precisa redigitar).
+  useEffect(() => {
+    const nomeConta = usuario?.user_metadata?.full_name
+    if (typeof nomeConta !== 'string' || !nomeConta) return
+    setForm((f) => (f.nome ? f : { ...f, nome: nomeConta }))
+  }, [usuario])
+
   const validarCampo = (campo: CampoFormulario, valor: Formulario): string | null => {
     switch (campo) {
       case 'nome':
@@ -62,6 +119,10 @@ export function Contact({ preSelecao }: ContactProps) {
         return validarServico(valor.servico)
       case 'descricao':
         return validarDescricao(valor.descricao)
+      case 'prazo':
+        return validarPrazo(valor.prazo)
+      case 'informacoes':
+        return validarInformacoes(valor.informacoes)
       case 'meio':
         return validarMeio(valor.meio)
       case 'contato':
@@ -83,28 +144,35 @@ export function Contact({ preSelecao }: ContactProps) {
 
   const aoEnviar = async (evento: FormEvent) => {
     evento.preventDefault()
-    const campos: CampoFormulario[] = ['nome', 'servico', 'descricao', 'meio', 'contato']
+    const campos: CampoFormulario[] = ['nome', 'servico', 'descricao', 'prazo', 'informacoes', 'meio', 'contato']
     const novosErros: Partial<Record<CampoFormulario, string>> = {}
     for (const campo of campos) {
       const erro = validarCampo(campo, form)
       if (erro) novosErros[campo] = erro
     }
-    setTocados({ nome: true, servico: true, descricao: true, meio: true, contato: true })
+    setTocados(Object.fromEntries(campos.map((campo) => [campo, true])))
     setErros(novosErros)
     if (Object.values(novosErros).some(Boolean)) {
-      const primeiro = campos.find((c) => novosErros[c])
-      document.getElementById(`${idBase}-${primeiro}`)?.focus()
+      const primeiro =
+        CAMPOS_OBRIGATORIOS.find((c) => novosErros[c]) ?? campos.find((c) => novosErros[c])
+      if (primeiro) document.getElementById(`${idBase}-${primeiro}`)?.focus()
       return
     }
 
     setStatus('enviando')
     const servico = SERVICOS.find((s) => s.id === form.servico)
+    // validação já garantiu meio preenchido; guardado só para agilizar a próxima solicitação
+    if (form.meio) {
+      salvarUltimoContato({ meio: form.meio, contato: form.contato.trim(), nome: form.nome.trim() })
+    }
     const envio = await enviarSolicitacao(
       {
         nome: form.nome.trim(),
         servicoId: form.servico,
         servicoTitulo: servico?.titulo ?? form.servico,
         descricao: form.descricao.trim(),
+        prazo: form.prazo.trim() || null,
+        informacoes: form.informacoes.trim(),
         meioContato: form.meio,
         contato: form.contato.trim(),
       },
@@ -163,7 +231,15 @@ export function Contact({ preSelecao }: ContactProps) {
                 <ul className="mt-8 space-y-4">
                   {[
                     { icone: Wallet, texto: 'Sem pagamento online: valores e combinados são fechados diretamente com a equipe.' },
-                    { icone: ShieldCheck, texto: 'Seus dados são usados apenas para retornar o contato sobre este pedido.' },
+                    {
+                      icone: ShieldCheck,
+                      texto:
+                        'Coletamos só o necessário: nome, pedido e um contato de retorno. O último contato fica guardado neste navegador para agilizar uma nova solicitação.',
+                    },
+                    {
+                      icone: CalendarDays,
+                      texto: 'Prazo desejado e informações complementares são opcionais — ajudam a equipe a entender o pedido.',
+                    },
                     {
                       icone: Info,
                       texto: 'Sem backend configurado? O formulário valida tudo e salva um rascunho local declarado — nenhum envio falso é simulado.',
@@ -351,6 +427,76 @@ export function Contact({ preSelecao }: ContactProps) {
                           {erroDe('descricao')}
                         </p>
                       )}
+                    </div>
+
+                    <div className="grid items-start gap-5 sm:grid-cols-2">
+                      <div>
+                        <label htmlFor={`${idBase}-prazo`} className="field-label">
+                          Prazo desejado{' '}
+                          <span className="font-body text-[0.65rem] font-normal normal-case text-offwhite-100/40">
+                            (opcional)
+                          </span>
+                        </label>
+                        <div className="relative">
+                          <input
+                            id={`${idBase}-prazo`}
+                            type="date"
+                            min={hojeIso()}
+                            className={`field-input ${erroDe('prazo') ? 'field-input-error' : ''} [color-scheme:dark]`}
+                            value={form.prazo}
+                            onChange={(e) => aoMudar('prazo', e.target.value)}
+                            onBlur={() => aoSair('prazo')}
+                            aria-invalid={Boolean(erroDe('prazo'))}
+                            aria-describedby={erroDe('prazo') ? idErro('prazo') : `${idBase}-prazo-ajuda`}
+                          />
+                          <CalendarDays
+                            className="pointer-events-none absolute top-1/2 right-3.5 h-4 w-4 -translate-y-1/2 text-offwhite-100/35"
+                            aria-hidden="true"
+                          />
+                        </div>
+                        {erroDe('prazo') ? (
+                          <p id={idErro('prazo')} className="field-error" role="alert">
+                            <CircleAlert className="h-3.5 w-3.5" aria-hidden="true" />
+                            {erroDe('prazo')}
+                          </p>
+                        ) : (
+                          <p id={`${idBase}-prazo-ajuda`} className="mt-1.5 font-caption text-xs text-offwhite-100/40">
+                            A data ajuda a equipe a avaliar a viabilidade — o prazo final é combinado no orçamento.
+                          </p>
+                        )}
+                      </div>
+
+                      <div>
+                        <div className="flex items-baseline justify-between">
+                          <label htmlFor={`${idBase}-informacoes`} className="field-label">
+                            Informações complementares{' '}
+                            <span className="font-body text-[0.65rem] font-normal normal-case text-offwhite-100/40">
+                              (opcional)
+                            </span>
+                          </label>
+                          <span className="font-caption text-[0.65rem] text-offwhite-100/40">
+                            {form.informacoes.length}/300
+                          </span>
+                        </div>
+                        <textarea
+                          id={`${idBase}-informacoes`}
+                          rows={2}
+                          maxLength={300}
+                          className={`field-input resize-none ${erroDe('informacoes') ? 'field-input-error' : ''}`}
+                          placeholder="Formato de entrega, modelo exigido, observações…"
+                          value={form.informacoes}
+                          onChange={(e) => aoMudar('informacoes', e.target.value)}
+                          onBlur={() => aoSair('informacoes')}
+                          aria-invalid={Boolean(erroDe('informacoes'))}
+                          aria-describedby={erroDe('informacoes') ? idErro('informacoes') : undefined}
+                        />
+                        {erroDe('informacoes') && (
+                          <p id={idErro('informacoes')} className="field-error" role="alert">
+                            <CircleAlert className="h-3.5 w-3.5" aria-hidden="true" />
+                            {erroDe('informacoes')}
+                          </p>
+                        )}
+                      </div>
                     </div>
 
                     <div className="grid gap-5 sm:grid-cols-2">

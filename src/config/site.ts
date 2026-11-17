@@ -23,7 +23,7 @@ export const SERVICOS: Servico[] = [
       'Slides organizados e visualmente atrativos, com hierarquia clara de informações para seminários e trabalhos.',
     preco: 15,
     precoLabel: 'R$ 15,00',
-    area: 'Design Gráfico',
+    area: 'Marketing',
     icone: 'presentation',
   },
   {
@@ -63,7 +63,7 @@ export const SERVICOS: Servico[] = [
       'Cartazes, logotipos e materiais de divulgação com identidade visual consistente para sua ideia.',
     preco: 15,
     precoLabel: 'R$ 15,00',
-    area: 'Design Gráfico',
+    area: 'Marketing',
     icone: 'palette',
   },
 ]
@@ -113,7 +113,7 @@ export type Area = {
   titulo: string
   resumo: string
   itens: string[]
-  icone: 'briefcase' | 'code' | 'pen-tool'
+  icone: 'briefcase' | 'code' | 'megaphone'
 }
 
 export const AREAS: Area[] = [
@@ -142,26 +142,38 @@ export const AREAS: Area[] = [
     icone: 'code',
   },
   {
-    id: 'design',
-    titulo: 'Design Gráfico',
+    id: 'marketing',
+    titulo: 'Marketing',
     resumo:
-      'Estética, comunicação e identidade: o cuidado visual que faz cada entrega transmitir profissionalismo.',
+      'Comunicação, identidade e divulgação: é como a Skill Craft se apresenta e como cada entrega chega clara ao público.',
     itens: [
-      'Design gráfico e digital',
+      'Identidade visual e materiais de divulgação',
       'Apresentações, artes e logotipos',
-      'Orientação para portfólio',
+      'Comunicação com o público e divulgação',
     ],
-    icone: 'pen-tool',
+    icone: 'megaphone',
   },
 ] as Area[]
 
+/** Todas as âncoras da página institucional (rodapé, menu e scroll-spy). */
 export const NAV_LINKS = [
   { id: 'inicio', label: 'Início' },
   { id: 'sobre', label: 'Sobre nós' },
   { id: 'servicos', label: 'Serviços' },
   { id: 'como-funciona', label: 'Como funciona' },
   { id: 'diferenciais', label: 'Diferenciais' },
+  { id: 'equipe', label: 'Equipe' },
+  { id: 'recursos', label: 'Recursos' },
   { id: 'contato', label: 'Contato' },
+] as const
+
+/** Subconjunto exibido na barra principal em telas largas (evita excesso de itens). */
+export const NAV_PRINCIPAL = ['inicio', 'servicos', 'como-funciona', 'equipe', 'recursos', 'contato'] as const
+
+/** Páginas próprias (rotas em hash), separadas da página institucional. */
+export const NAV_PAGINAS = [
+  { rota: 'ferramentas', label: 'Ferramentas' },
+  { rota: 'ajuda', label: 'Ajuda' },
 ] as const
 
 export const SLOGAN_PRINCIPAL = 'Aprenda, desenvolva e prepare-se para o mercado.'
@@ -188,3 +200,168 @@ export const MEIOS_CONTATO = [
 ] as const
 
 export type MeioContato = (typeof MEIOS_CONTATO)[number]['id']
+
+/* ------------------------------------------------------------------ *
+ * Equipe — composição OFICIAL atual (confirmada pela equipe).
+ * Substitui qualquer composição anterior. Nomes de ADM e Marketing não
+ * são divulgados no material oficial e, por isso, não aparecem aqui:
+ * nada de nome inventado. A composição anterior fica preservada apenas
+ * como histórico em docs/originais/equipe_envolvidos.md.
+ * ------------------------------------------------------------------ */
+export type EquipeArea = {
+  id: 'ti' | 'adm' | 'marketing'
+  titulo: string
+  sigla: string
+  integrantes: number
+  /** Nomes oficialmente informados. Vazio quando a equipe não os divulgou. */
+  nomes: string[]
+  papel: string
+  frentes: string[]
+  icone: 'code' | 'briefcase' | 'megaphone'
+}
+
+export const EQUIPE: EquipeArea[] = [
+  {
+    id: 'ti',
+    titulo: 'Tecnologia da Informação',
+    sigla: 'TI',
+    integrantes: 2,
+    nomes: ['Ítalo', 'Emilyn'],
+    papel: 'Constrói e mantém tudo o que é digital na Skill Craft.',
+    frentes: [
+      'Site institucional e área do aluno',
+      'Autenticação, banco de dados e segurança',
+      'Ferramentas digitais de estudo',
+    ],
+    icone: 'code',
+  },
+  {
+    id: 'adm',
+    titulo: 'Administração',
+    sigla: 'ADM',
+    integrantes: 3,
+    nomes: [],
+    papel: 'Organiza serviços, processos e o acompanhamento de cada pedido.',
+    frentes: [
+      'Organização dos serviços e dos processos internos',
+      'Atendimento e acompanhamento das solicitações',
+      'Controle financeiro e orçamento',
+    ],
+    icone: 'briefcase',
+  },
+  {
+    id: 'marketing',
+    titulo: 'Marketing',
+    sigla: 'Marketing',
+    integrantes: 1,
+    nomes: [],
+    papel: 'Cuida da identidade, da comunicação e de como os serviços chegam ao público.',
+    frentes: [
+      'Identidade visual e materiais de divulgação',
+      'Apresentação dos serviços e dos preços',
+      'Divulgação e relacionamento com o público',
+    ],
+    icone: 'megaphone',
+  },
+]
+
+export const EQUIPE_TOTAL = EQUIPE.reduce((soma, area) => soma + area.integrantes, 0)
+
+/* ------------------------------------------------------------------ *
+ * Central de ajuda — conteúdo oficial. Sem promessa de prazo fixo,
+ * sem garantia de resultado e sem informação que o produto não entrega.
+ * ------------------------------------------------------------------ */
+export type AjudaPasso = { titulo: string; texto: string }
+
+export const AJUDA_COMO_PEDIR: AjudaPasso[] = [
+  {
+    titulo: 'Escolha o serviço',
+    texto: 'Veja os cinco serviços oficiais e o preço de referência de cada um na seção Serviços.',
+  },
+  {
+    titulo: 'Preencha a solicitação',
+    texto: 'Informe nome, serviço, descrição do pedido, prazo desejado e como prefere ser contatado.',
+  },
+  {
+    titulo: 'Guarde o protocolo',
+    texto: 'Ao concluir, o site mostra um protocolo no formato SC-ANO-XXXX. Ele identifica o seu pedido.',
+  },
+  {
+    titulo: 'Aguarde o retorno',
+    texto: 'A equipe retorna pelo meio de contato escolhido com o orçamento e as condições — etapa 3 do fluxo.',
+  },
+]
+
+export const AJUDA_COMO_ACOMPANHAR: AjudaPasso[] = [
+  {
+    titulo: 'Entre com a conta Google',
+    texto: 'O login usa a autenticação do Google (Supabase Auth) e dá acesso à área do aluno.',
+  },
+  {
+    titulo: 'Abra a área do aluno',
+    texto: 'A área do aluno reúne o seu histórico: pedidos enviados com a sessão ativa e rascunhos salvos neste navegador.',
+  },
+  {
+    titulo: 'Busque e filtre',
+    texto: 'Use a busca por protocolo, serviço ou descrição e o filtro por status para achar um pedido específico.',
+  },
+  {
+    titulo: 'Consulte os detalhes',
+    texto: 'Cada pedido abre com descrição completa, prazo desejado, meio de contato e situação atual.',
+  },
+]
+
+export type PerguntaFaq = { pergunta: string; resposta: string }
+
+export const AJUDA_FAQ: PerguntaFaq[] = [
+  {
+    pergunta: 'Preciso criar conta para pedir um serviço?',
+    resposta:
+      'Não. O formulário de solicitação funciona sem login. A conta Google serve para acompanhar o histórico e o status dos seus pedidos na área do aluno.',
+  },
+  {
+    pergunta: 'O que significam os status de uma solicitação?',
+    resposta:
+      'Aguardando análise: o pedido chegou e ainda não foi avaliado. Em análise: a equipe está conferindo escopo e orçamento. Em andamento: o serviço está sendo desenvolvido. Concluído: a entrega foi finalizada. Cancelado: o pedido foi encerrado a pedido do aluno ou por falta de retorno.',
+  },
+  {
+    pergunta: 'Em quanto tempo meu pedido fica pronto?',
+    resposta:
+      'O prazo é combinado com você na etapa de orçamento, de acordo com o serviço e com a demanda da equipe. O site não promete prazo fixo nem entrega imediata — preferimos combinar algo que possa ser cumprido.',
+  },
+  {
+    pergunta: 'Como funciona o pagamento?',
+    resposta:
+      'Não há pagamento online no site. Os valores da tabela oficial são preços de referência; o valor e a forma de pagamento são confirmados diretamente com a equipe na etapa de orçamento.',
+  },
+  {
+    pergunta: 'Posso alterar ou cancelar um pedido depois de enviar?',
+    resposta:
+      'Sim. Use o meio de contato que você informou na solicitação e cite o protocolo. Cancelamentos ficam registrados com o status Cancelado no seu histórico.',
+  },
+  {
+    pergunta: 'Quais dados o site coleta?',
+    resposta:
+      'Apenas o necessário para executar e retornar o pedido: nome, serviço, descrição, prazo desejado e um contato de retorno. Quando você entra com Google, o provedor fornece nome, e-mail e foto de perfil para identificar a sua conta.',
+  },
+  {
+    pergunta: 'Outro aluno consegue ver meus pedidos?',
+    resposta:
+      'Não. As solicitações ficam em um banco com Row Level Security: a regra é aplicada no próprio banco, então cada aluno lê apenas os pedidos vinculados à conta dele.',
+  },
+  {
+    pergunta: 'O que é um "rascunho local"?',
+    resposta:
+      'Quando o ambiente não tem o banco de dados configurado, ou quando a gravação falha, o pedido é salvo apenas no seu navegador e marcado como rascunho local. O site avisa isso com clareza — ele nunca simula um envio que não aconteceu.',
+  },
+  {
+    pergunta: 'As ferramentas do estudante são gratuitas?',
+    resposta:
+      'Sim. Calculadora de médias, planejador de cronograma e checklist de trabalhos rodam no seu navegador, não pedem dados pessoais e guardam as informações apenas no seu dispositivo.',
+  },
+  {
+    pergunta: 'Vocês fazem serviços que não estão na tabela?',
+    resposta:
+      'A tabela oficial tem cinco serviços com preços fixos de referência. Necessidades diferentes são conversadas na etapa de orçamento, dentro do que a equipe consegue entregar com qualidade.',
+  },
+]

@@ -1,5 +1,6 @@
-import { useCallback, useState } from 'react'
+import { Suspense, lazy, useCallback, useState, type ReactNode } from 'react'
 import { MotionConfig } from 'framer-motion'
+import { Loader2 } from 'lucide-react'
 import { AuthProvider } from './context/AuthContext'
 import { irParaSecao, useHashRoute } from './hooks/useHashRoute'
 import { IntroOverlay } from './components/intro/IntroOverlay'
@@ -10,8 +11,29 @@ import { About } from './components/sections/About'
 import { Services } from './components/sections/Services'
 import { HowItWorks } from './components/sections/HowItWorks'
 import { Differentials } from './components/sections/Differentials'
+import { Team } from './components/sections/Team'
+import { Resources } from './components/sections/Resources'
 import { Contact } from './components/sections/Contact'
-import { StudentArea } from './components/auth/StudentArea'
+import { NotFound } from './components/pages/NotFound'
+
+/* Páginas internas carregadas sob demanda: quem visita só a página
+   institucional não baixa o código da área do aluno, das ferramentas,
+   da ajuda nem do painel administrativo. */
+const StudentArea = lazy(() => import('./components/auth/StudentArea').then((m) => ({ default: m.StudentArea })))
+const Ferramentas = lazy(() => import('./components/pages/Ferramentas').then((m) => ({ default: m.Ferramentas })))
+const Ajuda = lazy(() => import('./components/pages/Ajuda').then((m) => ({ default: m.Ajuda })))
+const Admin = lazy(() => import('./components/pages/Admin').then((m) => ({ default: m.Admin })))
+
+function CarregandoPagina() {
+  return (
+    <div className="flex min-h-screen items-center justify-center">
+      <span className="inline-flex items-center gap-2 font-body text-sm text-offwhite-100/70">
+        <Loader2 className="h-5 w-5 animate-spin text-accent-400" aria-hidden="true" />
+        Carregando página…
+      </span>
+    </div>
+  )
+}
 
 function Shell() {
   const { rota, navegar } = useHashRoute()
@@ -33,6 +55,38 @@ function Shell() {
     [rota, navegar],
   )
 
+  const enderecoTentado = typeof window === 'undefined' ? '' : window.location.hash || '(sem hash)'
+
+  const conteudo = (): ReactNode => {
+    switch (rota) {
+      case 'app':
+        return <StudentArea irParaHome={irParaHome} navegar={navegar} />
+      case 'ferramentas':
+        return <Ferramentas irParaHome={irParaHome} />
+      case 'ajuda':
+        return <Ajuda irParaHome={irParaHome} navegar={navegar} />
+      case 'admin':
+        return <Admin irParaHome={irParaHome} />
+      case '404':
+        return (
+          <NotFound enderecoTentado={enderecoTentado} irParaHome={irParaHome} navegar={navegar} />
+        )
+      default:
+        return (
+          <>
+            <Hero iniciar={introConcluida} />
+            <About />
+            <Services onSolicitar={aoSolicitar} />
+            <HowItWorks />
+            <Differentials />
+            <Team />
+            <Resources navegar={navegar} />
+            <Contact preSelecao={preSelecao} />
+          </>
+        )
+    }
+  }
+
   return (
     <MotionConfig reducedMotion="user">
       <a
@@ -43,24 +97,13 @@ function Shell() {
       </a>
 
       <IntroOverlay onConcluir={() => setIntroConcluida(true)} />
-      <Navbar rota={rota} irParaHome={irParaHome} />
+      <Navbar rota={rota} irParaHome={irParaHome} navegar={navegar} />
 
       <main id="conteudo">
-        {rota === 'home' ? (
-          <>
-            <Hero iniciar={introConcluida} />
-            <About />
-            <Services onSolicitar={aoSolicitar} />
-            <HowItWorks />
-            <Differentials />
-            <Contact preSelecao={preSelecao} />
-          </>
-        ) : (
-          <StudentArea irParaHome={irParaHome} />
-        )}
+        <Suspense fallback={<CarregandoPagina />}>{conteudo()}</Suspense>
       </main>
 
-      <Footer rota={rota} irParaHome={irParaHome} />
+      <Footer rota={rota} irParaHome={irParaHome} navegar={navegar} onSolicitar={aoSolicitar} />
     </MotionConfig>
   )
 }
