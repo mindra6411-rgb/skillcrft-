@@ -57,8 +57,11 @@ export function Navbar({ rota, irParaHome, navegar }: NavbarProps) {
         style={{ scaleX: scrollYProgress }}
       />
 
+      {/* transition-all (e não transition-colors): ao rolar, a barra ganha
+          borda, sombra e blur ao mesmo tempo — só "colors" deixava a sombra
+          e o fundo trocando de forma abrupta. */}
       <header
-        className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${
+        className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
           rolou || menuAberto
             ? 'border-b border-offwhite-50/8 bg-deep-950/85 shadow-card backdrop-blur-xl'
             : 'border-b border-transparent bg-gradient-to-b from-deep-950/70 to-transparent'

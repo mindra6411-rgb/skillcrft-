@@ -20,7 +20,14 @@ export function Logo({ variante, className = '', rotulo = 'Skill Craft' }: LogoP
   if (variante === 'navbar') {
     return (
       <span className={`flex items-center gap-2.5 ${className}`}>
-        <img src="/brand/symbol-white.webp" alt="" aria-hidden="true" className="h-9 w-9 shrink-0" width={36} height={24} />
+        <img
+          src="/brand/symbol-white.webp"
+          alt=""
+          aria-hidden="true"
+          className="h-9 w-auto shrink-0 object-contain"
+          width={36}
+          height={24}
+        />
         <span className="font-display text-lg font-extrabold tracking-tight lowercase text-offwhite-50">
           skill craft
         </span>
@@ -29,12 +36,15 @@ export function Logo({ variante, className = '', rotulo = 'Skill Craft' }: LogoP
   }
   const arq = ARQUIVOS[variante]
   return (
+    // w-auto + object-contain são obrigatórios: os call sites passam só a altura
+    // (h-12, h-16, h-32…). Sem `w-auto`, o atributo width=669 vira largura de
+    // layout e a imagem é esticada para ~669px de largura por 64px de altura.
     <img
       src={arq.src}
       alt={rotulo}
       width={arq.w}
       height={arq.h}
-      className={className}
+      className={`w-auto shrink-0 object-contain ${className}`.trim()}
       loading="eager"
       decoding="async"
     />

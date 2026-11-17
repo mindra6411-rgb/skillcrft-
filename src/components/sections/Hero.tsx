@@ -16,6 +16,10 @@ const NUMEROS = [
 export function Hero({ iniciar }: { iniciar: boolean }) {
   const reduzido = useReducedMotion()
   const [videoOk, setVideoOk] = useState(true)
+  // Só revelamos o vídeo depois que ele realmente começa a tocar. Antes disso
+  // aparece a imagem de capa — mas com um fade real, e não como um quadro
+  // estático cravado na tela ocupando o Hero inteiro.
+  const [videoPronto, setVideoPronto] = useState(false)
   const refSecao = useRef<HTMLElement>(null)
   const refVideo = useRef<HTMLVideoElement>(null)
 
@@ -48,20 +52,36 @@ export function Hero({ iniciar }: { iniciar: boolean }) {
         {reduzido || !videoOk ? (
           <img src="/video/hero-poster.webp" alt="" className="h-full w-full object-cover" />
         ) : (
-          <video
-            ref={refVideo}
-            className="h-full w-full object-cover"
-            src="/video/hero-loop.mp4"
-            poster="/video/hero-poster.jpg"
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="metadata"
-            disablePictureInPicture
-            tabIndex={-1}
-            onError={() => setVideoOk(false)}
-          />
+          <>
+            {/* capa em fade-out: cumpre o papel do atributo poster, mas as duas
+                imagens se cruzam em vez de trocar de estalo */}
+            <motion.img
+              src="/video/hero-poster.webp"
+              alt=""
+              className="absolute inset-0 h-full w-full object-cover"
+              initial={false}
+              animate={{ opacity: videoPronto ? 0 : 1 }}
+              transition={{ duration: 0.9, ease: 'easeInOut' }}
+            />
+            <motion.video
+              ref={refVideo}
+              className="absolute inset-0 h-full w-full object-cover"
+              src="/video/hero-loop.mp4"
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="auto"
+              disablePictureInPicture
+              tabIndex={-1}
+              initial={false}
+              animate={{ opacity: videoPronto ? 1 : 0 }}
+              transition={{ duration: 0.9, ease: 'easeInOut' }}
+              onCanPlay={() => setVideoPronto(true)}
+              onPlaying={() => setVideoPronto(true)}
+              onError={() => setVideoOk(false)}
+            />
+          </>
         )}
         {/* camadas de legibilidade */}
         <div className="absolute inset-0 bg-deep-950/45" />
@@ -84,7 +104,14 @@ export function Hero({ iniciar }: { iniciar: boolean }) {
       <div className="container-site relative py-32 sm:py-36">
         <div className="max-w-3xl">
           <motion.p {...animar(0.05)} className="flex flex-wrap items-center gap-4">
-            <img src="/brand/symbol-white.webp" alt="" aria-hidden="true" className="h-10 w-10" width={40} height={27} />
+            <img
+              src="/brand/symbol-white.webp"
+              alt=""
+              aria-hidden="true"
+              className="h-10 w-auto object-contain"
+              width={40}
+              height={27}
+            />
             <span className="font-caption text-xs font-bold tracking-[0.42em] text-accent-300 uppercase">
               Skill Craft
             </span>
