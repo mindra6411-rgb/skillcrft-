@@ -4,6 +4,10 @@ Guia completo para rodar o site, ativar o **login com Google (Supabase Auth)** e
 publicar na **Vercel**. Nenhuma credencial vem embutida no código: tudo é lido de
 variáveis de ambiente (`.env` local / painel da Vercel).
 
+> **Site no ar:** <https://skill-craft-site.vercel.app> — projeto Vercel
+> `skill-craft-site`, publicado a partir do branch `main` deste repositório.
+> Detalhes e como republicar no **passo 4**.
+
 ---
 
 ## 1. Rodar localmente
@@ -66,9 +70,12 @@ Sem `.env` preenchido o site funciona 100% institucional; o botão
 
 Em **Authentication → URL Configuration** defina:
 
-- **Site URL**: `http://localhost:5173` (troque para a URL da Vercel em produção).
-- **Redirect URLs (allowlist)**: adicione `http://localhost:5173`,
-  `https://<SEU-PROJETO>.vercel.app` e previews `https://*-skill-craft.vercel.app` se usar.
+- **Site URL**: `https://skill-craft-site.vercel.app` em produção
+  (em desenvolvimento: `http://localhost:5173`).
+- **Redirect URLs (allowlist)**: adicione `https://skill-craft-site.vercel.app` e
+  `http://localhost:5173`. Se usar previews da Vercel, acrescente o padrão
+  `https://skill-craft-site-*-mindra6411-8699.vercel.app` — lembrando que esses
+  endereços ficam atrás do login da Vercel (passo 4.2).
 
 ### 2.4 Banco de dados (solicitações do formulário)
 
@@ -139,24 +146,72 @@ e preços oficiais ficam em [`index.html`](../index.html).
 
 ---
 
-## 4. Publicar na Vercel
+## 4. Publicação na Vercel — site no ar
 
-> **Situação atual (nov/2026):** o projeto Vercel anterior e os dois projetos
-> Supabase usados no desenvolvimento foram **removidos a pedido do cliente** na
-> desmobilização da fase anterior. Publicar de novo exige criar um projeto novo
-> na Vercel e um projeto novo no Supabase (passos 2.1 a 2.6) — o código, as
-> migrações e os backups estão íntegros no repositório.
+O site está publicado em **<https://skill-craft-site.vercel.app>**, no projeto
+Vercel `skill-craft-site` (conta `mindra6411-8699`, plano Hobby), ligado ao
+repositório [`mindra6411-rgb/skillcrft-`](https://github.com/mindra6411-rgb/skillcrft-)
+com branch de produção `main`.
 
-**Pelo painel (recomendado):**
+| Configuração do projeto | Valor |
+| --- | --- |
+| Framework preset | **Vite** |
+| Install command | `npm install` |
+| Build command | `npm run build` (`tsc -b && vite build`) |
+| Output directory | `dist` |
+| Root directory | raiz do repositório (sem monorepo) |
+| Branch de produção | `main` |
+| Variáveis definidas | `VITE_SITE_URL=https://skill-craft-site.vercel.app` (production + preview) |
+
+Como o roteamento usa hash (`#/app`, `#/ferramentas`, `#/ajuda`, `#/admin`), não
+é necessária nenhuma regra de rewrite nem arquivo `vercel.json`.
+
+### 4.1 Como publicar uma nova versão
+
+Os deploys automáticos por push estão **desativados** neste projeto (integração
+Git configurada para não criar deployments). Depois de um merge em `main`, o site
+é atualizado por um destes caminhos:
+
+- **Painel:** Vercel → projeto `skill-craft-site` → *Deployments* → ⋯ →
+  **Redeploy** (desmarque *Use existing Build Cache* se o build mudou).
+- **CLI:** `npm i -g vercel && vercel login && vercel --prod`.
+- **API/integração:** criar um deployment de produção apontando para `main`
+  (`git_source` = repositório 1453222006, ref `main`).
+
+### 4.2 Endereço público × endereços protegidos
+
+O projeto tem proteção de deploy para os endereços `*.vercel.app` com o sufixo da
+conta — por exemplo `skill-craft-site-mindra6411-8699.vercel.app` abre a tela de
+login da Vercel. O endereço **público** do site é
+**`skill-craft-site.vercel.app`**: use sempre este em divulgação, no
+`VITE_SITE_URL`, no canonical e na allowlist do OAuth. Para liberar também os
+demais endereços, ajuste *Deployment Protection* nas configurações do projeto
+(opção indisponível na integração usada para publicar).
+
+### 4.3 Ativar login e banco no site publicado
+
+1. Execute os passos **2.1 a 2.5** (projeto Supabase, Google OAuth, migrations,
+   perfil administrativo).
+2. No passo **2.3**, use como Site URL `https://skill-craft-site.vercel.app` e
+   coloque esse mesmo endereço na allowlist de redirect.
+3. No painel da Vercel → *Settings → Environment Variables*, adicione
+   `VITE_SUPABASE_URL` e `VITE_SUPABASE_ANON_KEY` (targets *Production* e
+   *Preview*) e, se quiser, `VITE_CONTACT_EMAIL`, `VITE_CONTACT_WHATSAPP` e
+   `VITE_CONTACT_INSTAGRAM`.
+4. Faça um novo deploy (4.1). As variáveis `VITE_*` só entram no bundle durante o
+   build — mudar a variável sem rebuild não altera o site no ar.
+
+Sem essas credenciais o site continua publicado e útil: formulário valida e grava
+rascunho local declarado, ferramentas e central de ajuda funcionam integralmente,
+e login/banco/painel mostram o estado real de pendência (nunca um sucesso falso).
+
+### 4.4 Publicar do zero em outra conta (referência)
 
 1. [vercel.com/new](https://vercel.com/new) → importe o repositório deste projeto.
-2. Framework detectado: **Vite** (build `npm run build`, saída `dist`).
-3. Em **Environment Variables** adicione `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`,
-   `VITE_SITE_URL` (com a URL gerada pela Vercel) e os contatos, se quiser — e repita
-   o passo 2.3 trocando as URLs para o domínio da Vercel.
-4. Deploy. Cada push em `main` publica produção; demais branches geram preview.
-
-**Pela CLI:**
+2. Framework **Vite**, build `npm run build`, saída `dist`, raiz do repositório.
+3. Adicione as variáveis `VITE_*` (passos 2.6 e 3), incluindo `VITE_SITE_URL` com
+   a URL pública gerada.
+4. Deploy — e repita o passo 2.3 trocando as URLs para o domínio da Vercel.
 
 ```bash
 npm i -g vercel
@@ -165,8 +220,6 @@ vercel            # preview
 vercel --prod     # produção
 vercel env add VITE_SUPABASE_URL production
 ```
-
-Como o roteamento usa hash (`#/app`), não é necessária nenhuma regra de rewrite.
 
 ---
 

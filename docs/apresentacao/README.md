@@ -58,10 +58,12 @@ Tudo isto está implementado e testado — veja o relatório em [`../TESTES.md`]
 
 ## O que está pendente (diga com naturalidade, se perguntarem)
 
-- **Publicação no ar:** o projeto de hospedagem (Vercel) e os projetos Supabase
-  usados no desenvolvimento foram **removidos a pedido do cliente** na fase
-  anterior. Voltar ao ar exige criar projetos novos e configurar as variáveis —
-  o passo a passo está em [`../CONFIGURACAO.md`](../CONFIGURACAO.md).
+- **Publicação no ar:** ✅ resolvida — o site está publicado em
+  <https://skill-craft-site.vercel.app> (Vercel, build de produção do branch
+  `main`). O que ainda depende de configuração externa é o **backend**: os
+  projetos Supabase usados no desenvolvimento foram removidos a pedido do
+  cliente, então login, banco e painel aparecem no ar como pendência declarada —
+  passo a passo em [`../CONFIGURACAO.md`](../CONFIGURACAO.md).
 - **Login Google e banco em produção:** o fluxo está implementado; sem credenciais
   o site **declara** a pendência em vez de simular. Por isso a demonstração de
   login depende de um projeto Supabase ativo no dia.

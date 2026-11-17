@@ -125,7 +125,6 @@ Nada disso foi simulado nem apresentado como funcionando:
 | **Leitura/escrita no banco (`solicitacoes`)** | Sem banco ativo; o código trata isso degradando com aviso de “rascunho local” | Aplicar `0001`, `0002` e `0003` em um projeto Supabase |
 | **Painel administrativo autorizado** | Exige a function `skillcraft_eh_admin()` e a tabela `administradores` no banco | Aplicar a migração 0003 e registrar o usuário (passo 2.5) |
 | **RLS na prática (um aluno não lê o outro)** | Só é verificável com banco ativo | Rodar as consultas com duas contas diferentes |
-| **Publicação na Vercel** | O projeto Vercel anterior foi **excluído** a pedido do cliente | Criar um projeto novo e configurar as variáveis (passo 4) |
 | **Responsivo medido em aparelho real (360–1440 px)** | Não há navegador no ambiente de testes; jsdom não calcula layout | Abrir o site em celular/tablet/notebook ou usar o DevTools — pontos de atenção revisados no código (grades que viram coluna, tabela do cronograma com rolagem interna, menu mobile a partir de `xl`) |
 | **Contraste, foco visível e desempenho de animação** | Idem (exigem renderização real) | Inspeção visual + Lighthouse/DevTools |
 
@@ -136,7 +135,35 @@ dessas telas finge sucesso.
 
 ---
 
-## 5. Como reproduzir
+## 5. Verificações na publicação (Vercel)
+
+O site foi publicado em **<https://skill-craft-site.vercel.app>** — projeto Vercel
+`skill-craft-site`, deployment de produção `dpl_2SwDNESGBPSbUGuJ6CkVFwUJbLBm`,
+commit `12069d0` do branch `main`. O que foi conferido de verdade:
+
+| Verificação | Resultado |
+| --- | --- |
+| Build na Vercel (`npm install` + `tsc -b && vite build`) | `READY`/`PROMOTED` para produção, sem erros; `found 0 vulnerabilities` no install; 2129 módulos transformados |
+| Artefatos emitidos no build público | `dist/index.html` 4,31 kB · `dist/robots.txt` 0,26 kB · `dist/sitemap.xml` 0,25 kB; chunks idênticos aos do build local verificado (`Ferramentas` 25,63 kB · `StudentArea` 16,85 kB · `Admin` 9,94 kB · `Ajuda` 7,85 kB · `motion` 150,13 kB · `supabase` 225,35 kB) |
+| `VITE_SITE_URL` no build | presente na lista de variáveis do deployment (`https://skill-craft-site.vercel.app`) |
+| `GET /` no endereço público | HTML do site servido, `<title>` *Skill Craft — Aprenda, desenvolva e prepare-se para o mercado* e o conteúdo das seções (hero, sobre, serviços com os cinco preços oficiais, etapas, diferenciais, equipe, recursos, contato) |
+| `GET /robots.txt` | 200, conteúdo gerado no build, com a linha `Sitemap: https://skill-craft-site.vercel.app/sitemap.xml` |
+| `GET /sitemap.xml` | 200, uma `<loc>` com `https://skill-craft-site.vercel.app/` — gerado porque `VITE_SITE_URL` está definida |
+| Endereços `*.vercel.app` com sufixo da conta | protegidos pelo login da Vercel (proteção de deploy do projeto); o endereço público é `skill-craft-site.vercel.app` |
+
+**Não verificado no ar** — e tratado no site como pendência declarada, não como
+funcionando: login com Google, callback do OAuth, gravação/leitura em
+`solicitacoes`, RLS e painel administrativo, porque `VITE_SUPABASE_URL` e
+`VITE_SUPABASE_ANON_KEY` não estão definidas na Vercel (passo 4.3 de
+[`CONFIGURACAO.md`](./CONFIGURACAO.md)).
+
+As verificações acima foram feitas por requisição HTTP ao endereço público, não
+por navegador: layout, contraste, foco visível e desempenho de animação continuam
+pendentes de inspeção em aparelho real (seção 4).
+
+---
+
+## 6. Como reproduzir
 
 ```bash
 npm install

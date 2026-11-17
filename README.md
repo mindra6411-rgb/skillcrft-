@@ -8,6 +8,9 @@ Site institucional completo da **Skill Craft**, com solicitação de serviços,
 login real com Google, área do aluno com acompanhamento, ferramentas gratuitas de
 estudo, central de ajuda e página 404 própria.
 
+**Site no ar:** <https://skill-craft-site.vercel.app> (Vercel · build de produção
+do branch `main`).
+
 ---
 
 <div align="center">
@@ -256,11 +259,16 @@ Relatório completo em [`docs/TESTES.md`](docs/TESTES.md).
   aluno sem sessão, admin sem banco, acessibilidade, movimento reduzido).
 - ✅ Verificações HTTP reais em dev e preview (assets, vídeo, `robots.txt`,
   fallback de SPA) e geração de canonical/sitemap com `VITE_SITE_URL`.
+- ✅ **Site publicado na Vercel:** <https://skill-craft-site.vercel.app> — build de
+  produção a partir de `main`, `VITE_SITE_URL` definida, `robots.txt` e
+  `sitemap.xml` servidos no ar (verificações em
+  [`docs/TESTES.md`](docs/TESTES.md), seção 5).
 - ⏳ **Pendentes de credenciais externas:** login Google de ponta a ponta, callback
-  do OAuth, leitura/escrita no banco, RLS na prática, painel administrativo
-  autorizado e publicação — o projeto Vercel e os projetos Supabase usados no
-  desenvolvimento foram **removidos a pedido do cliente** na fase anterior. O
-  código trata essa ausência declarando o estado real na interface.
+  do OAuth, leitura/escrita no banco, RLS na prática e painel administrativo
+  autorizado — os projetos Supabase usados no desenvolvimento foram **removidos a
+  pedido do cliente** na fase anterior e ainda não há variáveis `VITE_SUPABASE_*`
+  na Vercel. O código trata essa ausência declarando o estado real na interface,
+  inclusive no site publicado.
 - ⏳ **Responsivo e contraste medidos em aparelho real:** revisados no código
   (grades, tabela com rolagem interna, menu mobile), mas exigem navegador — o
   ambiente de testes não tem.
@@ -283,11 +291,17 @@ Integrador e a composição antiga de equipe.
 
 ## ☁️ Publicação (Vercel)
 
-O projeto Vercel anterior foi removido a pedido do cliente; para publicar de novo,
-importe o repositório em [vercel.com/new](https://vercel.com/new) (framework Vite,
-build `npm run build`, saída `dist`), adicione as variáveis `VITE_*` e atualize as
-URLs de redirect no Supabase e no Google. Detalhes no passo 4 de
-[`docs/CONFIGURACAO.md`](docs/CONFIGURACAO.md).
+O site está no ar em **<https://skill-craft-site.vercel.app>** — projeto Vercel
+`skill-craft-site` (framework **Vite**, build `npm run build`, saída `dist`),
+ligado ao branch `main` deste repositório, com `VITE_SITE_URL` definida para que
+canonical, `og:url` e `sitemap.xml` sejam gerados no build.
+
+Ainda sem backend: `VITE_SUPABASE_URL` e `VITE_SUPABASE_ANON_KEY` **não** estão
+definidas na Vercel (os projetos Supabase anteriores foram removidos a pedido do
+cliente), então login, banco e painel administrativo seguem em modo de
+**pendência declarada** também no ar. Para ativar, siga os passos 2.1 a 2.6 e o
+passo 4 de [`docs/CONFIGURACAO.md`](docs/CONFIGURACAO.md) e faça um novo deploy —
+os deploys automáticos por push estão desativados nesse projeto (passo 4.1).
 
 ## 👥 Créditos
 
