@@ -80,13 +80,15 @@ Off-White `#F7F8FC`. Tipografia: Montserrat (títulos), Roboto (texto) e Lato
 
 ## Situação atual e pendências
 
-O site está desenvolvido, revisado e funcional em ambiente local, com
-roteamento, 404 próprio, formulário validado, área do aluno com busca e
-filtros, ferramentas de estudo e central de ajuda. Ficam **pendentes de
-configuração externa**: a criação de um novo projeto de hospedagem (o projeto
-anterior foi removido a pedido do cliente), um projeto Supabase ativo com o
-provedor Google habilitado e a aplicação das migrations versionadas. O passo
-a passo está em `docs/CONFIGURACAO.md`.
+O site está desenvolvido, revisado, funcional e **publicado** em
+<https://skill-craft-site.vercel.app> (Vercel, build de produção do branch
+`main`), com roteamento, 404 próprio, formulário validado, área do aluno com
+busca e filtros, ferramentas de estudo e central de ajuda. Ficam **pendentes de
+configuração externa**: um projeto Supabase ativo com o provedor Google
+habilitado, a aplicação das migrations versionadas e as variáveis
+`VITE_SUPABASE_*` na Vercel — sem elas, login, banco e painel administrativo
+aparecem no site publicado como pendência declarada. O passo a passo está em
+`docs/CONFIGURACAO.md`.
 
 **Não são declarados:** clientes atendidos, faturamento, resultados
 comerciais ou depoimentos — nenhum dado foi inventado para esta apresentação.

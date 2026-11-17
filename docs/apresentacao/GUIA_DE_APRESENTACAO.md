@@ -111,9 +111,11 @@ Use frases curtas e nominais; elas evitam silêncio entre falantes:
 
 Diga com naturalidade, sem pedir desculpa:
 
-- **Publicação no ar:** o projeto de hospedagem anterior foi removido a pedido
-  do cliente; publicar de novo exige criar um novo projeto e configurar as
-  variáveis de ambiente. O passo a passo está documentado.
+- **Publicação no ar:** o site está publicado em
+  <https://skill-craft-site.vercel.app> (Vercel, projeto `skill-craft-site`,
+  build de produção do branch `main`). Se perguntarem do backend, diga que as
+  credenciais do Supabase ainda precisam ser configuradas para login e banco em
+  produção — o passo a passo está documentado.
 - **Banco de dados em produção:** as migrations estão prontas e versionadas no
   repositório; aplicá-las requer um projeto Supabase ativo com o provedor
   Google habilitado.

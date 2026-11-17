@@ -15,14 +15,16 @@ antes de começar e mantenha este roteiro impresso ou em outra tela.
 
 ## 1. Abrir a demonstração
 
-> "Este é o site da Skill Craft, funcionando ao vivo." — Abra a página inicial e
-> deixe a animação de abertura rodar uma vez (ela é rápida e pode ser pulada com
-> Esc).
+> "Este é o site da Skill Craft, funcionando ao vivo." — Abra
+> <https://skill-craft-site.vercel.app> e deixe a animação de abertura rodar uma
+> vez (ela é rápida e pode ser pulada com Esc).
 >
-> Se o site ainda não estiver publicado em um domínio (a hospedagem anterior foi
-> removida a pedido do cliente), demonstre a partir do servidor local
-> (`npm run dev`) e diga exatamente isso: "está rodando no nosso ambiente; para
-> ir ao ar falta criar o projeto de hospedagem, que já está documentado".
+> **Plano B sem internet:** rode `npm run dev` e demonstre em
+> `http://localhost:5173` — é exatamente o mesmo código publicado. Em qualquer
+> dos dois casos, se aparecer uma tela de pendência (login com Google, área do
+> aluno ou painel administrativo), diga o motivo real: "o backend depende das
+> credenciais do Supabase, que estão documentadas — o site nunca finge um envio
+> ou um login que não aconteceu".
 
 ## 2. Página inicial
 

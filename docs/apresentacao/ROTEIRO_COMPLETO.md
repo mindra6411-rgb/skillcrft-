@@ -127,10 +127,12 @@ O texto abaixo é uma guia de fala — use com as suas palavras.
 - Treine em voz alta pelo menos duas vezes (veja o guia de ensaio).
 - Se errar um número, respire e corrija com naturalidade: os preços oficiais estão no slide/serviços do site.
 - Nunca prometa prazo, garantia ou resultado que não esteja definido oficialmente.
-- Se perguntarem se o site está publicado: a hospedagem e o banco usados no
-  desenvolvimento foram removidos a pedido do cliente, então publicar de novo
-  exige criar projetos novos (passo a passo em `docs/CONFIGURACAO.md`). O site
-  funciona e é demonstrável localmente — e é o estado real que se apresenta.
+- Se perguntarem se o site está publicado: **está** —
+  <https://skill-craft-site.vercel.app> (Vercel, build de produção do branch
+  `main`). O banco e o login com Google ainda dependem das credenciais do
+  Supabase (passo a passo em `docs/CONFIGURACAO.md`); no ar, essas telas
+  declaram a pendência em vez de fingir funcionamento — e é esse o estado real
+  que se apresenta.
 - A lista do que já existe e pode ser demonstrado está no
   [README desta pasta](./README.md); o que foi testado de verdade, com os
   comandos, está em `docs/TESTES.md`.

@@ -196,10 +196,12 @@ visual consistente.
 
 ## Pontos a declarar como pendentes (se a banca perguntar)
 
-- **Hospedagem pública:** o projeto Vercel anterior foi removido a pedido do
-  cliente na fase de desmobilização; a publicação atual depende de criar um
-  novo projeto de hospedagem e configurar as credenciais do Supabase
-  (passo a passo documentado em `docs/CONFIGURACAO.md`).
+- **Hospedagem pública:** o site **está no ar** em
+  <https://skill-craft-site.vercel.app> (Vercel, build de produção do branch
+  `main`, `robots.txt` e `sitemap.xml` servidos). O que depende de configuração
+  externa é o **banco**: criar um projeto Supabase, habilitar o provedor Google,
+  aplicar as migrations e definir as variáveis `VITE_SUPABASE_*` na Vercel
+  (passo a passo em `docs/CONFIGURACAO.md`, passos 2 e 4.3).
 - **Banco em produção:** as migrations existem e estão versionadas; aplicá-las
   requer um projeto Supabase ativo.
 - **Anexos no formulário:** em planejamento (exige bucket de armazenamento e
