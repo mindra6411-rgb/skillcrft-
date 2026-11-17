@@ -139,9 +139,11 @@ dessas telas finge sucesso.
 
 O site foi publicado em **<https://skill-craft-site.vercel.app>** — projeto Vercel
 `skill-craft-site`, produção a partir do branch `main`. O que foi conferido de
-verdade nos dois deployments de produção `READY`/`PROMOTED`
-(`dpl_2SwDNESGBPSbUGuJ6CkVFwUJbLBm`, commit `12069d0`, e
-`dpl_5FjSU8UuQAPgwYQAmHqmgJiTPBCf`, commit `b3b6e00`):
+verdade nos deployments de produção `READY`/`PROMOTED`
+(`dpl_2SwDNESGBPSbUGuJ6CkVFwUJbLBm`, commit `12069d0`,
+`dpl_5FjSU8UuQAPgwYQAmHqmgJiTPBCf`, commit `b3b6e00`, e
+`dpl_4qhepf3SmLqEzG4n7bxpPzwTcPML`, commit `206d095` — o deploy da correção
+das informações institucionais, PR #7):
 
 | Verificação | Resultado |
 | --- | --- |
@@ -153,6 +155,7 @@ verdade nos dois deployments de produção `READY`/`PROMOTED`
 | `GET /robots.txt` | 200, conteúdo gerado no build, com a linha `Sitemap: https://skill-craft-site.vercel.app/sitemap.xml` |
 | `GET /sitemap.xml` | 200, uma `<loc>` com `https://skill-craft-site.vercel.app/` — gerado porque `VITE_SITE_URL` está definida |
 | Endereços `*.vercel.app` com sufixo da conta | protegidos pelo login da Vercel (proteção de deploy do projeto); o endereço público é `skill-craft-site.vercel.app` |
+| Deploy da correção institucional (PR #7, commit `206d095`, 17/11/2026) | merge em `main` criou e promoveu sozinho o deployment de produção `dpl_4qhepf3SmLqEzG4n7bxpPzwTcPML` (`READY`/`PROMOTED`), com alias `skill-craft-site.vercel.app` atribuído — verificado pela API da Vercel; o HTML publicado passa a servir as áreas **Administração, TI e Design**, sem nomes de integrantes e sem a área "Marketing" |
 
 **Não verificado no ar** — e tratado no site como pendência declarada, não como
 funcionando: login com Google, callback do OAuth, gravação/leitura em
