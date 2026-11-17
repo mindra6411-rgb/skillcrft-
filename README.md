@@ -300,8 +300,8 @@ Ainda sem backend: `VITE_SUPABASE_URL` e `VITE_SUPABASE_ANON_KEY` **não** estã
 definidas na Vercel (os projetos Supabase anteriores foram removidos a pedido do
 cliente), então login, banco e painel administrativo seguem em modo de
 **pendência declarada** também no ar. Para ativar, siga os passos 2.1 a 2.6 e o
-passo 4 de [`docs/CONFIGURACAO.md`](docs/CONFIGURACAO.md) e faça um novo deploy —
-os deploys automáticos por push estão desativados nesse projeto (passo 4.1).
+passo 4 de [`docs/CONFIGURACAO.md`](docs/CONFIGURACAO.md). O deploy é automático:
+cada merge em `main` publica produção; outros branches geram preview (passo 4.1).
 
 ## 👥 Créditos
 

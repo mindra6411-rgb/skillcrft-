@@ -148,7 +148,8 @@ crescimento depende de volume de pedidos, não de investimento.
    <https://skill-craft-site.vercel.app> (build de produção do branch `main`).
 2. Ativar um projeto Supabase, habilitar o provedor Google e aplicar as
    migrations versionadas (`supabase/migrations/`), definindo as variáveis
-   `VITE_SUPABASE_*` na Vercel e refazendo o deploy (passo 4.3).
+   `VITE_SUPABASE_*` na Vercel e fazendo merge em `main` (o deploy de produção é
+   automático — passo 4.3).
 3. Iniciar o registro real de pedidos e indicadores.
 4. Definir os canais oficiais de divulgação com o Marketing.
 5. Avaliar, em conjunto, as ideias futuras de serviço — sem alterar a tabela

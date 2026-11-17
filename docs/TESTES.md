@@ -138,15 +138,18 @@ dessas telas finge sucesso.
 ## 5. Verificações na publicação (Vercel)
 
 O site foi publicado em **<https://skill-craft-site.vercel.app>** — projeto Vercel
-`skill-craft-site`, deployment de produção `dpl_2SwDNESGBPSbUGuJ6CkVFwUJbLBm`,
-commit `12069d0` do branch `main`. O que foi conferido de verdade:
+`skill-craft-site`, produção a partir do branch `main`. O que foi conferido de
+verdade nos dois deployments de produção `READY`/`PROMOTED`
+(`dpl_2SwDNESGBPSbUGuJ6CkVFwUJbLBm`, commit `12069d0`, e
+`dpl_5FjSU8UuQAPgwYQAmHqmgJiTPBCf`, commit `b3b6e00`):
 
 | Verificação | Resultado |
 | --- | --- |
 | Build na Vercel (`npm install` + `tsc -b && vite build`) | `READY`/`PROMOTED` para produção, sem erros; `found 0 vulnerabilities` no install; 2129 módulos transformados |
 | Artefatos emitidos no build público | `dist/index.html` 4,31 kB · `dist/robots.txt` 0,26 kB · `dist/sitemap.xml` 0,25 kB; chunks idênticos aos do build local verificado (`Ferramentas` 25,63 kB · `StudentArea` 16,85 kB · `Admin` 9,94 kB · `Ajuda` 7,85 kB · `motion` 150,13 kB · `supabase` 225,35 kB) |
+| Deploy automático pelo Git | o merge do PR #5 em `main` (`b3b6e00`) criou **e promoveu sozinho** o deployment de produção `dpl_5FjSU8UuQAPgwYQAmHqmgJiTPBCf`; o push no branch do PR gerou apenas preview, sem tocar a produção |
 | `VITE_SITE_URL` no build | presente na lista de variáveis do deployment (`https://skill-craft-site.vercel.app`) |
-| `GET /` no endereço público | HTML do site servido, `<title>` *Skill Craft — Aprenda, desenvolva e prepare-se para o mercado* e o conteúdo das seções (hero, sobre, serviços com os cinco preços oficiais, etapas, diferenciais, equipe, recursos, contato) |
+| `GET /` no endereço público | HTML do site servido, `<title>` *Skill Craft — Aprenda, desenvolva e prepare-se para o mercado* e o conteúdo das seções (hero, sobre, serviços com os cinco preços oficiais, etapas, diferenciais, equipe, recursos, contato com o formulário) — conferido nos dois deployments |
 | `GET /robots.txt` | 200, conteúdo gerado no build, com a linha `Sitemap: https://skill-craft-site.vercel.app/sitemap.xml` |
 | `GET /sitemap.xml` | 200, uma `<loc>` com `https://skill-craft-site.vercel.app/` — gerado porque `VITE_SITE_URL` está definida |
 | Endereços `*.vercel.app` com sufixo da conta | protegidos pelo login da Vercel (proteção de deploy do projeto); o endereço público é `skill-craft-site.vercel.app` |
