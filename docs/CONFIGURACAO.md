@@ -168,15 +168,24 @@ Como o roteamento usa hash (`#/app`, `#/ferramentas`, `#/ajuda`, `#/admin`), nã
 
 ### 4.1 Como publicar uma nova versão
 
-Os deploys automáticos por push estão **desativados** neste projeto (integração
-Git configurada para não criar deployments). Depois de um merge em `main`, o site
-é atualizado por um destes caminhos:
+O deploy é **automático a partir do Git** (verificado na prática nesta publicação):
+
+- push ou merge em **`main`** → deployment de **produção**, promovido em seguida
+  para <https://skill-craft-site.vercel.app>;
+- push em **qualquer outro branch** → deployment de **preview**
+  (`skill-craft-site-git-<branch>-mindra6411-8699.vercel.app`), que não altera a
+  produção;
+- **pull request** aberto → o preview fica associado ao PR para conferência.
+
+Ou seja: atualizar o site = fazer merge em `main`. Para republicar o mesmo commit
+sem novo push:
 
 - **Painel:** Vercel → projeto `skill-craft-site` → *Deployments* → ⋯ →
-  **Redeploy** (desmarque *Use existing Build Cache* se o build mudou).
+  **Redeploy**.
 - **CLI:** `npm i -g vercel && vercel login && vercel --prod`.
-- **API/integração:** criar um deployment de produção apontando para `main`
-  (`git_source` = repositório 1453222006, ref `main`).
+
+Voltar atrás: em *Deployments*, os deployments de produção anteriores prontos
+ficam marcados como candidatos a rollback (opção de promover novamente).
 
 ### 4.2 Endereço público × endereços protegidos
 
@@ -198,8 +207,9 @@ demais endereços, ajuste *Deployment Protection* nas configurações do projeto
    `VITE_SUPABASE_URL` e `VITE_SUPABASE_ANON_KEY` (targets *Production* e
    *Preview*) e, se quiser, `VITE_CONTACT_EMAIL`, `VITE_CONTACT_WHATSAPP` e
    `VITE_CONTACT_INSTAGRAM`.
-4. Faça um novo deploy (4.1). As variáveis `VITE_*` só entram no bundle durante o
-   build — mudar a variável sem rebuild não altera o site no ar.
+4. Faça push em `main` — o deploy de produção é automático (4.1). As variáveis
+   `VITE_*` só entram no bundle durante o build: mudar a variável sem um novo
+   deploy não altera o site no ar.
 
 Sem essas credenciais o site continua publicado e útil: formulário valida e grava
 rascunho local declarado, ferramentas e central de ajuda funcionam integralmente,
